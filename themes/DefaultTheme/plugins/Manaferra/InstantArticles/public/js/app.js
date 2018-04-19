@@ -62267,7 +62267,7 @@ __webpack_require__(24);
 
 _vue2.default.use(_vueRouter2.default);
 
-var routes = [{ path: '/cms/:adminPrefix/:lang/plugins/manaferra/instant-articles', component: _Base2.default }];
+var routes = [{ path: '/cms/:adminPrefix/:lang/plugins/accio/instant-articles', component: _Base2.default }];
 
 var router = new _vueRouter2.default({
     mode: 'history',
@@ -63461,7 +63461,7 @@ exports.default = {
             page_id: '489353424605405',
             appLinked: false,
             reconfigure: false,
-            pluginURL: this.$store.getters.get_base_path + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/manaferra/instant-articles',
+            pluginURL: this.$store.getters.get_base_path + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/accio/instant-articles',
             adTypes: {
                 audience_network: "Facebook Audience Network",
                 iframe_url: "Custom Iframe URL",

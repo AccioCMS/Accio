@@ -40488,7 +40488,7 @@ __webpack_require__(23);
 __webpack_require__(31);
 __webpack_require__(84);
 
-var routes = [{ path: globalProjectDirectory + '/:adminPrefix/:lang/plugins/manaferra/ads-manager', component: _Base2.default, children: [{ path: '', component: _All2.default, name: 'list' }, { path: 'edit', component: _Edit2.default, name: 'create' }, { path: 'edit/:adID', component: _Edit2.default, name: 'update' }] }];
+var routes = [{ path: globalProjectDirectory + '/:adminPrefix/:lang/plugins/accio/ads-manager', component: _Base2.default, children: [{ path: '', component: _All2.default, name: 'list' }, { path: 'edit', component: _Edit2.default, name: 'create' }, { path: 'edit/:adID', component: _Edit2.default, name: 'update' }] }];
 
 _vue2.default.use(_vueRouter2.default);
 var router = new _vueRouter2.default({
@@ -41147,7 +41147,7 @@ exports.default = {
         getList: function getList() {
             var _this = this;
 
-            this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/manaferra/ads-manager/get-all').then(function (resp) {
+            this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/accio/ads-manager/get-all').then(function (resp) {
                 _this.list = resp.body.data;
                 _this.spinner = false;
             });
@@ -41161,7 +41161,7 @@ exports.default = {
             var _this2 = this;
 
             this.openedItemActionBar = -1;
-            this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/manaferra/ads-manager/delete/' + adID).then(function (resp) {
+            this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/accio/ads-manager/delete/' + adID).then(function (resp) {
                 console.log("delete ad", resp);
                 if (resp.body.code == 200) {
                     _this2.noty("success", resp.body.message);
@@ -41718,7 +41718,7 @@ exports.default = {
             _this.postTypeList = resp.body.data;
         }).then(function (resp) {
             if (_this.$route.params.adID !== undefined) {
-                _this.$http.get(_this.basePath + '/' + _this.$route.params.adminPrefix + '/' + _this.$route.params.lang + '/plugins/manaferra/ads-manager/details/' + _this.$route.params.adID).then(function (resp) {
+                _this.$http.get(_this.basePath + '/' + _this.$route.params.adminPrefix + '/' + _this.$route.params.lang + '/plugins/accio/ads-manager/details/' + _this.$route.params.adID).then(function (resp) {
                     var ad = resp.body;
                     _this.form.title = ad.title;
                     _this.form.slug = ad.slug;
@@ -41743,7 +41743,7 @@ exports.default = {
         store: function store() {
             var _this2 = this;
 
-            this.$http.post(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/manaferra/ads-manager/store', this.form).then(function (resp) {
+            this.$http.post(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/accio/ads-manager/store', this.form).then(function (resp) {
                 if (resp.body.code == 200) {
                     _this2.noty("success", resp.body.message);
                     _this2.$router.push({ name: "update", params: { adID: resp.body.id } });
@@ -41767,7 +41767,7 @@ exports.default = {
                     id = this.$route.params.adID;
                 }
 
-                this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/manaferra/ads-manager/generate-slug/' + title + '/' + id).then(function (resp) {
+                this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/accio/ads-manager/generate-slug/' + title + '/' + id).then(function (resp) {
                     _this3.form.slug = resp.body;
                 });
             }

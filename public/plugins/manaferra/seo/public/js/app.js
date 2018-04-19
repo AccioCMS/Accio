@@ -62869,7 +62869,7 @@ __webpack_require__(84);
 
 _vue2.default.use(_vueRouter2.default);
 
-var routes = [{ path: '/cms/:adminPrefix/:lang/plugins/manaferra/seo', component: _Base2.default, children: [{ path: '', component: _TitleAndMeta2.default, children: [{ path: '', component: _PostTypes2.default, name: 'post-types-meta' }, { path: 'category-meta', component: _Category2.default, name: 'category-meta' }, { path: 'tag-meta', component: _Tag2.default, name: 'tag-meta' }, { path: 'author-meta', component: _Author4.default, name: 'author-meta' }] }, { path: 'xml-sitemap', component: _XMLSitemap2.default, children: [{ path: '', component: _General2.default, name: 'general' }, { path: 'author', component: _Author2.default, name: 'author' }, { path: 'posts', component: _Posts2.default, name: 'posts' }, { path: 'categories', component: _Categories2.default, name: 'categories' }, { path: 'tags', component: _Tags2.default, name: 'tags' }] }, { path: 'robots', component: _Robots2.default, name: 'robots' }, { path: 'google-news', component: _GoogleNews2.default, name: 'google-news' }, { path: 'redirect-manager', component: _RedirectManager2.default, name: 'redirect-manager' }, { path: 'internationalization', component: _Internationalization2.default, name: 'internationalization' }] }];
+var routes = [{ path: '/cms/:adminPrefix/:lang/plugins/accio/seo', component: _Base2.default, children: [{ path: '', component: _TitleAndMeta2.default, children: [{ path: '', component: _PostTypes2.default, name: 'post-types-meta' }, { path: 'category-meta', component: _Category2.default, name: 'category-meta' }, { path: 'tag-meta', component: _Tag2.default, name: 'tag-meta' }, { path: 'author-meta', component: _Author4.default, name: 'author-meta' }] }, { path: 'xml-sitemap', component: _XMLSitemap2.default, children: [{ path: '', component: _General2.default, name: 'general' }, { path: 'author', component: _Author2.default, name: 'author' }, { path: 'posts', component: _Posts2.default, name: 'posts' }, { path: 'categories', component: _Categories2.default, name: 'categories' }, { path: 'tags', component: _Tags2.default, name: 'tags' }] }, { path: 'robots', component: _Robots2.default, name: 'robots' }, { path: 'google-news', component: _GoogleNews2.default, name: 'google-news' }, { path: 'redirect-manager', component: _RedirectManager2.default, name: 'redirect-manager' }, { path: 'internationalization', component: _Internationalization2.default, name: 'internationalization' }] }];
 
 var router = new _vueRouter2.default({
     mode: 'history',
@@ -63259,7 +63259,7 @@ exports.default = {
         var _this = this;
 
         // get seo settings data from
-        var allDataPromise = this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/manaferra/seo/get-all').then(function (resp) {
+        var allDataPromise = this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/accio/seo/get-all').then(function (resp) {
             if (Object.keys(resp.body).length) {
                 _this.$store.state.data = resp.body;
             }
@@ -63303,7 +63303,7 @@ exports.default = {
         store: function store() {
             var _this2 = this;
 
-            this.$http.post(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/manaferra/seo/store', this.$store.state.data).then(function (resp) {
+            this.$http.post(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/plugins/accio/seo/store', this.$store.state.data).then(function (resp) {
                 var response = resp.body;
                 // if there are no errors
                 if (response.code == 200) {

@@ -1,9 +1,9 @@
 {
     "/public/js/app.js": "/public/js/app.js",
     "/hemes/DefaultTheme/assets/css/style.css": "/hemes/DefaultTheme/assets/css/style.css",
-    "/plugins/Manaferra/SEO/public/js/app.js": "/plugins/Manaferra/SEO/public/js/app.js",
-    "/plugins/Manaferra/InstantArticles/public/js/app.js": "/plugins/Manaferra/InstantArticles/public/js/app.js",
-    "/plugins/Manaferra/AdsManager/public/js/app.js": "/plugins/Manaferra/AdsManager/public/js/app.js",
+    "/plugins/Accio/SEO/public/js/app.js": "/plugins/Accio/SEO/public/js/app.js",
+    "/plugins/Accio/InstantArticles/public/js/app.js": "/plugins/Accio/InstantArticles/public/js/app.js",
+    "/plugins/Accio/AdsManager/public/js/app.js": "/plugins/Accio/AdsManager/public/js/app.js",
     "/themes/DefaultTheme/assets/css/all.css": "/themes/DefaultTheme/assets/css/all.css",
     "/themes/DefaultTheme/assets/js/all.js": "/themes/DefaultTheme/assets/js/all.js"
 }
