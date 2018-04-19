@@ -1,9 +1,42 @@
 <?php return array (
+  'barryvdh/laravel-debugbar' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Debugbar' => 'Barryvdh\\Debugbar\\Facade',
+    ),
+  ),
+  'chumper/zipper' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Chumper\\Zipper\\ZipperServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Zipper' => 'Chumper\\Zipper\\Zipper',
+    ),
+  ),
   'fideloper/proxy' => 
   array (
     'providers' => 
     array (
       0 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+    ),
+  ),
+  'intervention/image' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Intervention\\Image\\ImageServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Image' => 'Intervention\\Image\\Facades\\Image',
     ),
   ),
   'laravel/tinker' => 
@@ -25,17 +58,6 @@
       'Html' => 'Collective\\Html\\HtmlFacade',
     ),
   ),
-  'intervention/image' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Intervention\\Image\\ImageServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Image' => 'Intervention\\Image\\Facades\\Image',
-    ),
-  ),
   'riverskies/laravel-mobile-detect' => 
   array (
     'providers' => 
@@ -45,28 +67,6 @@
     'aliases' => 
     array (
       'MobileDetect' => 'Riverskies\\Laravel\\MobileDetect\\Facades\\MobileDetect',
-    ),
-  ),
-  'chumper/zipper' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Chumper\\Zipper\\ZipperServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Zipper' => 'Chumper\\Zipper\\Zipper',
-    ),
-  ),
-  'barryvdh/laravel-debugbar' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Debugbar' => 'Barryvdh\\Debugbar\\Facade',
     ),
   ),
 );
