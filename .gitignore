@@ -12,4 +12,4 @@ npm-debug.log
 yarn-error.log
 .env
 !.gitkeep
-/package-lock.json
+package-lock.json
