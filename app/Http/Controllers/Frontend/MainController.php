@@ -20,7 +20,6 @@ class MainController extends BaseController{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function __construct(Request $request){
-        Cache::flush();
         // As route middlewares are not called when routes are cached
         // we need to call them manually
         if(App::routesAreCached()) {
