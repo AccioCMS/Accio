@@ -1,0 +1,39 @@
+{
+  "Title" :  "Default Theme",
+  "namespace" :  "DefaultTheme",
+  "organisation" :  "Manaferra LLC",
+  "author" :  {
+    "name" :  "Faton Sopa",
+    "email" :  "faton.sopa@manaferra.com"
+  },
+  "version " :  "1.0.0",
+  "icon" :  "pencil",
+  "css" : [
+    {
+      "path": "bootstrap.min.css"
+    },
+    {
+      "path": "style.css"
+    }
+  ],
+  "js" :  [
+    {
+      "path" : "jquery-3.2.1.slim.min.js",
+      "attributes" : {
+        "async": false
+      }
+    },
+    {
+      "path": "popper.min.js"
+    },
+    {
+      "path": "bootstrap.min.js"
+    }
+  ],
+  "mix" : {
+    "sass" : "style.scss",
+    "styles": "all.css",
+    "scripts": "all.js"
+  },
+  "gzip": false
+}

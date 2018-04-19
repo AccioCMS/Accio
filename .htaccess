@@ -1,0 +1,57 @@
+ ##
+ ## Block access in laravel root files, except index.php
+ ##
+ <FilesMatch ^((composer|package)\.json|artisan|composer.lock|readme.md|gulpfile.js|phpunit.xml|.env|.gitattributes|.gitignore)$>
+     order allow,deny
+     deny from all
+ </FilesMatch>
+
+ <IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+
+    RewriteEngine On
+
+    ##
+    ## You may need to uncomment the following line for some hosting environments,
+    ## if you have installed to a subdirectory, enter the name here also.
+    ##
+    # RewriteBase /
+
+    ##
+    ## Black listed folders
+    ## Only /public/* is accessible from outside
+    ##
+    RewriteRule ^bootstrap/.* index.php [L,NC]
+    RewriteRule ^app/.* index.php [L,NC]
+    RewriteRule ^config/.* index.php [L,NC]
+    RewriteRule ^database/.* index.php [L,NC]
+    RewriteRule ^resources/.* index.php [L,NC]
+    RewriteRule ^storage/.* index.php [L,NC]
+    RewriteRule ^vendor/.* index.php [L,NC]
+    RewriteRule ^routes/.* index.php [L,NC]
+    RewriteRule ^tests/.* index.php [L,NC]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+    ##
+    ## Block all PHP files, except index.php
+    ##
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteCond %{REQUEST_FILENAME} \.php$
+    RewriteRule !^index.php index.php [L,NC]
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+
+

@@ -1,0 +1,37 @@
+.select-areas-overlay {
+	background-color: #000 !important;
+	overflow: hidden !important;
+	position: absolute !important;
+}
+.blurred {
+	filter: url("/public/images/filters.svg#blur3px");
+	-webkit-filter: blur(3px) !important;
+	-moz-filter: blur(3px) !important;
+	-o-filter: blur(3px) !important;
+	filter: blur(3px) !important;
+}
+
+.select-areas-outline {
+	background: #fff url('/public/images/outline.gif');
+	overflow: hidden !important;
+}
+
+.select-areas-resize-handler {
+	background-color: #000 !important;
+	border: 1px #fff solid !important;
+	height: 8px !important;
+	width: 8px !important;
+	overflow: hidden !important;
+}
+
+.select-areas-delete-area {
+	background: url('/public/images/bt-delete.png');
+	cursor: pointer !important;
+	height: 16px !important;
+	width: 16px !important;
+}
+.delete-area {
+	position: absolute !important;
+	cursor: pointer !important;
+	padding: 5px !important;
+}
