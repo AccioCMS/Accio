@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
-use Manaferra\App\Http\Controllers\Backend\Auth\BaseLoginController;
+use Accio\App\Http\Controllers\Backend\Auth\BaseLoginController;
 
 class LoginController extends BaseLoginController {
 

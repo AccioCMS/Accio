@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Manaferra\App\Models\PermalinkModel;
+use Accio\App\Models\PermalinkModel;
 
 class Permalink extends PermalinkModel
 {

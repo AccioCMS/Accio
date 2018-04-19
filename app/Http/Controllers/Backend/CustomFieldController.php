@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Manaferra\App\Http\Controllers\Backend\BaseCustomFieldController;
+use Accio\App\Http\Controllers\Backend\BaseCustomFieldController;
 
 class CustomFieldController extends BaseCustomFieldController {
 

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Manaferra\App\Models\TagModel;
+use Accio\App\Models\TagModel;
 
 class Tag extends TagModel {
 

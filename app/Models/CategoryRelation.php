@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-use Manaferra\App\Models\CategoryRelationModel;
+use Accio\App\Models\CategoryRelationModel;
 
 class CategoryRelation extends CategoryRelationModel
 {

@@ -42,7 +42,7 @@
       25 => 'App\\Providers\\RouteServiceProvider',
       26 => 'Collective\\Html\\HtmlServiceProvider',
       27 => 'Intervention\\Image\\ImageServiceProvider',
-      28 => 'Manaferra\\PackageServiceProvider',
+      28 => 'Accio\\PackageServiceProvider',
     ),
     'aliases' => 
     array (
@@ -599,7 +599,7 @@
     'route_prefix' => '_debugbar',
     'route_domain' => NULL,
   ),
-  'manaferra' => 
+  'Accio' => 
   array (
     'content' => 
     array (

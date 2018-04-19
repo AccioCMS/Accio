@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
-use Manaferra\App\Http\Controllers\Backend\Auth\BaseRegisterController;
+use Accio\App\Http\Controllers\Backend\Auth\BaseRegisterController;
 
 class RegisterController extends BaseRegisterController {
 }

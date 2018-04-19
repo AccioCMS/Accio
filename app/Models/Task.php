@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Manaferra\App\Models\TaskModel;
+use Accio\App\Models\TaskModel;
 
 class Task extends TaskModel{
 

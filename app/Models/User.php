@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Manaferra\App\Models\UserModel;
+use Accio\App\Models\UserModel;
 
 class User extends UserModel
 {

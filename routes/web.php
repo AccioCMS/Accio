@@ -9,7 +9,7 @@
 | to using a Closure or controller method. Build something great!
 |
 | Back-end routes:
-| Manaferra's Backend Routes are loaded dynamically from package, path: /vendor/manaferra/library/src/routes/web.php
+| Accio's Backend Routes are loaded dynamically from package, path: /vendor/acciocms/core/src/routes/web.php
 |
 | Theme Routes:
 | Your can define your theme routes from your current theme /themes/{YourTheme}/routes/

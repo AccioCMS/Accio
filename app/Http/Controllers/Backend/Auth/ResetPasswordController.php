@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
-use Manaferra\App\Http\Controllers\Backend\Auth\BaseResetPasswordController;
+use Accio\App\Http\Controllers\Backend\Auth\BaseResetPasswordController;
 
 class ResetPasswordController extends BaseResetPasswordController {
 }

@@ -178,8 +178,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
 
-        //Manaferra Package Service Provider
-        \Manaferra\PackageServiceProvider::class
+        //Accio Package Service Provider
+        \Accio\PackageServiceProvider::class
     ],
 
     /*

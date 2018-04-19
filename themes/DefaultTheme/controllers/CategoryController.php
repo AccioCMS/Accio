@@ -8,7 +8,7 @@ use App\Models\Post;
 use App\Models\Theme;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Frontend\MainController;
-use Manaferra\Support\Facades\Pagination;
+use Accio\Support\Facades\Pagination;
 
 class CategoryController extends MainController{
     /**

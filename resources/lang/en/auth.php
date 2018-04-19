@@ -30,7 +30,7 @@ return [
         'password-input' => 'Password',
         'btn' => 'Login',
         'lost-password' => 'Have you lost the password ?',
-        'copyright' => '©2017 All Rights Reserved. Created by Manaferra',
+        'copyright' => '©2017 All Rights Reserved. Created by Accio',
     ],
 
     // Register

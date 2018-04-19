@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Manaferra\App\Http\Controllers\Backend\BaseLanguageController;
+use Accio\App\Http\Controllers\Backend\BaseLanguageController;
 
 class LanguageController extends BaseLanguageController {
 

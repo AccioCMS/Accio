@@ -11,7 +11,7 @@ use App\Models\Task;
 use Faker\Factory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Manaferra\App\Services\Archive;
+use Accio\App\Services\Archive;
 use Tests\DuskTestCase;
 
 class ArchiveTest extends DuskTestCase{

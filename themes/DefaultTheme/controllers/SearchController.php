@@ -4,7 +4,7 @@ namespace Themes\DefaultTheme\Controllers;
 
 use App\Http\Controllers\Frontend\MainController;
 use App\Models\Post;
-use Manaferra\Support\Facades\Search;
+use Accio\Support\Facades\Search;
 use App\Models\Theme;
 use DateTime;
 use Illuminate\Support\Facades\App;

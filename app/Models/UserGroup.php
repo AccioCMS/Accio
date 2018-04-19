@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Manaferra\App\Models\UserGroupModel;
+use Accio\App\Models\UserGroupModel;
 
 class UserGroup extends UserGroupModel {
 

@@ -21,12 +21,12 @@
     <div class="album text-muteds">
         <div class="container">
             <?php
-            if(\Manaferra\Support\Facades\Search::getKeyword()) {
+            if(\Accio\Support\Facades\Search::getKeyword()) {
 
                 if(!$posts->isEmpty()){
                     ?>
                     <p class="lead blog-description">
-                        {{trans('search.results.label')}} <strong><?php print \Manaferra\Support\Facades\Search::getKeyword()?></strong>
+                        {{trans('search.results.label')}} <strong><?php print \Accio\Support\Facades\Search::getKeyword()?></strong>
                     </p>
 
                     <ul class="row posts-list">

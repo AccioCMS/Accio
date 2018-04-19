@@ -11,8 +11,8 @@ use App\Models\Theme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
-use Manaferra\App\Models\PostModel;
-use Manaferra\Support\Facades\Pagination;
+use Accio\App\Models\PostModel;
+use Accio\Support\Facades\Pagination;
 use App\Http\Controllers\Frontend\MainController;
 
 class PostController extends MainController{

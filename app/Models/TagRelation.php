@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Manaferra\App\Models\TagRelationModel;
+use Accio\App\Models\TagRelationModel;
 
 class TagRelation extends TagRelationModel{
 

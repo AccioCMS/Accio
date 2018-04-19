@@ -9,7 +9,7 @@ $factory->define(\App\Models\CustomField::class, function (Faker $faker) use($au
     $autoIncrement->next();
 
     $data =  [
-        'customFieldGroupID' => \Manaferra\App\Models\CustomFieldGroupModel::inRandomOrder()->first()->customFieldGroupID,
+        'customFieldGroupID' => \Accio\App\Models\CustomFieldGroupModel::inRandomOrder()->first()->customFieldGroupID,
         'parentID' => 0,
         'slug' => str_replace('-', '_', $faker->slug(1)),
         'type' => $faker->randomElement(['text', 'number', 'checkbox', 'radio', 'dropdown']),

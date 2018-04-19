@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Manaferra\App\Models\SettingsModel;
+use Accio\App\Models\SettingsModel;
 
 class Settings extends SettingsModel {
 

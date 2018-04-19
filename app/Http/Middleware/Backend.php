@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class Backend extends  \Manaferra\App\Http\Middleware\Backend{
+class Backend extends  \Accio\App\Http\Middleware\Backend{
     /**
      * Handle backend incoming request.
      *

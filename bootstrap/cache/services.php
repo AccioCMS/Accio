@@ -36,7 +36,7 @@
     32 => 'App\\Providers\\RouteServiceProvider',
     33 => 'Collective\\Html\\HtmlServiceProvider',
     34 => 'Intervention\\Image\\ImageServiceProvider',
-    35 => 'Manaferra\\PackageServiceProvider',
+    35 => 'Accio\\PackageServiceProvider',
   ),
   'eager' => 
   array (
@@ -60,7 +60,7 @@
     17 => 'App\\Providers\\EventServiceProvider',
     18 => 'App\\Providers\\RouteServiceProvider',
     19 => 'Intervention\\Image\\ImageServiceProvider',
-    20 => 'Manaferra\\PackageServiceProvider',
+    20 => 'Accio\\PackageServiceProvider',
   ),
   'deferred' => 
   array (
