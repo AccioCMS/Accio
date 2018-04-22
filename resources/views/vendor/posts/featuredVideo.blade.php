@@ -1,8 +1,8 @@
 <figure>
     <video controls class="post-featured-video">
-        <img src='{{asset($featuredVideo->url)}}' alt='{{asset($featuredVideo->description)}}' title='{{asset($featuredVideo->title)}}' />
+        <img src='{{asset($featuredVideo->url)}}' alt='{{$featuredVideo->description}}' title='{{$featuredVideo->title}}' />
         <source src='{{asset($featuredVideo->url)}}' type='video/{{$featuredVideo->extension}}' />
-     </video>
+    </video>
     @if($featuredVideo->description || $featuredVideo->credit)
         <figcaption>
             @if($featuredVideo->description)
