@@ -23,6 +23,7 @@ class CreatePostTypeTable extends Migration{
             $table->tinyInteger('hasTags');
             $table->tinyInteger('isTagRequired');
             $table->tinyInteger('hasFeaturedVideo');
+            $table->tinyInteger('isFeaturedImageRequired');
             $table->timestamps();
         });
     }
