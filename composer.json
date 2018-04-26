@@ -14,7 +14,7 @@
     "riverskies/laravel-mobile-detect": "^1.2",
     "doctrine/dbal": "^2.5",
     "chumper/zipper": "1.0.x",
-    "acciocms/core": "^0.0"
+    "acciocms/core": "dev-development"
   },
   "require-dev": {
     "filp/whoops": "~2.0",
