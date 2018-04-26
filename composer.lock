@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d45f2ecff505d06138edaa830cf2098e",
+    "content-hash": "41efdf764fecca4b2de8ac4ac6e886c8",
     "packages": [
         {
             "name": "acciocms/core",
-            "version": "dev-master",
+            "version": "v0.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AccioCMS/core.git",
-                "reference": "0fe7b280d9a45a2a74bfe6b017bdc5ff0d238eb7"
+                "reference": "d47f9093004496ff55f12c4760a3919477bf4fa5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AccioCMS/core/zipball/0fe7b280d9a45a2a74bfe6b017bdc5ff0d238eb7",
-                "reference": "0fe7b280d9a45a2a74bfe6b017bdc5ff0d238eb7",
+                "url": "https://api.github.com/repos/AccioCMS/core/zipball/d47f9093004496ff55f12c4760a3919477bf4fa5",
+                "reference": "d47f9093004496ff55f12c4760a3919477bf4fa5",
                 "shasum": ""
             },
             "require": {
@@ -58,7 +58,7 @@
                 "cms",
                 "core"
             ],
-            "time": "2018-04-25T22:33:45+00:00"
+            "time": "2018-04-26T05:37:40+00:00"
         },
         {
             "name": "chumper/zipper",
@@ -5118,9 +5118,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "acciocms/core": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
