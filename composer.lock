@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e8724c3d7532710a3f1dc8daa87f5831",
+    "content-hash": "d45f2ecff505d06138edaa830cf2098e",
     "packages": [
         {
             "name": "acciocms/core",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/AccioCMS/core.git",
-                "reference": "7b3ffaea75aa340e1f34b31707400aeadacb912b"
+                "reference": "0fe7b280d9a45a2a74bfe6b017bdc5ff0d238eb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AccioCMS/core/zipball/7b3ffaea75aa340e1f34b31707400aeadacb912b",
-                "reference": "7b3ffaea75aa340e1f34b31707400aeadacb912b",
+                "url": "https://api.github.com/repos/AccioCMS/core/zipball/0fe7b280d9a45a2a74bfe6b017bdc5ff0d238eb7",
+                "reference": "0fe7b280d9a45a2a74bfe6b017bdc5ff0d238eb7",
                 "shasum": ""
             },
             "require": {
@@ -58,7 +58,7 @@
                 "cms",
                 "core"
             ],
-            "time": "2018-04-19T11:46:50+00:00"
+            "time": "2018-04-25T22:33:45+00:00"
         },
         {
             "name": "chumper/zipper",
@@ -1538,16 +1538,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.26.4",
+            "version": "1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "e3d9014279133a3cccc01f6a691322a2d5a6a87b"
+                "reference": "ef81c39b67200dcd7401c24363dcac05ac3a4fe9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/e3d9014279133a3cccc01f6a691322a2d5a6a87b",
-                "reference": "e3d9014279133a3cccc01f6a691322a2d5a6a87b",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/ef81c39b67200dcd7401c24363dcac05ac3a4fe9",
+                "reference": "ef81c39b67200dcd7401c24363dcac05ac3a4fe9",
                 "shasum": ""
             },
             "require": {
@@ -1582,7 +1582,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-04-17T15:35:42+00:00"
+            "time": "2018-04-23T09:02:57+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -5117,14 +5117,14 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "acciocms/core": 20
     },
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0.0"
+        "php": ">=7.1.0"
     },
     "platform-dev": []
 }
