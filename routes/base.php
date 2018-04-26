@@ -8,5 +8,5 @@ Route::group(['as' => 'base.', 'middleware' => ['translate'], 'namespace' => \Ap
     /**
      * Search Page
      */
-    Route::get(permalink("base","homepage"), 'PagesController@homepage')->name('index');
+    Route::get(permalink("base","homepage"), 'PagesController@homepage')->name('homepage');
 });

@@ -40,6 +40,7 @@ class DefaultPostTypesDevSeeder extends Seeder
                 'slug' => 'post_articles',
                 'isVisible' => true,
                 'hasCategories' => true,
+                'isFeaturedImageRequired' => true,
                 'hasTags' => true,
             ]);
 
@@ -73,6 +74,7 @@ class DefaultPostTypesDevSeeder extends Seeder
                 'isVisible' => true,
                 'hasCategories' => false,
                 'isCategoryRequired' => false,
+                'isFeaturedImageRequired' => false,
                 'hasTags' => false,
                 'isTagRequired' => false,
             ]);
