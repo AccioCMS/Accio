@@ -56,8 +56,7 @@
       "Accio\\App\\Services\\ComposerScripts::postPackageInstall"
     ],
     "post-create-project-cmd": [
-      "Accio\\App\\Services\\ComposerScripts::postCreateProject",
-      "@php artisan app:install"
+      "Accio\\App\\Services\\ComposerScripts::postCreateProject"
     ],
     "post-autoload-dump": [
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
