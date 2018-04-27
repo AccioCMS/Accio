@@ -22,6 +22,7 @@ class CreateForeignKeysTable extends Migration
         Schema::table('categories', function (Blueprint $table) {
             $table->foreign('createdByUserID')->references('userID')->on('users');
             $table->foreign('postTypeID')->references('postTypeID')->on('post_type');
+            $table->foreign('featuredImageID')->references('mediaID')->on('media');
         });
         Schema::table('categories_relations', function (Blueprint $table) {
             $table->foreign('categoryID')->references('categoryID')->on('categories');
@@ -29,7 +30,7 @@ class CreateForeignKeysTable extends Migration
         Schema::table('custom_fields', function (Blueprint $table) {
             $table->foreign('customFieldGroupID')->references('customFieldGroupID')->on('custom_fields_groups');
         });
-        Schema::table('media_relations', function (Blueprint $table) {
+        Schema::table('media_relations', function (Blueprint $table){
             $table->foreign('mediaID')->references('mediaID')->on('media');
         });
         Schema::table('menu_links', function (Blueprint $table) {
@@ -41,12 +42,19 @@ class CreateForeignKeysTable extends Migration
         Schema::table('permissions', function (Blueprint $table) {
             $table->foreign('groupID')->references('groupID')->on('users_groups');
         });
+        Schema::table('post_type', function(Blueprint $table) {
+            $table->foreign('createdByUserID')->references('userID')->on('users');
+        });
         Schema::table('tags', function (Blueprint $table) {
             $table->foreign('postTypeID')->references('postTypeID')->on('post_type');
             $table->foreign('createdByUserID')->references('userID')->on('users');
+            $table->foreign('featuredImageID')->references('mediaID')->on('media');
         });
         Schema::table('tags_relations', function (Blueprint $table) {
             $table->foreign('tagID')->references('tagID')->on('tags');
+        });
+        Schema::table('users', function(Blueprint $table) {
+            $table->foreign('profileImageID')->references('mediaID')->on('media');
         });
     }
 
