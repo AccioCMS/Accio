@@ -43099,7 +43099,11 @@ var globalMethods = exports.globalMethods = {
             return this.baseURL + url;
         },
 
-        // repair url to get the thumb
+
+        /**
+         * get the urls for the files
+         * @param media
+         */
         constructUrl: function constructUrl(image) {
             var url = "";
             if (image.type == "image") {

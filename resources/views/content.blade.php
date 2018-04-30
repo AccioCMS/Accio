@@ -1,6 +1,7 @@
 @extends('app')
 @section('content')
     <?php
+
         // menu links for the application part
         $applicationMenuLinks = json_encode(\App\Models\MenuLink::applicationMenuLinks());
 
