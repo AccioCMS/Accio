@@ -40,16 +40,16 @@
 
         // User data object
         $postTypeSlugs = \App\Models\PostType::getFromCache()->keys();
-        $permissions = \App\Models\User::getPermissions();
-        $globalData = htmlentities(json_encode([
+        $globalData = stripslashes(json_encode([
             'post_type_slugs' => $postTypeSlugs,
-            'permissions' => $permissions,
-            'user' => \Illuminate\Support\Facades\Auth::user()['original'],
+            'permissions' => $user->getPermissions(),
+            'user' => \Illuminate\Support\Facades\Auth::user(),
             'settings' => $settings,
             'ini_upload_max_filesize' => ini_get('upload_max_filesize'),
             'ini_post_max_size' => ini_get('post_max_size')
         ]));
-    ?>
+
+        ?>
 
     <app
         application_menu_links="{{$applicationMenuLinks}}"

@@ -763,3 +763,8 @@ i.fa.fa-minus-circle.fa-2x:hover {
 .m-b-20{
     margin-bottom: 20px;
 }
+
+.panelContainer{
+    display: inline-block;
+    width: 100%;
+}

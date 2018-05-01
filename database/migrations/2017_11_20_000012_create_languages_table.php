@@ -18,6 +18,7 @@ class CreateLanguagesTable extends Migration{
             $table->string('slug',5);
             $table->tinyInteger('isDefault');
             $table->tinyInteger('isVisible');
+            $table->integer('createdByUserID')->unsigned();
             $table->timestamps();
         });
     }
