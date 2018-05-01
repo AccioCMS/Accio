@@ -43055,7 +43055,7 @@ var globalMethods = exports.globalMethods = {
 
         // call checkPermission method of vuex and return his answer
         hasPermission: function hasPermission(app, key) {
-            return this.$store.dispatch('checkPermission', { app: app, key: key });
+            this.$store.dispatch('checkPermission', { app: app, key: key });
             return this.getHasPermission; // This is causing a loop @todo
         },
         redirect: function redirect(name, id) {
@@ -64997,16 +64997,19 @@ var store = exports.store = new _vuex2.default.Store({
             }
 
             //check author
+
+            // has any permission
+            console.log("app:" + app + ", key:" + key + ", hasSinglePermission:" + hasSinglePermission + ", appPermission:" + appPermission);
+
             if (permissions.global !== undefined && permissions.global.author !== undefined) {
-                // has any permission
                 if (!appPermission && !hasSinglePermission) {
-                    // context.commit('setHasPermission', false);
+                    context.commit('setHasPermission', false);
                     return false;
                 }
 
                 // has a specific permission and has ownership
                 if (appPermission || hasSinglePermission) {
-                    // context.commit('setHasPermission', true);
+                    context.commit('setHasPermission', true);
                     return true;
                 }
             }
@@ -65014,18 +65017,18 @@ var store = exports.store = new _vuex2.default.Store({
             //check editor
             else if (permissions.global.author !== undefined && permissions.global.editor !== undefined) {
                     if (appPermission || hasSinglePermission) {
-                        // context.commit('setHasPermission', true);
+                        context.commit('setHasPermission', true);
                         return true;
                     }
                 }
 
                 //check specific permission
                 else if (hasSinglePermission) {
-                        // context.commit('setHasPermission', true);
+                        context.commit('setHasPermission', true);
                         return true;
                     }
 
-            // context.commit('setHasPermission', false);
+            context.commit('setHasPermission', false);
             return false;
         }
     }

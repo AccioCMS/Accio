@@ -42511,7 +42511,7 @@ var globalMethods = exports.globalMethods = {
 
         // call checkPermission method of vuex and return his answer
         hasPermission: function hasPermission(app, key) {
-            return this.$store.dispatch('checkPermission', { app: app, key: key });
+            this.$store.dispatch('checkPermission', { app: app, key: key });
             return this.getHasPermission; // This is causing a loop @todo
         },
         redirect: function redirect(name, id) {
