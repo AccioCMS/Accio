@@ -679,6 +679,8 @@ li.activeMenuLinkLi {
 }
 .embed-container{
     position: relative;
+    height: 150px;
+    overflow: hidden;
 }
 html .fr-view img.fr-dii{
     margin: 0 0 10px 0;
