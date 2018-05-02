@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/AccioCMS/core.git",
-                "reference": "3d8b40cf64b9f3991c5b6e70f3bd5b424e14b2db"
+                "reference": "e64157bceac25ee0bc76b862cc52282367303bb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AccioCMS/core/zipball/3d8b40cf64b9f3991c5b6e70f3bd5b424e14b2db",
-                "reference": "3d8b40cf64b9f3991c5b6e70f3bd5b424e14b2db",
+                "url": "https://api.github.com/repos/AccioCMS/core/zipball/e64157bceac25ee0bc76b862cc52282367303bb4",
+                "reference": "e64157bceac25ee0bc76b862cc52282367303bb4",
                 "shasum": ""
             },
             "require": {
@@ -58,7 +58,7 @@
                 "cms",
                 "core"
             ],
-            "time": "2018-05-01T13:50:38+00:00"
+            "time": "2018-05-01T23:45:45+00:00"
         },
         {
             "name": "chumper/zipper",

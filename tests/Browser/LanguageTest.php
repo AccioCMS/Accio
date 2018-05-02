@@ -9,6 +9,25 @@ use Laravel\Dusk\Browser;
 
 class LanguageTest extends DuskTestCase{
     /**
+     * Test language list
+     *
+     * @group language
+     * @group languageList
+     *
+     * @return void
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function testList(){
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(1, 'admin')
+                ->visit('admin/'.App::getLocale().'/language/list')
+                ->waitUntilMissing('@spinner')
+                ->assertVisible('@languageListComponent');
+        });
+    }
+
+    /**
      * Test language create
      *
      * @group language
@@ -34,8 +53,7 @@ class LanguageTest extends DuskTestCase{
                 $browser->loginAs(1, 'admin')
                     ->visit('admin/en/language/create')
                     ->waitUntilMissing('@spinner')
-                    ->type('#name', str_random(10))
-                    ->type('#slug', $faker->languageCode)
+                    ->select('#name')
                     ->click('#globalSaveBtn')
                     ->waitForReload()
                     ->assertVisible('@languageUpdateComponent');
@@ -43,24 +61,6 @@ class LanguageTest extends DuskTestCase{
         });
     }
 
-    /**
-     * Test language list
-     *
-     * @group language
-     * @group languageList
-     *
-     * @return void
-     * @throws \Exception
-     * @throws \Throwable
-     */
-    public function testList(){
-        $this->browse(function (Browser $browser) {
-            $browser->loginAs(1, 'admin')
-                ->visit('admin/'.App::getLocale().'/language/list')
-                ->waitUntilMissing('@spinner')
-                ->assertVisible('@languageListComponent');
-        });
-    }
 
     /**
      * Test language update
@@ -83,6 +83,7 @@ class LanguageTest extends DuskTestCase{
                 ->waitFor('.noty_type__success')
                 ->assertVisible('.noty_type__success');
 
+            App\Models\Language::destroy($language->languageID);
         });
     }
 

@@ -161,6 +161,8 @@ class UserTest extends DuskTestCase{
             $browser->click('#globalSaveBtn')
                 ->waitFor('@userUpdateComponent')
                 ->assertVisible('@userUpdateComponent');
+
+            User::destroy($user->userID);
         });
     }
 
