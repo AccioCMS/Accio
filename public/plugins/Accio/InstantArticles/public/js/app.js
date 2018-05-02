@@ -64963,11 +64963,13 @@ var store = exports.store = new _vuex2.default.Store({
             var appPermission = false;
             var hasSinglePermission = false;
 
+            console.log(permissions);
             // handle global permissions (ex. Editor, Author)
             if (permissions.global !== undefined) {
 
                 //admin has access into all permissions
                 if (permissions.global.admin !== undefined) {
+                    context.commit('setHasPermission', true);
                     return true;
                 }
 
@@ -64997,10 +64999,6 @@ var store = exports.store = new _vuex2.default.Store({
             }
 
             //check author
-
-            // has any permission
-            console.log("app:" + app + ", key:" + key + ", hasSinglePermission:" + hasSinglePermission + ", appPermission:" + appPermission);
-
             if (permissions.global !== undefined && permissions.global.author !== undefined) {
                 if (!appPermission && !hasSinglePermission) {
                     context.commit('setHasPermission', false);
