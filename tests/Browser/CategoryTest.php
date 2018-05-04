@@ -124,7 +124,7 @@ class CategoryTest extends DuskTestCase{
             $category->isVisible = $isVisible;
             $category->order = Category::all()->count();
 
-            if($category->save()) {
+            if($category->save()){
                 $browser->loginAs(1, 'admin')
                     ->visit('admin/'.\App::getLocale().'/post-type/categorylist/'.$postType->postTypeID)
                     ->waitUntilMissing('@spinner')
@@ -176,7 +176,6 @@ class CategoryTest extends DuskTestCase{
 
             Category::where("postTypeID",$postType->postTypeID)->delete();
             PostType::destroy($postType->postTypeID);
-
         });
     }
 

@@ -112,11 +112,12 @@ class PostTest extends DuskTestCase{
                     ->type('#form-group-title_'.$language->slug.' input', $faker->text(10))
                     ->type('#form-group-content_'.$language->slug.' .fr-view', $faker->paragraph);
                     if($language->isDefault){
-                        $browser->click('#form-group-categories_' . $language->slug . ' .multiselect__input')
+                        $browser->click('#form-group-categories_' . $language->slug . ' .multiselect__tags')
                             ->click('#form-group-categories_' . $language->slug . ' .multiselect__content-wrapper ul li:first-child');
                     }
 
-                $browser->type('#form-group-tags_' . $language->slug . ' .multiselect__input', $faker->text(5))
+                $browser->click('#form-group-tags_' . $language->slug . ' .multiselect__tags')
+                    ->type('#form-group-tags_' . $language->slug . ' .multiselect__input', $faker->text(5))
                     ->keys('#form-group-tags_' . $language->slug . ' .multiselect__input', ['{enter}']);
 
                 $browser->pause(2000);
@@ -195,11 +196,13 @@ class PostTest extends DuskTestCase{
                         ->type('#form-group-title_'.$language->slug.' input', $faker->text(10))
                         ->type('#form-group-content_'.$language->slug.' .fr-view', $faker->paragraph);
                     if($language->isDefault){
-                        $browser->click('#form-group-categories_' . $language->slug . ' .multiselect__input')
-                            ->click('#form-group-categories_' . $language->slug . ' .multiselect__content-wrapper ul li:first-child');
+                        $browser->click('#form-group-categories_' . $language->slug . ' .multiselect__tags')
+                            ->click('#form-group-categories_' . $language->slug . ' .multiselect__content-wrapper ul li:first-child')
+                            ->click('');
                     }
 
-                    $browser->type('#form-group-tags_' . $language->slug . ' .multiselect__input', $faker->text(5))
+                    $browser->click('#form-group-tags_' . $language->slug . ' .multiselect__tags')
+                        ->type('#form-group-tags_' . $language->slug . ' .multiselect__input', $faker->text(5))
                         ->keys('#form-group-tags_' . $language->slug . ' .multiselect__input', ['{enter}']);
 
                     $browser->pause(2000);

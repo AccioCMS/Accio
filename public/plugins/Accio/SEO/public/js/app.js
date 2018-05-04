@@ -677,7 +677,7 @@ var globalMethods = exports.globalMethods = {
         // call checkPermission method of vuex and return his answer
         hasPermission: function hasPermission(app, key) {
             this.$store.dispatch('checkPermission', { app: app, key: key });
-            return this.getHasPermission;
+            return this.getHasPermission; // This is causing a loop @todo
         },
         redirect: function redirect(name, id) {
             var path = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
@@ -720,7 +720,11 @@ var globalMethods = exports.globalMethods = {
             return this.baseURL + url;
         },
 
-        // repair url to get the thumb
+
+        /**
+         * get the urls for the files
+         * @param media
+         */
         constructUrl: function constructUrl(image) {
             var url = "";
             if (image.type == "image") {
@@ -26878,7 +26882,7 @@ Vue.http.interceptors.push(function (request, next) {
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.5';
+  var VERSION = '4.17.10';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -27302,6 +27306,14 @@ Vue.http.interceptors.push(function (request, next) {
   /** Used to access faster Node.js helpers. */
   var nodeUtil = (function() {
     try {
+      // Use `util.types` for Node.js 10+.
+      var types = freeModule && freeModule.require && freeModule.require('util').types;
+
+      if (types) {
+        return types;
+      }
+
+      // Legacy `process.binding('util')` for Node.js < 10.
       return freeProcess && freeProcess.binding && freeProcess.binding('util');
     } catch (e) {}
   }());
@@ -51609,13 +51621,13 @@ exports.default = {
     },
     created: function created() {
         // information about the authentication
-        this.$store.commit('setAuth', JSON.parse(this.auth));
-        this.$store.commit('setLabels', JSON.parse(this.labels));
-        this.$store.commit('setGlobalData', JSON.parse(this.global_data));
-        this.$store.commit('setPluginsConfigs', JSON.parse(this.plugins_configs));
         this.$store.commit('setBaseURL', this.base_url);
         this.$store.commit('setBasePath', this.base_path);
         this.$store.commit('setLogoutLink', this.logout_link);
+        this.$store.commit('setAuth', JSON.parse(this.auth));
+        this.$store.commit('setGlobalData', JSON.parse(this.global_data));
+        this.$store.commit('setLabels', JSON.parse(this.labels));
+        this.$store.commit('setPluginsConfigs', JSON.parse(this.plugins_configs));
 
         // set menu mode on refresh
         if (this.$route.query.mode !== undefined || this.$route.query.menu_link_id !== undefined) {
@@ -52117,11 +52129,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _globalComputed = __webpack_require__(3);
 
-var _globalMethods = __webpack_require__(4);
-
 var _globalData = __webpack_require__(5);
 
 var _globalUpdated = __webpack_require__(6);
+
+var _globalMethods = __webpack_require__(4);
 
 //
 //
@@ -52158,10 +52170,10 @@ var _globalUpdated = __webpack_require__(6);
 
 exports.default = {
     mixins: [_globalComputed.globalComputed, _globalMethods.globalMethods, _globalData.globalData, _globalUpdated.globalUpdated],
-    mounted: function mounted() {
+    created: function created() {
         var _this = this;
 
-        this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/language/get-all?order=isDefault&type=desc').then(function (resp) {
+        this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/language/get-all?order=isDefault&type=desc&a1').then(function (resp) {
             _this.languages = resp.body.data;
         });
     },

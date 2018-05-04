@@ -12,9 +12,11 @@ $factory->define(\App\Models\Language::class, function(Faker $faker) {
         }
     }
 
+    $user = \App\Models\User::first();
     $name = str_random(10);
     return [
         'name' => $name,
+        'createdByUserID' => $user->userID,
         'nativeName' => $name,
         'slug' => $tmpFaker->languageCode,
         'isDefault' => 0,

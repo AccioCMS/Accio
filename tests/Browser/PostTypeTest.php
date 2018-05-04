@@ -135,6 +135,8 @@ class PostTypeTest extends DuskTestCase{
                 ->waitForReload()
                 ->waitFor('@postTypeUpdateComponent')
                 ->assertVisible('@postTypeUpdateComponent');
+
+            PostType::destroy($postType->postTypeID);
         });
     }
 

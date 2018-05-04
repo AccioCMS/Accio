@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Browser;
 
+use Accio\App\Traits\UserTrait;
 use App\Models\Language;
 use App\Models\User;
 use Faker\Factory;
@@ -9,6 +10,8 @@ use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class UserTest extends DuskTestCase{
+    use UserTrait;
+
     /**
      * Test user list
      *
@@ -20,6 +23,7 @@ class UserTest extends DuskTestCase{
      * @throws \Throwable
      */
     public function testList(){
+        $this->getAnAdmin();
         $this->browse(function (Browser $browser) {
             $browser->loginAs(1, 'admin')
                 ->visit('admin/'.\App::getLocale().'/user/list')
@@ -157,6 +161,8 @@ class UserTest extends DuskTestCase{
             $browser->click('#globalSaveBtn')
                 ->waitFor('@userUpdateComponent')
                 ->assertVisible('@userUpdateComponent');
+
+            User::destroy($user->userID);
         });
     }
 
