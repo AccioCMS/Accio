@@ -41,10 +41,13 @@ function mapPluginRoutes(pluginsList){
 
                     for(let panelKey in pluginConfig.panels){
                         let panel = pluginConfig.panels[panelKey];
-                        result += "Vue.component('"+prefix+"_"+panel.name+"', require('./../../../plugins/"+path+"/resources/views/panels/"+panel.path+"'));";
-                        result += "\n";
+                        result += "Vue.component('"+prefix+"_"+panel.name+"', require('./../../../plugins/"+path+"/resources/views/panels/"+panel.path+"'));\n";
+                        //console.log(result);
                     }
-                    resolveThis(true);
+
+                    setTimeout(function(){
+                        resolveThis(true);
+                    },3000);
                 });
             });
 
