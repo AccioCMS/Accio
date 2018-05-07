@@ -2,12 +2,16 @@
 
 namespace Tests\Browser;
 
+use Accio\App\Traits\UserTrait;
 use App;
 use Faker\Factory;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 
 class LanguageTest extends DuskTestCase{
+    use UserTrait;
+
+
     /**
      * Test language list
      *
@@ -20,7 +24,7 @@ class LanguageTest extends DuskTestCase{
      */
     public function testList(){
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.App::getLocale().'/language/list')
                 ->waitUntilMissing('@spinner')
                 ->assertVisible('@languageListComponent');
@@ -50,7 +54,7 @@ class LanguageTest extends DuskTestCase{
             }
 
             if ($faker){
-                $browser->loginAs(1, 'admin')
+                $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                     ->visit('admin/en/language/create')
                     ->waitUntilMissing('@spinner')
                     ->select('#name')
@@ -76,7 +80,7 @@ class LanguageTest extends DuskTestCase{
         $this->browse(function (Browser $browser) {
             $language = factory(App\Models\Language::class)->create();
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.App::getLocale().'/language/update/'.$language->languageID)
                 ->waitUntilMissing('@spinner')
                 ->click('#globalSaveBtn')
@@ -100,7 +104,7 @@ class LanguageTest extends DuskTestCase{
     public function testBulkDelete(){
         $this->browse(function (Browser $browser){
             $language = factory(App\Models\Language::class)->create();
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.App::getLocale().'/language/list')
                 ->waitUntilMissing('@spinner')
                 ->click('#ID'.$language->languageID)
@@ -123,7 +127,7 @@ class LanguageTest extends DuskTestCase{
     public function testDelete(){
         $this->browse(function (Browser $browser){
             $language = factory(App\Models\Language::class)->create();
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.App::getLocale().'/language/list')
                 ->waitUntilMissing('@spinner')
                 ->click('#toggleListBtn'.$language->languageID)

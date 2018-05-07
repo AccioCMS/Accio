@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use Accio\App\Traits\UserTrait;
 use App\Models\Category;
 use App\Models\Language;
 use App\Models\PostType;
@@ -10,9 +11,10 @@ use Faker\Factory;
 use Illuminate\Support\Facades\Schema;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class TagTest extends DuskTestCase{
+    use UserTrait;
+
 
     /**
      * Test tag list
@@ -30,7 +32,7 @@ class TagTest extends DuskTestCase{
             // Create table if it doesn't exist
             PostType::createTable($postType->slug, []);
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/post-type/taglist/'.$postType->postTypeID)
                 ->waitUntilMissing('@spinner')
                 ->pause(1000)
@@ -66,7 +68,7 @@ class TagTest extends DuskTestCase{
             $tag->slug = $faker->slug;
 
             if($tag->save()){
-                $browser->loginAs(1, 'admin')
+                $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                     ->visit('admin/'.\App::getLocale().'/post-type/taglist/'.$postType->postTypeID)
                     ->waitUntilMissing('@spinner')
                     ->click('#ID'.$tag->tagID)
@@ -103,7 +105,7 @@ class TagTest extends DuskTestCase{
             $tag->slug = $faker->slug;
 
             if($tag->save()) {
-                $browser->loginAs(1, 'admin')
+                $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                     ->visit('admin/'.\App::getLocale().'/post-type/taglist/'.$postType->postTypeID)
                     ->waitUntilMissing('@spinner')
                     ->click('#toggleListBtn' . $tag->tagID)
@@ -132,7 +134,7 @@ class TagTest extends DuskTestCase{
             $postType = factory(PostType::class)->create();
             $faker = Factory::create();
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/post-type/tagcreate/'.$postType->postTypeID)
                 ->waitUntilMissing('@spinner')
                 ->click('#form-group-featuredImage #openMediaFeatureImage')
@@ -177,7 +179,7 @@ class TagTest extends DuskTestCase{
             $tag->slug = $faker->slug(5);
 
             if($tag->save()) {
-                $browser->loginAs(1, 'admin')
+                $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                     ->visit('admin/' . \App::getLocale() . '/post-type/tagupdate/' . $tag->tagID)
                     ->waitUntilMissing('@spinner')
                     ->click('#form-group-featuredImage #openMediaFeatureImage')

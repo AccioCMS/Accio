@@ -9,6 +9,7 @@ use App\Models\PostType;
 use App\Models\TagRelation;
 use App\Models\Task;
 use Faker\Factory;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Accio\App\Services\Archive;
@@ -61,7 +62,6 @@ class ArchiveTest extends DuskTestCase{
      * @throws \Exception
      */
     public function testMoveAllCategoriesToArchive(){
-        $pass = true; // if test passes
         $archive = new Archive(false);
         $this->setParams($archive);
 
@@ -87,7 +87,6 @@ class ArchiveTest extends DuskTestCase{
      * @throws \Exception
      */
     public function testMoveAllTagsToArchive(){
-        $pass = true; // if test passes
         $archive = new Archive(false);
         $this->setParams($archive);
 

@@ -1,9 +1,11 @@
 {
     "/js/app.js": "/js/app.js",
+    "/../themes/DefaultTheme/assets/css/header.css": "/../themes/DefaultTheme/assets/css/header.css",
     "/../themes/DefaultTheme/assets/css/style.css": "/../themes/DefaultTheme/assets/css/style.css",
     "/plugins/Accio/SEO/public/js/app.js": "/plugins/Accio/SEO/public/js/app.js",
     "/plugins/Accio/InstantArticles/public/js/app.js": "/plugins/Accio/InstantArticles/public/js/app.js",
     "/plugins/Accio/AdsManager/public/js/app.js": "/plugins/Accio/AdsManager/public/js/app.js",
+    "/plugins/Accio/PostPositionManager/public/js/app.js": "/plugins/Accio/PostPositionManager/public/js/app.js",
     "/themes/DefaultTheme/assets/css/all.css": "/themes/DefaultTheme/assets/css/all.css",
     "/themes/DefaultTheme/assets/js/all.js": "/themes/DefaultTheme/assets/js/all.js"
 }
