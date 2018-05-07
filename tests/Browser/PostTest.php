@@ -2,20 +2,23 @@
 
 namespace Tests\Browser;
 
+use Accio\App\Traits\UserTrait;
 use App\Models\Category;
 use App\Models\Language;
 use App\Models\Media;
 use App\Models\PostType;
 use Carbon\Carbon;
 use Faker\Factory;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PostTest extends DuskTestCase{
+
+    use UserTrait;
+
+
 
     /**
      * Test post list
@@ -35,7 +38,7 @@ class PostTest extends DuskTestCase{
             $postSeed = new \PostDevSeeder();
             $postSeed->createPost($postType);
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/posts/'.$postType->slug.'/list')
                 ->waitUntilMissing('@spinner')
                 ->assertVisible('@postListComponent');
@@ -64,7 +67,7 @@ class PostTest extends DuskTestCase{
             $postSeed = new \PostDevSeeder();
             $postSeed->createPost($postType);
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/posts/'.$postType->slug.'/list')
                 ->waitUntilMissing('@spinner')
                 ->click('#ID1')
@@ -98,7 +101,7 @@ class PostTest extends DuskTestCase{
 
             $faker = Factory::create();
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/posts/'.$postType->slug.'/create')
                 ->waitUntilMissing('@spinner',20)
                 ->click('#form-group-featuredImage #openMediaChangeFeatureImage')
@@ -182,7 +185,7 @@ class PostTest extends DuskTestCase{
             $post->published_at = Carbon::now();
 
             if($post->save()){
-                $browser->loginAs(1, 'admin')
+                $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                     ->visit('admin/'.\App::getLocale().'/posts/'.$postType->slug.'/update/'.$post->postID)
                     ->waitUntilMissing('@spinner',20)
                     ->click('#form-group-featuredImage #openMediaChangeFeatureImage')

@@ -5,6 +5,7 @@ use Accio\App\Traits\UserTrait;
 use App\Models\Language;
 use App\Models\User;
 use Faker\Factory;
+use Illuminate\Support\Facades\Cache;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -25,7 +26,7 @@ class UserTest extends DuskTestCase{
     public function testList(){
         $this->getAnAdmin();
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/user/list')
                 ->waitUntilMissing('@spinner')
                 ->assertVisible('@userListComponent');
@@ -45,7 +46,7 @@ class UserTest extends DuskTestCase{
     public function testCreate(){
         $this->browse(function (Browser $browser) {
             $faker = Factory::create();
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/user/create')
                 ->waitUntilMissing('@spinner')
                 ->type('#form-group-name input', $faker->name)
@@ -59,6 +60,7 @@ class UserTest extends DuskTestCase{
                 ->type('#form-group-phone input', $faker->country)
                 ->click('#form-group-groups .multiselect__select')
                 ->click('#form-group-groups .multiselect__content-wrapper ul li:first-child')
+                ->click('')
                 ->click('#form-group-featuredImage #openMediaFeatureImage')
                 ->waitUntilMissing('.loadingOpened')
                 ->click('.imageWrapper:first-child')
@@ -88,7 +90,7 @@ class UserTest extends DuskTestCase{
     public function testBulkDelete(){
         $this->browse(function (Browser $browser){
             $user = factory(User::class)->create();
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/user/list')
                 ->waitUntilMissing('@spinner')
                 ->click('#ID'.$user->userID)
@@ -111,7 +113,7 @@ class UserTest extends DuskTestCase{
     public function testDelete(){
         $this->browse(function (Browser $browser){
             $user = factory(User::class)->create();
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/user/list')
                 ->waitUntilMissing('@spinner')
                 ->click('#toggleListBtn'.$user->userID)
@@ -136,7 +138,7 @@ class UserTest extends DuskTestCase{
             $user = factory(User::class)->create();
 
             $faker = Factory::create();
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/user/update/'.$user->userID)
                 ->waitUntilMissing('@spinner')
                 ->type('#form-group-name input', $faker->name)

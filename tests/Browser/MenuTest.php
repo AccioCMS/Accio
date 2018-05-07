@@ -2,16 +2,19 @@
 
 namespace Tests\Browser;
 
+use Accio\App\Traits\UserTrait;
 use App\Http\Controllers\Backend\BaseMenuController;
 use Faker\Factory;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\File;
 
 class MenuTest extends DuskTestCase{
+
+    use UserTrait;
+
 
     /**
      * Test menu and menu link create
@@ -57,7 +60,7 @@ class MenuTest extends DuskTestCase{
                 }
             }
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/en/menu/list/1')
                 ->click('.createMenuBtn')
                 ->type('.menuNameInput', $faker->name(6));
