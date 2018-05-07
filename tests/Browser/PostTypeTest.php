@@ -2,14 +2,16 @@
 
 namespace Tests\Browser;
 
-use App\Models\Category;
+use Accio\App\Traits\UserTrait;
 use App\Models\PostType;
 use Faker\Factory;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PostTypeTest extends DuskTestCase{
+    use UserTrait;
+
+
     /**
      * Test post type list
      *
@@ -22,7 +24,7 @@ class PostTypeTest extends DuskTestCase{
      */
     public function testList(){
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/post-type/list')
                 ->waitUntilMissing('@spinner')
                 ->assertVisible('@postTypeListComponent');
@@ -45,7 +47,7 @@ class PostTypeTest extends DuskTestCase{
             // Create table if it doesn't exist
             PostType::createTable($postType->slug, []);
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/post-type/list')
                 ->waitUntilMissing('@spinner')
                 ->click('#ID'.$postType->postTypeID)
@@ -71,7 +73,7 @@ class PostTypeTest extends DuskTestCase{
             // Create table if it doesn't exist
             PostType::createTable($postType->slug, []);
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/post-type/list')
                 ->waitUntilMissing('@spinner')
                 ->click('#toggleListBtn'.$postType->postTypeID)
@@ -96,7 +98,7 @@ class PostTypeTest extends DuskTestCase{
 
             $faker = Factory::create();
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/post-type/create')
                 ->type('#form-group-name input', $faker->text(10))
                 ->click('#form-group-hasCategories .yes')
@@ -127,7 +129,7 @@ class PostTypeTest extends DuskTestCase{
             $faker = Factory::create();
             $slug = 'post_'.str_replace('-','_',$faker->slug(1));
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/post-type/update/'.$postType->postTypeID)
                 ->waitUntilMissing('@spinner')
                 ->type('#form-group-name input', $faker->text(10))

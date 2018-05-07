@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "79a883b32e49cf5a0fbc08945ed6b49f",
+    "content-hash": "54b6fcd4a0e75cd929cd07fcd1f6e9aa",
     "packages": [
         {
             "name": "acciocms/core",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/AccioCMS/core.git",
-                "reference": "e64157bceac25ee0bc76b862cc52282367303bb4"
+                "reference": "a4cb3e884c9b749f4fd86cbf096cb02a42c84286"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AccioCMS/core/zipball/e64157bceac25ee0bc76b862cc52282367303bb4",
-                "reference": "e64157bceac25ee0bc76b862cc52282367303bb4",
+                "url": "https://api.github.com/repos/AccioCMS/core/zipball/a4cb3e884c9b749f4fd86cbf096cb02a42c84286",
+                "reference": "a4cb3e884c9b749f4fd86cbf096cb02a42c84286",
                 "shasum": ""
             },
             "require": {
@@ -58,7 +58,7 @@
                 "cms",
                 "core"
             ],
-            "time": "2018-05-01T23:45:45+00:00"
+            "time": "2018-05-02T14:42:15+00:00"
         },
         {
             "name": "chumper/zipper",
@@ -1061,16 +1061,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.19",
+            "version": "v5.6.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "4e480de7fe51c52573a95b25ebf85f5c7f5d2087"
+                "reference": "3c11e7acc6ad14dd86e2f9e4bf3230010c3e611c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/4e480de7fe51c52573a95b25ebf85f5c7f5d2087",
-                "reference": "4e480de7fe51c52573a95b25ebf85f5c7f5d2087",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/3c11e7acc6ad14dd86e2f9e4bf3230010c3e611c",
+                "reference": "3c11e7acc6ad14dd86e2f9e4bf3230010c3e611c",
                 "shasum": ""
             },
             "require": {
@@ -1196,7 +1196,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-04-30T17:43:38+00:00"
+            "time": "2018-05-02T15:22:18+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -3126,6 +3126,48 @@
                 "webprofiler"
             ],
             "time": "2018-03-06T08:35:31+00:00"
+        },
+        {
+            "name": "czproject/git-php",
+            "version": "v3.14.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/czproject/git-php.git",
+                "reference": "6faf55527a17fb569456709c2769a6d8749ceb6d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/czproject/git-php/zipball/6faf55527a17fb569456709c2769a6d8749ceb6d",
+                "reference": "6faf55527a17fb569456709c2769a6d8749ceb6d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "nette/tester": "~1.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Pecha",
+                    "email": "janpecha@email.cz"
+                }
+            ],
+            "description": "Library for work with Git repository in PHP.",
+            "keywords": [
+                "git"
+            ],
+            "time": "2018-04-17T08:52:47+00:00"
         },
         {
             "name": "doctrine/instantiator",
