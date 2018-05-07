@@ -130,34 +130,44 @@ function compileThemesAssets(){
                 // get config data from themes config.json file
                 const config = require('./themes/' + theme + "/config.json");
 
-                if (config['mix'] !== undefined && config['mix']['sass'] !== undefined) {
+                if(config['mix'] !== undefined && config['mix']['sass'] !== undefined){
                     // compress css files
-                    mix.sass('./themes/' + theme + '/assets/scss/' + config['mix']['sass'], '../themes/' + theme + '/assets/css').options({
-                        processCssUrls: false,
+                    let sassFiles = config['mix']['sass'];
+                    sassFiles.map(function(sassFile, key){
+                        mix.sass('./themes/' + theme + '/assets/scss/' + sassFile, '../themes/' + theme + '/assets/css/').options({
+                            processCssUrls: false,
+                        });
                     });
                 }
 
                 // merge css file in one
-                if (config['css'] !== undefined) {
+                if(config['css'] !== undefined){
                     let tmpCss = [];
-                    for (let k in config['css']) {
-                        let path = './themes/' + theme + '/assets/css/' + config['css'][k]['path'];
-                        tmpCss.push(path);
+                    for(let k in config['css']){
+                        // check if file should merge
+                        if(config['css'][k]['merge'] !== undefined && config['css'][k]['merge']){
+                            let path = './themes/' + theme + '/assets/css/' + config['css'][k]['path'];
+                            tmpCss.push(path);
+                        }
                     }
                     // if mix name in config is specified
-                    if (config['mix'] !== undefined && config['mix']['styles'] !== undefined) {
-                        mix.styles(tmpCss, './themes/' + theme + '/assets/css/' + config['mix']['styles']);
+                    if(config['mix'] !== undefined && config['mix']['mergeStyles'] !== undefined){
+                        mix.styles(tmpCss, './themes/' + theme + '/assets/css/' + config['mix']['mergeStyles']);
                     }
                 }
 
                 // compress js files
-                if (config['js'] !== undefined) {
+                if(config['js'] !== undefined){
                     let tmpJs = [];
-                    for (let k in config['js']) {
-                        tmpJs.push('./themes/' + theme + '/assets/js/' + config['js'][k]['path']);
+                    for(let k in config['js']){
+                        // check if file should merge
+                        if(config['js'][k]['merge'] !== undefined && config['js'][k]['merge']){
+                            tmpJs.push('./themes/' + theme + '/assets/js/' + config['js'][k]['path']);
+                        }
                     }
-                    if (config['mix'] !== undefined && config['mix']['scripts'] !== undefined) {
-                        mix.scripts(tmpJs, './themes/' + theme + '/assets/js/' + config['mix']['scripts']);
+
+                    if(config['mix'] !== undefined && config['mix']['mergeScripts'] !== undefined){
+                        mix.scripts(tmpJs, './themes/' + theme + '/assets/js/' + config['mix']['mergeScripts']);
                     }
                 }
             }

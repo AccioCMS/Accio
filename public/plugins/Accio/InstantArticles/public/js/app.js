@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 395);
+/******/ 	return __webpack_require__(__webpack_require__.s = 396);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -40750,15 +40750,15 @@ exports.default = {
 
 /***/ }),
 
-/***/ 395:
+/***/ 396:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(396);
+module.exports = __webpack_require__(397);
 
 
 /***/ }),
 
-/***/ 396:
+/***/ 397:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40774,7 +40774,7 @@ var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
 var _store = __webpack_require__(89);
 
-var _Base = __webpack_require__(397);
+var _Base = __webpack_require__(398);
 
 var _Base2 = _interopRequireDefault(_Base);
 
@@ -40800,15 +40800,15 @@ var app = new _vue2.default({
 
 /***/ }),
 
-/***/ 397:
+/***/ 398:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(398)
+var __vue_script__ = __webpack_require__(399)
 /* template */
-var __vue_template__ = __webpack_require__(399)
+var __vue_template__ = __webpack_require__(400)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -40848,7 +40848,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 398:
+/***/ 399:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41341,7 +41341,287 @@ exports.default = {
 
 /***/ }),
 
-/***/ 399:
+/***/ 4:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var globalMethods = exports.globalMethods = {
+    methods: {
+        // use translation method of vuex
+        __: function __(key) {
+            this.$store.dispatch('__', key);
+            return this.getTranslation;
+        },
+
+        // call checkPermission method of vuex and return his answer
+        hasPermission: function hasPermission(app, key) {
+            this.$store.dispatch('checkPermission', { app: app, key: key });
+            return this.getHasPermission; // This is causing a loop @todo
+        },
+        redirect: function redirect(name, id) {
+            var path = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+            var params = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+            var query = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
+
+            if (id === undefined) {
+                this.$router.push({ name: name });
+            } else {
+                this.$router.push({ name: name, params: { id: id } });
+            }
+        },
+
+        // used to filter where to redirect depending which store btn is clicked
+        onStoreBtnClicked: function onStoreBtnClicked(routeNamePrefix, redirectChoice, id) {
+            if (redirectChoice == 'save') {
+                this.redirect(routeNamePrefix + 'update', id);
+            } else if (redirectChoice == 'close') {
+                this.redirect(routeNamePrefix + 'list');
+            } else if (redirectChoice == 'new') {
+                this.redirect(routeNamePrefix + 'create');
+            } else {
+                alert("Some error occurred");
+            }
+        },
+
+        // this function displays a noty message
+        noty: function noty(type, layout, message, timeout) {
+            new Noty({
+                type: type,
+                layout: 'bottomLeft',
+                text: message,
+                timeout: timeout,
+                closeWith: ['button']
+            }).show();
+        },
+
+        // repair url with the base
+        generateUrl: function generateUrl(url) {
+            return this.baseURL + url;
+        },
+
+
+        /**
+         * get the urls for the files
+         * @param media
+         */
+        constructUrl: function constructUrl(image) {
+            var url = "";
+            if (image.type == "image") {
+                url = "/" + image.fileDirectory + "/200x200/" + image.filename;
+            } else if (image.type == "document") {
+                url = this.documentIconUrl;
+            } else if (image.type == "video") {
+                url = this.videoIconUrl;
+            } else if (image.type == "audio") {
+                url = this.audioIconUrl;
+            }
+            return url;
+        },
+
+        // base url to resources folder
+        resourcesUrl: function resourcesUrl(url) {
+            return this.generateUrl('/public' + url);
+        },
+
+        // used to generate a array of plugins panel names for the current view
+        getPluginsPanel: function getPluginsPanel(app, type) {
+            var global = this;
+            this.pluginsConfigs.map(function (config, key) {
+                var prefix = config.namespace.replace("/", "_");
+                var panels = [];
+                for (var panelKey in config.panels) {
+                    var panel = config.panels[panelKey];
+                    if (app.indexOf(panelKey) != -1 && panel.placement == type || app.indexOf(panelKey) != -1 && panel.placement == 'all') {
+                        panels.push(prefix + "_" + panel.name);
+                        global.pluginsData[prefix + "_" + panel.name] = {};
+                    }
+                }
+                if (panels.length) {
+                    global.pluginsPanels.push({ name: config.title, panels: panels });
+                }
+            });
+        },
+
+        // toggle the action bar in tables (when listing items)
+        toggleListActionBar: function toggleListActionBar(index) {
+            if (this.openedItemActionBar === index) {
+                this.openedItemActionBar = '';
+            } else {
+                this.openedItemActionBar = index;
+            }
+        },
+
+        // this function checks if user has permissions to a specific language
+        hasPermissionForLang: function hasPermissionForLang(langID) {
+            // if is admin return true
+            if (this.getGlobalPermissions.global !== undefined && this.getGlobalPermissions.global.isDefault !== undefined) {
+                return true;
+            }
+            // check language permission if user is not admin
+            if (this.getGlobalPermissions.Language !== undefined && this.getGlobalPermissions.Language.id) {
+                var allowedLanguageIDs = this.getGlobalPermissions.Language.id.value;
+                if (allowedLanguageIDs.indexOf(langID) === -1) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+};
+
+/***/ }),
+
+/***/ 40:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "top_nav",
+      on: {
+        mouseleave: function($event) {
+          _vm.dropdownActive = false
+        }
+      }
+    },
+    [
+      _c("div", { staticClass: "nav_menu" }, [
+        _c("nav", [
+          _c("div", { staticClass: "nav toggle" }, [
+            _c(
+              "a",
+              {
+                attrs: { id: "menu_toggle" },
+                on: { click: _vm.changeMenuType }
+              },
+              [_c("i", { staticClass: "fa fa-bars" })]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "ul",
+            { staticClass: "nav navbar-nav navbar-right headerBarNavigation" },
+            [
+              _c("li", [
+                _c(
+                  "a",
+                  {
+                    staticClass: "user-profile dropdown-toggle",
+                    staticStyle: { cursor: "pointer" },
+                    attrs: {
+                      "data-toggle": "dropdown",
+                      "aria-expanded": "false"
+                    },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.dropdownActive = !_vm.dropdownActive
+                      }
+                    }
+                  },
+                  [
+                    _c("img", { attrs: { src: _vm.Auth.avatar, alt: "" } }),
+                    _vm._v(
+                      _vm._s(_vm.Auth.firstName) +
+                        "  " +
+                        _vm._s(_vm.Auth.lastName) +
+                        "\n                        "
+                    ),
+                    _c("span", { staticClass: " fa fa-angle-down" })
+                  ]
+                ),
+                _vm._v(" "),
+                _vm.dropdownActive
+                  ? _c(
+                      "ul",
+                      {
+                        staticClass:
+                          "dropdown-menu dropdown-usermenu pull-right",
+                        staticStyle: { display: "block" }
+                      },
+                      [
+                        _c(
+                          "li",
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                attrs: {
+                                  to:
+                                    _vm.basePath +
+                                    "/" +
+                                    this.$route.params.adminPrefix +
+                                    "/" +
+                                    this.$route.params.lang +
+                                    "/user/update/" +
+                                    _vm.Auth.userID
+                                }
+                              },
+                              [_vm._v("Profile")]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("li", [
+                          _c("a", { attrs: { href: _vm.logout_link } }, [
+                            _c("i", {
+                              staticClass: "fa fa-sign-out pull-right"
+                            }),
+                            _vm._v(" Log Out")
+                          ])
+                        ])
+                      ]
+                    )
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.getLanguages, function(language) {
+                return _c(
+                  "li",
+                  {
+                    class: { active: _vm.$route.params.lang == language.slug },
+                    staticStyle: { cursor: "pointer" },
+                    on: {
+                      click: function($event) {
+                        _vm.$router.push({ params: { lang: language.slug } })
+                        _vm.$router.go(0)
+                      }
+                    }
+                  },
+                  [_c("a", [_vm._v(_vm._s(language.name))])]
+                )
+              })
+            ],
+            2
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2f191a21", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 400:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -43061,6 +43341,8 @@ if (false) {
 
 /***/ }),
 
+<<<<<<< HEAD
+=======
 /***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43341,6 +43623,7 @@ if (false) {
 
 /***/ }),
 
+>>>>>>> 41f72e90adb5fea7eb4930e1fbe8b4d138c9c6b4
 /***/ 41:
 /***/ (function(module, exports, __webpack_require__) {
 
