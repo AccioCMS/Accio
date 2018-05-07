@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 378);
+/******/ 	return __webpack_require__(__webpack_require__.s = 381);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -258,7 +258,7 @@ function toComment(sourceMap) {
 
 /***/ }),
 
-/***/ 12:
+/***/ 10:
 /***/ (function(module, exports) {
 
 var core = module.exports = { version: '2.5.5' };
@@ -14942,6 +14942,7 @@ exports.default = {
         pluginsConfigs: [],
         labels: {},
         openModule: '',
+        languages: {},
         auth: {
             user: {}
         },
@@ -14972,6 +14973,9 @@ exports.default = {
         },
         get_menu_mode: function get_menu_mode(state) {
             return state.menuMode;
+        },
+        get_languages: function get_languages(state) {
+            return state.languages;
         },
         get_menu_link_list: function get_menu_link_list(state) {
             return state.menuLinkList;
@@ -15010,6 +15014,9 @@ exports.default = {
         },
         setMenuMode: function setMenuMode(state, menuMode) {
             state.menuMode = menuMode;
+        },
+        setLanguages: function setLanguages(state, languages) {
+            state.languages = languages;
         },
         setMenuLinkList: function setMenuLinkList(state, menuLinkList) {
             state.menuLinkList = menuLinkList;
@@ -15111,7 +15118,7 @@ module.exports = function listToStyles (parentId, list) {
 /***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
-var core = __webpack_require__(12);
+var core = __webpack_require__(10);
 var $JSON = core.JSON || (core.JSON = { stringify: JSON.stringify });
 module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
   return $JSON.stringify.apply($JSON, arguments);
@@ -39398,6 +39405,11 @@ var globalComputed = exports.globalComputed = {
             return this.$store.getters.get_list;
         },
 
+        // get languages
+        getLanguages: function getLanguages() {
+            return this.$store.getters.get_languages;
+        },
+
         // get the max pagination number from $store
         getMaxPag: function getMaxPag() {
             return this.$store.getters.get_maxPaginationNr;
@@ -40097,10 +40109,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
 
 exports.default = {
-    props: ['application_menu_links', 'cms_menus', 'auth', 'labels', 'global_data', 'base_url', 'base_path', 'plugins_configs', 'is_plugin_app', 'logout_link'],
+    props: ['base_url', 'base_path'],
     components: {
         'appHeader': _Header2.default,
         'appFooter': _Footer2.default,
@@ -40109,44 +40120,65 @@ exports.default = {
     mixins: [_froala.froalaMixin],
     data: function data() {
         return {
-            applicationMenuLinks: JSON.parse(this.application_menu_links),
-            cmsMenus: JSON.parse(this.cms_menus)
+            isLoading: true,
+            applicationMenuLinks: [],
+            cmsMenus: [],
+            logout_link: ''
         };
     },
     created: function created() {
-        // information about the authentication
+        var _this = this;
+
         this.$store.commit('setBaseURL', this.base_url);
         this.$store.commit('setBasePath', this.base_path);
-        this.$store.commit('setLogoutLink', this.logout_link);
-        this.$store.commit('setAuth', JSON.parse(this.auth));
-        this.$store.commit('setGlobalData', JSON.parse(this.global_data));
-        this.$store.commit('setLabels', JSON.parse(this.labels));
-        this.$store.commit('setPluginsConfigs', JSON.parse(this.plugins_configs));
 
-        // set menu mode on refresh
-        if (this.$route.query.mode !== undefined || this.$route.query.menu_link_id !== undefined) {
-            this.$store.commit('setMenuMode', 'cms');
-        } else {
-            this.$store.commit('setMenuMode', 'application');
-        }
+        // basic data for cms start
+        this.$http.get(this.base_url + '/' + this.$route.params.adminPrefix + '/get-base-data').then(function (resp) {
+            _this.$store.commit('setLogoutLink', resp.body.logoutLink);
+            _this.logout_link = resp.body.logoutLink;
+            _this.$store.commit('setAuth', resp.body.auth);
+            _this.$store.commit('setGlobalData', resp.body.global_data);
+            _this.$store.commit('setLabels', resp.body.labels);
+            _this.$store.commit('setPluginsConfigs', resp.body.pluginsConfigs);
+            _this.$store.commit('setLanguages', resp.body.languages);
 
-        if (this.$route.meta.module == 'posts') {
-            this.$store.commit('setOpenModule', this.$route.params.post_type);
-        } else {
-            this.$store.commit('setOpenModule', this.$route.meta.module);
-        }
+            _this.applicationMenuLinks = resp.body.applicationMenuLinks;
+            _this.cmsMenus = resp.body.cmsMenus;
 
-        if (!Boolean(this.is_plugin_app)) {
-            // create all froala components, custom plugins, buttons and extra functionality
-            this.froalaConstruct();
-        }
+            // set menu mode on refresh
+            if (_this.$route.query.mode !== undefined || _this.$route.query.menu_link_id !== undefined) {
+                _this.$store.commit('setMenuMode', 'cms');
+            } else {
+                _this.$store.commit('setMenuMode', 'application');
+            }
+
+            if (_this.$route.meta.module == 'posts') {
+                _this.$store.commit('setOpenModule', _this.$route.params.post_type);
+            } else {
+                _this.$store.commit('setOpenModule', _this.$route.meta.module);
+            }
+
+            // if is not plugin
+            if (!_this.isPlugin) {
+                // create all froala components, custom plugins, buttons and extra functionality
+                _this.froalaConstruct();
+            }
+        }).then(function (resp) {
+            _this.isLoading = false;
+        });
     },
 
+    computed: {
+        isPlugin: function isPlugin() {
+            var path = this.$route.path;
+            return path.includes("plugins");
+        }
+    },
     watch: {
         // watch for url changes and component doesn't change
         '$route': function $route() {
             // reset vuex params
-            if (!Boolean(this.is_plugin_app)) {
+            if (!this.isPlugin) {
                 this.$store.commit('setMediaSelectedFiles', {});
                 this.$store.commit('setStoreResponse', { errors: [] });
             }
@@ -40566,15 +40598,63 @@ var froalaMixin = exports.froalaMixin = {
 
 /***/ }),
 
-/***/ 378:
+/***/ 38:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(379);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(39)
+/* template */
+var __vue_template__ = __webpack_require__(40)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "vendor\\acciocms\\core\\src\\resources\\views\\components\\general\\Header.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2f191a21", Component.options)
+  } else {
+    hotAPI.reload("data-v-2f191a21", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
 
 
 /***/ }),
 
-/***/ 379:
+/***/ 381:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(382);
+
+
+/***/ }),
+
+/***/ 382:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40588,17 +40668,17 @@ var _vueRouter = __webpack_require__(16);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-var _store = __webpack_require__(380);
+var _store = __webpack_require__(383);
 
-var _Base = __webpack_require__(381);
+var _Base = __webpack_require__(384);
 
 var _Base2 = _interopRequireDefault(_Base);
 
-var _All = __webpack_require__(384);
+var _All = __webpack_require__(387);
 
 var _All2 = _interopRequireDefault(_All);
 
-var _Edit = __webpack_require__(389);
+var _Edit = __webpack_require__(392);
 
 var _Edit2 = _interopRequireDefault(_Edit);
 
@@ -40606,7 +40686,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 __webpack_require__(24);
 __webpack_require__(32);
-__webpack_require__(85);
+__webpack_require__(82);
 
 var routes = [{ path: globalProjectDirectory + '/:adminPrefix/:lang/plugins/accio/ads-manager', component: _Base2.default, children: [{ path: '', component: _All2.default, name: 'list' }, { path: 'edit', component: _Edit2.default, name: 'create' }, { path: 'edit/:adID', component: _Edit2.default, name: 'update' }] }];
 
@@ -40624,6 +40704,7 @@ var app = new _vue2.default({
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 38:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40673,6 +40754,9 @@ module.exports = Component.exports
 /***/ }),
 
 /***/ 380:
+=======
+/***/ 383:
+>>>>>>> ef159dfa0dfed5726e86b9b7d1423df7a5b237bd
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40772,15 +40856,15 @@ var store = exports.store = new _vuex2.default.Store({
 
 /***/ }),
 
-/***/ 381:
+/***/ 384:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(382)
+var __vue_script__ = __webpack_require__(385)
 /* template */
-var __vue_template__ = __webpack_require__(383)
+var __vue_template__ = __webpack_require__(386)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -40820,7 +40904,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 382:
+/***/ 385:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40839,7 +40923,7 @@ exports.default = {};
 
 /***/ }),
 
-/***/ 383:
+/***/ 386:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -40865,19 +40949,19 @@ if (false) {
 
 /***/ }),
 
-/***/ 384:
+/***/ 387:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(385)
+  __webpack_require__(388)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(387)
+var __vue_script__ = __webpack_require__(390)
 /* template */
-var __vue_template__ = __webpack_require__(388)
+var __vue_template__ = __webpack_require__(391)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -40917,13 +41001,13 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 385:
+/***/ 388:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(386);
+var content = __webpack_require__(389);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -40944,7 +41028,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 386:
+/***/ 389:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -40959,7 +41043,90 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 /***/ }),
 
-/***/ 387:
+/***/ 39:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: ['logout_link'],
+    data: function data() {
+        return {
+            dropdownActive: false
+        };
+    },
+
+    methods: {
+        changeMenuType: function changeMenuType() {
+            this.$store.commit("setNavigationMenuStateIsMobile", !this.IsMobile);
+
+            if (this.IsMobile) {
+                $("body").attr("class", "nav-sm");
+            } else {
+                $("body").attr("class", "nav-md");
+            }
+        }
+    },
+    computed: {
+        Auth: function Auth() {
+            return this.$store.getters.get_auth;
+        },
+        IsMobile: function IsMobile() {
+            return this.$store.getters.get_navigation_menu_state_is_mobile;
+        },
+
+        // get languages
+        getLanguages: function getLanguages() {
+            return this.$store.getters.get_languages;
+        },
+
+        // get base path
+        basePath: function basePath() {
+            return this.$store.getters.get_base_path;
+        }
+    }
+};
+
+/***/ }),
+
+/***/ 390:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41150,7 +41317,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 388:
+/***/ 391:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -41353,15 +41520,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 389:
+/***/ 392:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(390)
+var __vue_script__ = __webpack_require__(393)
 /* template */
-var __vue_template__ = __webpack_require__(391)
+var __vue_template__ = __webpack_require__(394)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -41401,97 +41568,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 39:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _globalComputed = __webpack_require__(3);
-
-var _globalData = __webpack_require__(5);
-
-var _globalUpdated = __webpack_require__(6);
-
-var _globalMethods = __webpack_require__(4);
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-    mixins: [_globalComputed.globalComputed, _globalMethods.globalMethods, _globalData.globalData, _globalUpdated.globalUpdated],
-    created: function created() {
-        var _this = this;
-
-        this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/language/get-all?order=isDefault&type=desc&a1').then(function (resp) {
-            _this.languages = resp.body.data;
-        });
-    },
-    data: function data() {
-        return {
-            dropdownActive: false,
-            languages: []
-        };
-    },
-
-    methods: {
-        changeMenuType: function changeMenuType() {
-            this.$store.commit("setNavigationMenuStateIsMobile", !this.IsMobile);
-
-            if (this.IsMobile) {
-                $("body").attr("class", "nav-sm");
-            } else {
-                $("body").attr("class", "nav-md");
-            }
-        }
-    },
-    computed: {
-        Auth: function Auth() {
-            return this.$store.getters.get_auth;
-        },
-        IsMobile: function IsMobile() {
-            return this.$store.getters.get_navigation_menu_state_is_mobile;
-        }
-    }
-};
-
-/***/ }),
-
-/***/ 390:
+/***/ 393:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41941,7 +42018,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 391:
+/***/ 394:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -42662,7 +42739,7 @@ var render = function() {
             "ul",
             { staticClass: "nav navbar-nav navbar-right headerBarNavigation" },
             [
-              _c("li", {}, [
+              _c("li", [
                 _c(
                   "a",
                   {
@@ -42680,13 +42757,11 @@ var render = function() {
                     }
                   },
                   [
-                    _c("img", {
-                      attrs: { src: _vm.Auth.user.avatar, alt: "" }
-                    }),
+                    _c("img", { attrs: { src: _vm.Auth.avatar, alt: "" } }),
                     _vm._v(
-                      _vm._s(_vm.Auth.user.firstName) +
+                      _vm._s(_vm.Auth.firstName) +
                         "  " +
-                        _vm._s(_vm.Auth.user.lastName) +
+                        _vm._s(_vm.Auth.lastName) +
                         "\n                        "
                     ),
                     _c("span", { staticClass: " fa fa-angle-down" })
@@ -42710,13 +42785,13 @@ var render = function() {
                               {
                                 attrs: {
                                   to:
-                                    this.basePath +
+                                    _vm.basePath +
                                     "/" +
                                     this.$route.params.adminPrefix +
                                     "/" +
                                     this.$route.params.lang +
                                     "/user/update/" +
-                                    _vm.Auth.user.userID
+                                    _vm.Auth.userID
                                 }
                               },
                               [_vm._v("Profile")]
@@ -42726,7 +42801,7 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _c("li", [
-                          _c("a", { attrs: { href: this.logoutLink + "" } }, [
+                          _c("a", { attrs: { href: _vm.logout_link } }, [
                             _c("i", {
                               staticClass: "fa fa-sign-out pull-right"
                             }),
@@ -42738,7 +42813,7 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _vm._l(_vm.languages, function(language) {
+              _vm._l(_vm.getLanguages, function(language) {
                 return _c(
                   "li",
                   {
@@ -43068,7 +43143,7 @@ var _globalUpdated = __webpack_require__(6);
 
 exports.default = {
     mixins: [_globalComputed.globalComputed, _globalMethods.globalMethods, _globalData.globalData, _globalUpdated.globalUpdated],
-    props: ['applicationMenuLinks', 'cmsMenus', 'isPluginApp', 'is_plugin_app'],
+    props: ['applicationMenuLinks', 'cmsMenus', 'isPluginApp'],
     methods: {
         // change the menu mode (switch between cms and application menu)
         changeMenuMode: function changeMenuMode(mode) {
@@ -43293,26 +43368,28 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "main_container" },
-    [
-      _c("app-navigation", {
-        attrs: {
-          applicationMenuLinks: _vm.applicationMenuLinks,
-          cmsMenus: _vm.cmsMenus,
-          isPluginApp: _vm.is_plugin_app
-        }
-      }),
-      _vm._v(" "),
-      _c("app-header", { attrs: { logout_link: _vm.logout_link } }),
-      _vm._v(" "),
-      _c("router-view"),
-      _vm._v(" "),
-      _c("app-footer")
-    ],
-    1
-  )
+  return !_vm.isLoading
+    ? _c(
+        "div",
+        { staticClass: "main_container" },
+        [
+          _c("app-navigation", {
+            attrs: {
+              applicationMenuLinks: _vm.applicationMenuLinks,
+              cmsMenus: _vm.cmsMenus,
+              isPluginApp: _vm.isPlugin
+            }
+          }),
+          _vm._v(" "),
+          _c("app-header", { attrs: { logout_link: _vm.logout_link } }),
+          _vm._v(" "),
+          _c("router-view"),
+          _vm._v(" "),
+          _c("app-footer")
+        ],
+        1
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -64095,13 +64172,13 @@ exports.push([module.i, ".noty_layout_mixin, #noty_layout__top, #noty_layout__to
 
 /***/ }),
 
-/***/ 85:
+/***/ 82:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(86);
+var content = __webpack_require__(83);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -64127,7 +64204,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 86:
+/***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
