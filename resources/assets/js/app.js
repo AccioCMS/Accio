@@ -21,6 +21,22 @@ Vue.use(VueRouter);
 //     next();
 // });
 
+// handle ajax request errors
+Vue.http.interceptors.push((request, next) => {
+    next(response => {
+        if(response.statusText == "Unauthorized"){
+            location.reload();
+        }
+        if(response.status == 500){
+            new Noty({
+                type: 'error',
+                layout: 'bottomLeft',
+                text: response.body.message
+            }).show();
+        }
+    })
+});
+
 const router = new VueRouter({
     routes,
     mode: 'history' // remove # tag from link
