@@ -75,6 +75,13 @@ return array(
 
     /*
     |
+    |  Should images be optimised?
+    |
+    */
+    'optimize_image' => true,
+
+    /*
+    |
     |  Optimize original image
     |
     */
