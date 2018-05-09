@@ -6,15 +6,16 @@
   "type": "project",
   "require": {
     "php": ">=7.1.0",
+    "acciocms/core": "dev-development",
+    "chumper/zipper": "1.0.x",
+    "doctrine/dbal": "^2.5",
     "fideloper/proxy": "^4.0",
+    "intervention/image": "^2.3",
     "laravel/framework": "5.6.*",
     "laravel/tinker": "~1.0",
     "laravelcollective/html": "^5.2.0",
-    "intervention/image": "^2.3",
-    "riverskies/laravel-mobile-detect": "^1.2",
-    "doctrine/dbal": "^2.5",
-    "chumper/zipper": "1.0.x",
-    "acciocms/core": "dev-development"
+    "ps/image-optimizer": "^1.2",
+    "fatonsopa/laravel-mobile-detect": "^1.2"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.1",
