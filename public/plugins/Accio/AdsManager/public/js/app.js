@@ -40623,7 +40623,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "vendor\\acciocms\\core\\src\\resources\\views\\components\\general\\Header.vue"
+Component.options.__file = "vendor/acciocms/core/src/resources/views/components/general/Header.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -40632,9 +40632,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2f191a21", Component.options)
+    hotAPI.createRecord("data-v-8276aeca", Component.options)
   } else {
-    hotAPI.reload("data-v-2f191a21", Component.options)
+    hotAPI.reload("data-v-8276aeca", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

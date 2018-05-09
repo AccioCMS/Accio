@@ -15,11 +15,13 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Symfony\Component\Process\Process;
 
 class MainController extends BaseController{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function __construct(Request $request){
+
         // As route middlewares are not called when routes are cached
         // we need to call them manually
         if(App::routesAreCached()) {

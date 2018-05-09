@@ -14,7 +14,7 @@ return [
     'optimizers' => [
 
         Jpegoptim::class => [
-            '-m85', // set maximum quality to 85%
+            '-m30', // set maximum quality to 85%
             '--strip-all',  // this strips out all text information such as comments and EXIF data
             '--all-progressive',  // this will make sure the resulting image is a progressive one
         ],
@@ -38,6 +38,12 @@ return [
             '-O3', // this produces the slowest but best results
         ],
     ],
+
+    /*
+     * Base path to execute commands from
+     * Useful in case your commands are not accessible by global environment. ex. /usr/bin/local
+     */
+    'binary_path' => '',
 
     /*
      * The maximum time in seconds each optimizer is allowed to run separately.
