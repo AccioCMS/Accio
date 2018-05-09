@@ -5,6 +5,7 @@ namespace Themes\DefaultTheme\Controllers;
 use App\Http\Controllers\Frontend\MainController;
 use App\Models\Post;
 use App\Models\Theme;
+use HTMLMin\HTMLMin\Http\Middleware\MinifyMiddleware;
 
 class PagesController extends MainController {
 

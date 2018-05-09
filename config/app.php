@@ -234,7 +234,8 @@ return [
         /*
          * Application Custom Alias
          */
-        'MobileDetect' => Riverskies\Laravel\MobileDetect\Facades\MobileDetect::class
+        'MobileDetect' => Riverskies\Laravel\MobileDetect\Facades\MobileDetect::class,
+        'HTMLMin' => HTMLMin\HTMLMin\Facades\HTMLMin::class,
 
     ],
 

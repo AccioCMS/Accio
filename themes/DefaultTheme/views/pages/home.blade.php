@@ -1,6 +1,7 @@
 @extends('DefaultTheme.views.index')
 
 @section('meta')
+    @parent
     {{metaTags(homepage())}}
 @endsection
 
