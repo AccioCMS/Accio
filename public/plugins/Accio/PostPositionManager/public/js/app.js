@@ -40751,13 +40751,13 @@ var globalMethods = exports.globalMethods = {
             this.$store.dispatch('checkPermission', { app: app, key: key });
             return this.getHasPermission; // This is causing a loop @todo
         },
-        redirect: function redirect(name, id) {
-            var path = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
-            var params = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
-            var query = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
+        redirect: function redirect(name) {
+            var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+            var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+            var query = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
 
-            if (id === undefined) {
-                this.$router.push({ name: name });
+            if (id === undefined || id == '') {
+                this.$router.push({ name: name, query: query });
             } else {
                 this.$router.push({ name: name, params: { id: id } });
             }
