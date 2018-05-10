@@ -19,7 +19,8 @@
     },
     {
       "path": "header.css",
-      "merge": false
+      "merge": false,
+      "inline": true
     },
     {
       "path" : "all.css",
