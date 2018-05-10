@@ -73,6 +73,6 @@
     @section('js_footer')
         {!! js(false, ['async' => true]) !!}
     @show
-    <?php event('theme:body_end'); ?>
+
 </body>
 </html>
