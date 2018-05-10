@@ -1,5 +1,5 @@
 {
-  "Title" :  "Default Theme",
+  "title" :  "Default Theme",
   "namespace" :  "DefaultTheme",
   "organisation" :  "Accio",
   "author" :  {
@@ -19,7 +19,8 @@
     },
     {
       "path": "header.css",
-      "merge": false
+      "merge": false,
+      "inline": true
     },
     {
       "path" : "all.css",
