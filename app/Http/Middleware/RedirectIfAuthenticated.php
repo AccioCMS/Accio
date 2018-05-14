@@ -18,9 +18,7 @@ class RedirectIfAuthenticated{
      */
     public function handle($request, Closure $next, $guard = null){
         // backend url
-        $adminPrefix = Config::get('project')['adminPrefix'].'*';
-
-        if ($request->is($adminPrefix)) {
+        if ($request->is((string) Config::get('project')['adminPrefix'].'*')) {
             $redirectURL = route("backend.base.index");
         }else{ //frontend login
             $redirectURL = route("account.dashboard");
