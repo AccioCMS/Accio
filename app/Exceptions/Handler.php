@@ -63,7 +63,7 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        if ($request->is((string) Config::get('project')['adminPrefix'].'*')) {
+        if ($request->is( Config::get('project')['adminPrefix'].'*')) {
             $loginURL = route("backend.auth.login");
         }
         else{ //frontend login
