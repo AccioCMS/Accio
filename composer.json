@@ -57,10 +57,10 @@
   },
   "scripts": {
     "post-root-package-install": [
-      "Accio\\App\\Services\\ComposerScripts::postPackageInstall"
+      "@php artisan accio::postPackageInstall"
     ],
     "post-create-project-cmd": [
-      "Accio\\App\\Services\\ComposerScripts::postCreateProject"
+      "@php artisan accio::postCreateProject"
     ],
     "post-autoload-dump": [
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
