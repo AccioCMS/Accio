@@ -2,14 +2,15 @@
 
 namespace Tests\Browser;
 
-use App\Models\CustomField;
+use Accio\App\Traits\UserTrait;
 use App\Models\CustomFieldGroup;
 use Faker\Factory;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CustomFieldTest extends DuskTestCase{
+    use UserTrait;
+
 
     /**
      * Test custom field list
@@ -25,7 +26,7 @@ class CustomFieldTest extends DuskTestCase{
         $this->browse(function (Browser $browser) {
             $customFieldGroup = factory(CustomFieldGroup::class)->create();
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/custom-fields/list')
                 ->waitUntilMissing('@spinner')
                 ->assertVisible('@customFieldsListComponent');
@@ -48,7 +49,7 @@ class CustomFieldTest extends DuskTestCase{
         $this->browse(function (Browser $browser){
             $customFieldGroup = factory(CustomFieldGroup::class)->create();
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/custom-fields/list')
                 ->waitUntilMissing('@spinner')
                 ->click('#ID'.$customFieldGroup->customFieldGroupID)
@@ -74,7 +75,7 @@ class CustomFieldTest extends DuskTestCase{
         $this->browse(function (Browser $browser){
             $customFieldGroup = factory(CustomFieldGroup::class)->create();
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/custom-fields/list')
                 ->waitUntilMissing('@spinner')
                 ->click('#toggleListBtn'.$customFieldGroup->customFieldGroupID)
@@ -101,7 +102,7 @@ class CustomFieldTest extends DuskTestCase{
 
             $faker = Factory::create();
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/custom-fields/create')
                 ->type('#form-group-title input', $faker->text(10))
                 ->type('#form-group-description input', $faker->text(20))
@@ -133,7 +134,7 @@ class CustomFieldTest extends DuskTestCase{
             $faker = Factory::create();
             $customFieldGroup = factory(CustomFieldGroup::class)->create();
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/custom-fields/update/'.$customFieldGroup->customFieldGroupID)
                 ->type('#form-group-title input', $faker->text(10))
                 ->type('#form-group-description input', $faker->text(20))

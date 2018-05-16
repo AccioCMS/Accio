@@ -10,6 +10,10 @@
         {!!css()!!}
     @show
 
+    @section('js')
+        {!! js() !!}
+    @show
+
     <?php event('theme:head_end'); ?>
 </head>
 <?php event('theme:before_body'); ?>
@@ -62,9 +66,13 @@
         </div>
     @show
 
-    @section('js')
-        {!! js(['async' => true]) !!}
+    @section('css_footer')
+        {!!css(false)!!}
     @show
-    <?php event('theme:body_end'); ?>
+
+    @section('js_footer')
+        {!! js(false, ['async' => true]) !!}
+    @show
+
 </body>
 </html>

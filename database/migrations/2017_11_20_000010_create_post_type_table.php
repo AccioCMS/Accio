@@ -13,7 +13,7 @@ class CreatePostTypeTable extends Migration{
     public function up(){
         Schema::create('post_type', function (Blueprint $table) {
             $table->increments('postTypeID');
-            $table->integer('createdByUserID');
+            $table->integer('createdByUserID')->unsigned();
             $table->string('name', 55)->unique();
             $table->string('slug', 55)->unique();
             $table->json('fields')->nullable();
@@ -23,6 +23,7 @@ class CreatePostTypeTable extends Migration{
             $table->tinyInteger('hasTags');
             $table->tinyInteger('isTagRequired');
             $table->tinyInteger('hasFeaturedVideo');
+            $table->tinyInteger('isFeaturedImageRequired');
             $table->timestamps();
         });
     }

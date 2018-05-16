@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use Accio\App\Traits\UserTrait;
 use App\Models\Category;
 use App\Models\Language;
 use App\Models\PostType;
@@ -13,6 +14,8 @@ use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CategoryTest extends DuskTestCase{
+    use UserTrait;
+
     /**
      * Test category list
      *
@@ -29,7 +32,7 @@ class CategoryTest extends DuskTestCase{
             // Create table if it doesn't exist
             PostType::createTable($postType->slug, []);
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/post-type/categorylist/'.$postType->postTypeID)
                 ->waitUntilMissing('@spinner')
                 ->assertVisible('@categoryListComponent');
@@ -75,7 +78,7 @@ class CategoryTest extends DuskTestCase{
             $category->order = Category::all()->count();
 
             if($category->save()){
-                $browser->loginAs(1, 'admin')
+                $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                     ->visit('admin/'.\App::getLocale().'/post-type/categorylist/'.$postType->postTypeID)
                     ->waitUntilMissing('@spinner')
                     ->click('#ID'.$category->categoryID)
@@ -124,8 +127,8 @@ class CategoryTest extends DuskTestCase{
             $category->isVisible = $isVisible;
             $category->order = Category::all()->count();
 
-            if($category->save()) {
-                $browser->loginAs(1, 'admin')
+            if($category->save()){
+                $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                     ->visit('admin/'.\App::getLocale().'/post-type/categorylist/'.$postType->postTypeID)
                     ->waitUntilMissing('@spinner')
                     ->click('#toggleListBtn' . $category->categoryID)
@@ -155,7 +158,7 @@ class CategoryTest extends DuskTestCase{
             $postType = factory(PostType::class)->create();
             $faker = Factory::create();
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/post-type/categorycreate/'.$postType->postTypeID)
                 ->waitUntilMissing('@spinner')
                 ->click('#form-group-featuredImage #openMediaFeatureImage')
@@ -176,7 +179,6 @@ class CategoryTest extends DuskTestCase{
 
             Category::where("postTypeID",$postType->postTypeID)->delete();
             PostType::destroy($postType->postTypeID);
-
         });
     }
 
@@ -216,7 +218,8 @@ class CategoryTest extends DuskTestCase{
             $category->order = Category::all()->count();
 
             if($category->save()) {
-                $browser->loginAs(1, 'admin')
+
+                $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                     ->visit('admin/'.\App::getLocale().'/post-type/categoryupdate/'.$category->categoryID)
                     ->waitUntilMissing('@spinner')
                     ->click('#form-group-featuredImage #openMediaFeatureImage')

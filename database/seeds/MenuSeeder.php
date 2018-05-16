@@ -84,7 +84,6 @@ class MenuSeeder extends Seeder
             ];
 
             foreach (\App\Models\Language::all() as $language) {
-                $data['isVisible'][$language->slug] = true;
                 $data['slug'][$language->slug] = $post->translate($language->slug)->slug;
                 $data['label'][$language->slug] = $post->title;
             }
@@ -130,7 +129,6 @@ class MenuSeeder extends Seeder
         ];
 
         foreach(\App\Models\Language::all() as $language){
-            $data['isVisible'][$language->slug] = true;
             $data['slug'][$language->slug] = $post->translate($language->slug)->slug;
             $data['label'][$language->slug] = $post->title;
         }

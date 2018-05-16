@@ -24,5 +24,6 @@ $factory->define(App\Models\PostType::class, function (Faker $faker) {
         'isCategoryRequired' => true,
         'isTagRequired' => true,
         'hasFeaturedVideo' => true,
+        'isFeaturedImageRequired' => false,
     ];
 });

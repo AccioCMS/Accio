@@ -40,13 +40,14 @@ class UserDevSeeder extends Seeder
      */
     public function createUser($roleID = null, $usersPerRole = 1){
         if(!$roleID){
-            $roleID = \App\Models\UserGroup::all()->random()->groupID;
+            $roleID = \App\Models\UserGroup::getEditorGroup()->groupID;
         }
 
-        return factory(App\Models\User::class, $usersPerRole)->create([
-            'groupIDs' => [
-                1 => $roleID
-            ]
-        ]);
+        $user = factory(App\Models\User::class, $usersPerRole)->create();
+
+        // assign role
+        if($user) {
+            $user->assignRoles([$roleID]);
+        }
     }
 }

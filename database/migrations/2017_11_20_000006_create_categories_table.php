@@ -14,7 +14,7 @@ class CreateCategoriesTable extends Migration
     public function up(){
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('categoryID');
-            $table->integer('createdByUserID')->unsigned();
+            $table->integer('createdByUserID')->unsigned()->nullable();
             $table->integer('postTypeID')->unsigned();
             $table->integer('featuredImageID')->nullable();
             $table->json('title');
@@ -32,8 +32,7 @@ class CreateCategoriesTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down(){
         Schema::dropIfExists('categories');
     }
 }

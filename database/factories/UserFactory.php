@@ -27,9 +27,6 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'street' => $faker->streetAddress,
         'about' => $about,
         'isActive' => true,
-        'profileImageID' => $mediaID,
-        'groupIDs' => [
-            1 => \App\Models\UserGroup::all()->random()->groupID
-        ]
+        'profileImageID' => $mediaID
     ];
 });

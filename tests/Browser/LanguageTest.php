@@ -2,12 +2,35 @@
 
 namespace Tests\Browser;
 
+use Accio\App\Traits\UserTrait;
 use App;
 use Faker\Factory;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 
 class LanguageTest extends DuskTestCase{
+    use UserTrait;
+
+
+    /**
+     * Test language list
+     *
+     * @group language
+     * @group languageList
+     *
+     * @return void
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function testList(){
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
+                ->visit('admin/'.App::getLocale().'/language/list')
+                ->waitUntilMissing('@spinner')
+                ->assertVisible('@languageListComponent');
+        });
+    }
+
     /**
      * Test language create
      *
@@ -31,11 +54,10 @@ class LanguageTest extends DuskTestCase{
             }
 
             if ($faker){
-                $browser->loginAs(1, 'admin')
+                $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                     ->visit('admin/en/language/create')
                     ->waitUntilMissing('@spinner')
-                    ->type('#name', str_random(10))
-                    ->type('#slug', $faker->languageCode)
+                    ->select('#name')
                     ->click('#globalSaveBtn')
                     ->waitForReload()
                     ->assertVisible('@languageUpdateComponent');
@@ -43,24 +65,6 @@ class LanguageTest extends DuskTestCase{
         });
     }
 
-    /**
-     * Test language list
-     *
-     * @group language
-     * @group languageList
-     *
-     * @return void
-     * @throws \Exception
-     * @throws \Throwable
-     */
-    public function testList(){
-        $this->browse(function (Browser $browser) {
-            $browser->loginAs(1, 'admin')
-                ->visit('admin/'.App::getLocale().'/language/list')
-                ->waitUntilMissing('@spinner')
-                ->assertVisible('@languageListComponent');
-        });
-    }
 
     /**
      * Test language update
@@ -76,13 +80,14 @@ class LanguageTest extends DuskTestCase{
         $this->browse(function (Browser $browser) {
             $language = factory(App\Models\Language::class)->create();
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.App::getLocale().'/language/update/'.$language->languageID)
                 ->waitUntilMissing('@spinner')
                 ->click('#globalSaveBtn')
                 ->waitFor('.noty_type__success')
                 ->assertVisible('.noty_type__success');
 
+            App\Models\Language::destroy($language->languageID);
         });
     }
 
@@ -99,7 +104,7 @@ class LanguageTest extends DuskTestCase{
     public function testBulkDelete(){
         $this->browse(function (Browser $browser){
             $language = factory(App\Models\Language::class)->create();
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.App::getLocale().'/language/list')
                 ->waitUntilMissing('@spinner')
                 ->click('#ID'.$language->languageID)
@@ -122,7 +127,7 @@ class LanguageTest extends DuskTestCase{
     public function testDelete(){
         $this->browse(function (Browser $browser){
             $language = factory(App\Models\Language::class)->create();
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.App::getLocale().'/language/list')
                 ->waitUntilMissing('@spinner')
                 ->click('#toggleListBtn'.$language->languageID)

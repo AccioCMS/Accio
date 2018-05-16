@@ -1,5 +1,5 @@
 {
-  "Title" :  "Default Theme",
+  "title" :  "Default Theme",
   "namespace" :  "DefaultTheme",
   "organisation" :  "Accio",
   "author" :  {
@@ -10,10 +10,22 @@
   "icon" :  "pencil",
   "css" : [
     {
-      "path": "bootstrap.min.css"
+      "path": "bootstrap.min.css",
+      "merge": true
     },
     {
-      "path": "style.css"
+      "path": "style.css",
+      "merge": true
+    },
+    {
+      "path": "header.css",
+      "merge": false,
+      "inline": true
+    },
+    {
+      "path" : "all.css",
+      "merge": false,
+      "showInHeader": false
     }
   ],
   "js" :  [
@@ -21,19 +33,29 @@
       "path" : "jquery-3.2.1.slim.min.js",
       "attributes" : {
         "async": false
-      }
+      },
+      "merge": true
     },
     {
-      "path": "popper.min.js"
+      "path": "popper.min.js",
+      "merge": true
     },
     {
-      "path": "bootstrap.min.js"
+      "path": "bootstrap.min.js",
+      "merge": true
+    },
+    {
+      "path": "all.js",
+      "showInHeader": false
     }
   ],
   "mix" : {
-    "sass" : "style.scss",
-    "styles": "all.css",
-    "scripts": "all.js"
+    "sass" : [
+      "header.scss",
+      "style.scss"
+    ],
+    "mergeStyles": "all.css",
+    "mergeScripts": "all.js"
   },
   "gzip": false
 }

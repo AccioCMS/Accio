@@ -2,20 +2,23 @@
 
 namespace Tests\Browser;
 
+use Accio\App\Traits\UserTrait;
 use App\Models\Category;
 use App\Models\Language;
 use App\Models\Media;
 use App\Models\PostType;
 use Carbon\Carbon;
 use Faker\Factory;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PostTest extends DuskTestCase{
+
+    use UserTrait;
+
+
 
     /**
      * Test post list
@@ -35,7 +38,7 @@ class PostTest extends DuskTestCase{
             $postSeed = new \PostDevSeeder();
             $postSeed->createPost($postType);
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/posts/'.$postType->slug.'/list')
                 ->waitUntilMissing('@spinner')
                 ->assertVisible('@postListComponent');
@@ -64,7 +67,7 @@ class PostTest extends DuskTestCase{
             $postSeed = new \PostDevSeeder();
             $postSeed->createPost($postType);
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/posts/'.$postType->slug.'/list')
                 ->waitUntilMissing('@spinner')
                 ->click('#ID1')
@@ -98,7 +101,7 @@ class PostTest extends DuskTestCase{
 
             $faker = Factory::create();
 
-            $browser->loginAs(1, 'admin')
+            $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/posts/'.$postType->slug.'/create')
                 ->waitUntilMissing('@spinner',20)
                 ->click('#form-group-featuredImage #openMediaChangeFeatureImage')
@@ -112,11 +115,12 @@ class PostTest extends DuskTestCase{
                     ->type('#form-group-title_'.$language->slug.' input', $faker->text(10))
                     ->type('#form-group-content_'.$language->slug.' .fr-view', $faker->paragraph);
                     if($language->isDefault){
-                        $browser->click('#form-group-categories_' . $language->slug . ' .multiselect__input')
+                        $browser->click('#form-group-categories_' . $language->slug . ' .multiselect__tags')
                             ->click('#form-group-categories_' . $language->slug . ' .multiselect__content-wrapper ul li:first-child');
                     }
 
-                $browser->type('#form-group-tags_' . $language->slug . ' .multiselect__input', $faker->text(5))
+                $browser->click('#form-group-tags_' . $language->slug . ' .multiselect__tags')
+                    ->type('#form-group-tags_' . $language->slug . ' .multiselect__input', $faker->text(5))
                     ->keys('#form-group-tags_' . $language->slug . ' .multiselect__input', ['{enter}']);
 
                 $browser->pause(2000);
@@ -181,7 +185,7 @@ class PostTest extends DuskTestCase{
             $post->published_at = Carbon::now();
 
             if($post->save()){
-                $browser->loginAs(1, 'admin')
+                $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                     ->visit('admin/'.\App::getLocale().'/posts/'.$postType->slug.'/update/'.$post->postID)
                     ->waitUntilMissing('@spinner',20)
                     ->click('#form-group-featuredImage #openMediaChangeFeatureImage')
@@ -195,11 +199,13 @@ class PostTest extends DuskTestCase{
                         ->type('#form-group-title_'.$language->slug.' input', $faker->text(10))
                         ->type('#form-group-content_'.$language->slug.' .fr-view', $faker->paragraph);
                     if($language->isDefault){
-                        $browser->click('#form-group-categories_' . $language->slug . ' .multiselect__input')
-                            ->click('#form-group-categories_' . $language->slug . ' .multiselect__content-wrapper ul li:first-child');
+                        $browser->click('#form-group-categories_' . $language->slug . ' .multiselect__tags')
+                            ->click('#form-group-categories_' . $language->slug . ' .multiselect__content-wrapper ul li:first-child')
+                            ->click('');
                     }
 
-                    $browser->type('#form-group-tags_' . $language->slug . ' .multiselect__input', $faker->text(5))
+                    $browser->click('#form-group-tags_' . $language->slug . ' .multiselect__tags')
+                        ->type('#form-group-tags_' . $language->slug . ' .multiselect__input', $faker->text(5))
                         ->keys('#form-group-tags_' . $language->slug . ' .multiselect__input', ['{enter}']);
 
                     $browser->pause(2000);

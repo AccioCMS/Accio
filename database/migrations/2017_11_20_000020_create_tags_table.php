@@ -15,7 +15,7 @@ class CreateTagsTable extends Migration{
             $table->increments('tagID');
             $table->integer('postTypeID')->unsigned();
             $table->integer('createdByUserID')->unsigned();
-            $table->integer('featuredImageID')->index()->nullable();
+            $table->integer('featuredImageID')->unsigned()->nullable();
             $table->string('title',55);
             $table->string('slug',55);
             $table->text('description');

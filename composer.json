@@ -1,71 +1,77 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
-    "type": "project",
-    "require": {
-      "php": ">=7.0.0",
-      "fideloper/proxy": "~3.3",
-      "laravel/framework": "5.5.*",
-      "laravel/tinker": "~1.0",
-      "laravelcollective/html": "^5.2.0",
-      "intervention/image": "^2.3",
-      "riverskies/laravel-mobile-detect": "^1.2",
-      "doctrine/dbal": "^2.5",
-      "chumper/zipper": "1.0.x",
-      "acciocms/core": "dev-master"
-    },
-    "require-dev": {
-        "filp/whoops": "~2.0",
-        "fzaninotto/faker": "~1.7",
-        "mockery/mockery": "~1.0",
-        "phpunit/phpunit": "~6.0",
-        "symfony/thanks": "^1.0",
-        "barryvdh/laravel-debugbar": "^3.1",
-        "larapack/config-writer": "1.*",
-        "laravel/dusk": "^2.0",
-        "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*"
-    },
-    "autoload": {
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ],
-        "psr-4": {
-            "App\\": "app/",
-            "Themes\\": "themes/",
-            "Plugins\\": "plugins/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "dont-discover": [
-              "laravel/dusk"
-            ]
-        }
-    },
-   "scripts": {
+  "name": "acciocms/accio",
+  "description": "Accio CMS",
+  "keywords": ["cms", "accio", "laravel"],
+  "license": "MIT",
+  "type": "project",
+  "require": {
+    "php": ">=7.1.0",
+    "acciocms/core": "dev-development",
+    "chumper/zipper": "1.0.x",
+    "doctrine/dbal": "^2.5",
+    "spatie/laravel-image-optimizer": "^1.1",
+    "fideloper/proxy": "^4.0",
+    "htmlmin/htmlmin": "^5.6",
+    "intervention/image": "^2.3",
+    "laravel/framework": "5.6.*",
+    "laravel/tinker": "~1.0",
+    "laravelcollective/html": "^5.2.0",
+    "ps/image-optimizer": "^1.2",
+    "riverskies/laravel-mobile-detect": "^1.2"
+  },
+  "require-dev": {
+    "barryvdh/laravel-debugbar": "^3.1",
+    "filp/whoops": "~2.0",
+    "fzaninotto/faker": "~1.7",
+    "larapack/config-writer": "1.*",
+    "laravel/dusk": "^3.0",
+    "mockery/mockery": "~1.0",
+    "phpunit/phpunit": "^7.0",
+    "symfony/css-selector": "3.1.*",
+    "symfony/dom-crawler": "3.1.*",
+    "symfony/thanks": "^1.0",
+    "czproject/git-php": "^3.13"
+  },
+  "autoload": {
+    "classmap": [
+      "database/seeds",
+      "database/factories"
+    ],
+    "psr-4": {
+      "App\\": "app/",
+      "Themes\\": "themes/",
+      "Plugins\\": "plugins/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "dont-discover": [
+        "laravel/dusk"
+      ]
+    }
+  },
+  "scripts": {
     "post-root-package-install": [
-      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+      "Accio\\App\\Services\\ComposerScripts::postPackageInstall"
     ],
     "post-create-project-cmd": [
-      "@php artisan key:generate"
+      "Accio\\App\\Services\\ComposerScripts::postCreateProject"
     ],
     "post-autoload-dump": [
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
       "@php artisan package:discover"
     ]
   },
-    "config": {
-        "preferred-install": "dist",
-        "sort-packages": true,
-        "optimize-autoloader": true
-    }
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
