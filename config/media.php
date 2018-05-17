@@ -22,14 +22,14 @@ return array(
     | File extensions that are allowed to be uploaded from admin panel
     |
     */
-    'extensions' => array('jpg','png','jpeg','pdf','txt'),
+    'extensions' => array('jpg','png','jpeg','gif','pdf','txt'),
 
     /*
     |
     | Image extensions that are allowed to be uploaded
     |
     */
-    'image_extensions' => array('jpg','png','jpeg'),
+    'image_extensions' => array('jpg','png','jpeg','gif'),
 
     /*
     |

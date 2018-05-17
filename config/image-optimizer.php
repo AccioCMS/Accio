@@ -43,7 +43,16 @@ return [
      * Base path to execute commands from
      * Useful in case your commands are not accessible by global environment. ex. /usr/bin/local
      */
-    'binary_path' => '',
+    'binary_path' =>[
+      '/usr/local',
+      '/usr/local/bin',
+      '/usr/bin',
+      '/usr/sbin',
+      '/usr/local/bin',
+      '/usr/local/sbin',
+      '/bin',
+      '/sbin'
+    ],
 
     /*
      * The maximum time in seconds each optimizer is allowed to run separately.
