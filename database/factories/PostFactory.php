@@ -29,6 +29,8 @@ $factory->define(App\Models\Post::class, function (Faker $faker) {
         // Paragraphs
         $content = '<p>'.implode('</p><p>', $faker->paragraphs(2)).'</p>';
 
+        $content .= '<p>'.$faker->sentence(rand(10,15)).' <a href="javascript:;">'.$faker->sentence(rand(2,4)).'</a> '.$faker->sentence(rand(15,25)).'</p>';
+
         // UL
         $content .= '<ul>';
         for($i = 0; $i<=rand(3,5); $i++){
@@ -41,12 +43,14 @@ $factory->define(App\Models\Post::class, function (Faker $faker) {
 
         // Image
         $content .= "<figure>";
-        $content .= "<img alt='".$featuredImage->title."' src='".url($featuredImage->url)."' />";
+        $content .= "<img alt='".$featuredImage->title."' src='".uploadsURL($featuredImage->url)."' />";
         $content .= "<figcaption>".$featuredImage->description." <cite>© ".$featuredImage->credit."</cite></figcaption>";
         $content .= "</figure>";
 
         // Paragraphs
         $content .= '<p>'.implode('</p><p>', $faker->paragraphs(1)).'</p>';
+
+        $content .= '<p>'.$faker->sentence(rand(10,15)).' <a href="javascript:;">'.$faker->sentence(rand(2,4)).'</a> '.$faker->sentence(rand(15,25)).'</p>';
 
         // OL
         $content .= '<ol>';
