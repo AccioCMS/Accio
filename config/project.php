@@ -67,7 +67,7 @@ return [
     | This is functional only if there is no default theme set in database level
     |
     */
-    'defaultTheme' => 'defaultTheme',
+    'defaultTheme' => 'DefaultTheme',
 
 ];
 
