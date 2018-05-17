@@ -770,6 +770,7 @@ var globalMethods = exports.globalMethods = {
 
         // toggle the action bar in tables (when listing items)
         toggleListActionBar: function toggleListActionBar(index) {
+            //console.log("index", index);
             if (this.openedItemActionBar === index) {
                 this.openedItemActionBar = '';
             } else {
@@ -51183,6 +51184,9 @@ _vue2.default.component('spinner', __webpack_require__(60));
 _vue2.default.component("field", __webpack_require__(65));
 _vue2.default.component("customField", __webpack_require__(75));
 
+// Categories
+_vue2.default.component("category-item", __webpack_require__(476));
+
 // noty css
 __webpack_require__(80);
 
@@ -67517,6 +67521,408 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-6a9944d0", module.exports)
+  }
+}
+
+/***/ }),
+/* 474 */,
+/* 475 */,
+/* 476 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(477)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(479)
+/* template */
+var __vue_template__ = __webpack_require__(480)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-45ca819f"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "vendor\\acciocms\\core\\src\\resources\\views\\components\\category\\CategoryItem.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-45ca819f", Component.options)
+  } else {
+    hotAPI.reload("data-v-45ca819f", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 477 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(478);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("48015300", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-45ca819f\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CategoryItem.vue", function() {
+     var newContent = require("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-45ca819f\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CategoryItem.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 478 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\ni.fa-level-up[data-v-45ca819f]{\n    -webkit-transform: rotate(90deg);\n            transform: rotate(90deg);\n    margin-right: 5px;\n    font-size: 15px;\n}\nhr[data-v-45ca819f]{\n    clear: both;\n    margin-top: 5px;\n}\n.checkBoxBuldDeleteContainer input[data-v-45ca819f]{\n    margin: 0;\n}\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 479 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: ['item', 'index', 'bulkDeleteIDs', 'categoriesUpdatePermission', 'categoriesDeletePermission', 'trans', 'openedItemActionBar', 'postsUrl', 'countLayer'],
+    created: function created() {
+        this.childLevel = parseInt(this.countLayer) + 1;
+        this.margin = 10 * this.childLevel;
+    },
+    data: function data() {
+        return {
+            childLevel: 0,
+            margin: 0
+        };
+    },
+
+    methods: {
+        // toggle the action bar in tables (when listing items)
+        toggleListActionBar: function toggleListActionBar(index) {
+            this.$emit("toggleActionBar", index);
+        },
+
+        // toggle the action bar in tables (when listing items)
+        deleteItem: function deleteItem(id, index) {
+            this.$emit("deleteItem", id, index);
+        },
+        redirect: function redirect(type, categoryID) {
+            this.$emit("redirect", type, categoryID);
+        },
+        bulkDeleteID: function bulkDeleteID(id) {
+            if (this.bulkDeleteIDs.indexOf(id) == -1) {
+                this.bulkDeleteIDs.push(id);
+            } else {
+                var index = this.bulkDeleteIDs.indexOf(id);
+                this.bulkDeleteIDs.splice(index, 1);
+            }
+        }
+    }
+};
+
+/***/ }),
+/* 480 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "col-md-12", staticStyle: { margin: "0", padding: "0" } },
+    [
+      _c("div", { staticClass: "col-xs-1 th" }, [
+        _c("span", { staticClass: "checkBoxBuldDeleteContainer" }, [
+          _c("input", {
+            attrs: { type: "checkbox", id: "ID" + _vm.item.categoryID },
+            domProps: { value: _vm.item.categoryID },
+            on: {
+              click: function($event) {
+                _vm.bulkDeleteID(_vm.item.categoryID)
+              }
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-xs-2 td" }, [
+        _vm._v(_vm._s(_vm.item.categoryID))
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "col-xs-3 td",
+          style: "padding-left:" + _vm.margin + "px;"
+        },
+        [
+          parseInt(_vm.countLayer)
+            ? _c("i", { staticClass: "fa fa-level-up" })
+            : _vm._e(),
+          _vm._v(" " + _vm._s(_vm.item.title))
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-xs-3 td" }, [
+        _vm._v(_vm._s(_vm.item.slug))
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "col-xs-2 td",
+          staticStyle: { "margin-bottom": "10px" }
+        },
+        [
+          _c("div", { staticClass: "btn-group" }, [
+            _vm.categoriesUpdatePermission
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.redirect("category-update", _vm.item.categoryID)
+                      }
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm.trans.__updateBtn))]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.categoriesUpdatePermission
+              ? _c(
+                  "button",
+                  { staticClass: "btn disabled", attrs: { type: "button" } },
+                  [_vm._v(_vm._s(_vm.trans.__updateBtn))]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                attrs: {
+                  type: "button",
+                  id: "toggleListBtn" + _vm.item.categoryID
+                },
+                on: {
+                  click: function($event) {
+                    _vm.toggleListActionBar(_vm.index)
+                  }
+                }
+              },
+              [_c("span", { staticClass: "caret" })]
+            ),
+            _vm._v(" "),
+            _vm.index === _vm.openedItemActionBar
+              ? _c("ul", { staticClass: "lists-action-bar-dropdown" }, [
+                  _c(
+                    "li",
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticStyle: { cursor: "pointer" },
+                          attrs: {
+                            tag: "a",
+                            to:
+                              _vm.postsUrl + "?category=" + _vm.item.categoryID
+                          }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(_vm.trans.__posts) + "\n                    "
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "divider" }),
+                  _vm._v(" "),
+                  _vm.categoriesDeletePermission
+                    ? _c("li", [
+                        _c(
+                          "a",
+                          {
+                            staticStyle: { cursor: "pointer" },
+                            attrs: {
+                              id: "deleteItemBtn" + _vm.item.categoryID
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.deleteItem(_vm.item.categoryID, _vm.index)
+                              }
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm.trans.__deleteBtn))]
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.categoriesDeletePermission
+                    ? _c("li", { staticClass: "disabled" }, [
+                        _c("a", [_vm._v(_vm._s(_vm.trans.__deleteBtn))])
+                      ])
+                    : _vm._e()
+                ])
+              : _vm._e()
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _vm._l(_vm.item.children, function(item, childIndex) {
+        return _c("category-item", {
+          key: childIndex,
+          attrs: {
+            item: item,
+            index: childIndex,
+            countLayer: _vm.childLevel,
+            bulkDeleteIDs: _vm.bulkDeleteIDs,
+            categoriesUpdatePermission: _vm.categoriesUpdatePermission,
+            categoriesDeletePermission: _vm.categoriesDeletePermission,
+            trans: _vm.trans,
+            openedItemActionBar: _vm.openedItemActionBar,
+            postsUrl: _vm.postsUrl
+          },
+          on: {
+            toggleActionBar: _vm.toggleListActionBar,
+            redirect: _vm.redirect,
+            deleteItem: _vm.deleteItem
+          }
+        })
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-45ca819f", module.exports)
   }
 }
 
