@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 
 abstract class MainPluginsController extends Controller{
 
@@ -14,7 +11,7 @@ abstract class MainPluginsController extends Controller{
     }
 
 
-    public function index($lang = ""){
+    public function index(){
         return $this->view();
     }
 
@@ -33,7 +30,7 @@ abstract class MainPluginsController extends Controller{
      * @param  boolean $returnInputErrors If true, it handle input errors
      * @param  array   $errorsList The list of errors in array, ex. ["field_name" => array("Error 1","Error 2")]
      * @param  array   $data Data to be returned
-     * @return array
+     * @return array|\Illuminate\Http\JsonResponse
      * */
     protected  function response($message, $code = 200, $itemID = null, $redirectToView = '', $redirectUrl = '', $returnInputErrors = false, $errorsList = [], $data = []){
         // if we have input errors in the validator

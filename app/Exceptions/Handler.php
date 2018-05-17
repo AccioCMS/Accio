@@ -55,7 +55,7 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
@@ -63,7 +63,7 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        if ($request->is(Config::get('project')['adminPrefix'].'*')) {
+        if ($request->is( Config::get('project')['adminPrefix'].'*')) {
             $loginURL = route("backend.auth.login");
         }
         else{ //frontend login

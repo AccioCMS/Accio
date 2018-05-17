@@ -10,7 +10,9 @@
             {{Auth::user()->avatarImage(200,200, true)}}
             <span class="single-author-content">
                 <h1 >{{Auth::user()->fullName}}</h1>
-                <p class="blog-description">{{Auth::user()->about}}</p>
+                @if(Auth::user()->about)
+                    <p class="blog-description">{{Auth::user()->about}}</p>
+                @endif
             </span>
         </div>
     </div>

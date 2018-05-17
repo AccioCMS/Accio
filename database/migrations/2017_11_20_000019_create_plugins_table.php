@@ -15,7 +15,7 @@ class CreatePluginsTable extends Migration{
             $table->increments('pluginID');
             $table->string('title',155);
             $table->string('namespace',100);
-            $table->string('author',100);
+            $table->string('organization',100);
             $table->string('version',10);
             $table->tinyInteger('isActive');
             $table->timestamps();

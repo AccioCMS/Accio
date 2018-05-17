@@ -6,16 +6,20 @@
   "type": "project",
   "require": {
     "php": ">=7.1.0",
-    "acciocms/core": "dev-development",
+    "acciocms/core": "^0.1",
     "chumper/zipper": "1.0.x",
     "doctrine/dbal": "^2.5",
-    "fatonsopa/laravel-image-optimizer": "^1.1",
+    "fatonsopa/laravel-image-optimizer": "dev-dev",
     "fideloper/proxy": "^4.0",
     "htmlmin/htmlmin": "^5.6",
     "intervention/image": "^2.3",
     "laravel/framework": "5.6.*",
     "laravel/tinker": "~1.0",
     "laravelcollective/html": "^5.2.0",
+<<<<<<< HEAD
+=======
+    "ps/image-optimizer": "^1.2",
+>>>>>>> 16b3808a3978d492afca271546ddb54e5e0b8448
     "riverskies/laravel-mobile-detect": "^1.2"
   },
   "require-dev": {
@@ -55,11 +59,8 @@
     }
   },
   "scripts": {
-    "post-root-package-install": [
-      "Accio\\App\\Services\\ComposerScripts::postPackageInstall"
-    ],
     "post-create-project-cmd": [
-      "Accio\\App\\Services\\ComposerScripts::postCreateProject"
+      "@php artisan accio:postCreateProject"
     ],
     "post-autoload-dump": [
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
