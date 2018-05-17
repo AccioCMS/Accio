@@ -126,7 +126,7 @@ function compileThemesAssets(){
         // get all folders (authors) in main plugins folder
         let themes = fs.readdirSync('./themes');
         themes.map(function(theme, key){
-            if (theme !== '.DS_Store') {
+            if (theme !== '.DS_Store' && theme !== '.gitignore' && theme !== '.keep') {
                 // get config data from themes config.json file
                 const config = require('./themes/' + theme + "/config.json");
 

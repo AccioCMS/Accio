@@ -770,3 +770,7 @@ i.fa.fa-minus-circle.fa-2x:hover {
     display: inline-block;
     width: 100%;
 }
+
+.multiselect__content-wrapper, .multiselect--active{
+    z-index: 9 !important;
+}
