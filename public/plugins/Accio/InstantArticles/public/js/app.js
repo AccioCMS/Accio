@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 401);
+/******/ 	return __webpack_require__(__webpack_require__.s = 378);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -63722,26 +63722,7 @@ exports.default = {
 /* 107 */,
 /* 108 */,
 /* 109 */,
-/* 110 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var trans = exports.trans = {
-    mounted: function mounted() {
-        // translations
-        this.trans = {
-            __true: this.__('base.booleans.true'),
-            __false: this.__('base.booleans.false')
-        };
-    }
-};
-
-/***/ }),
+/* 110 */,
 /* 111 */,
 /* 112 */,
 /* 113 */,
@@ -64009,37 +63990,14 @@ var trans = exports.trans = {
 /* 375 */,
 /* 376 */,
 /* 377 */,
-/* 378 */,
-/* 379 */,
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
-/* 384 */,
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */,
-/* 393 */,
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */,
-/* 398 */,
-/* 399 */,
-/* 400 */,
-/* 401 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(402);
+module.exports = __webpack_require__(379);
 
 
 /***/ }),
-/* 402 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64055,7 +64013,7 @@ var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
 var _store = __webpack_require__(94);
 
-var _Base = __webpack_require__(403);
+var _Base = __webpack_require__(380);
 
 var _Base2 = _interopRequireDefault(_Base);
 
@@ -64080,15 +64038,15 @@ var app = new _vue2.default({
 });
 
 /***/ }),
-/* 403 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(404)
+var __vue_script__ = __webpack_require__(381)
 /* template */
-var __vue_template__ = __webpack_require__(405)
+var __vue_template__ = __webpack_require__(383)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -64127,7 +64085,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 404 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64143,7 +64101,7 @@ var _globalMethods = __webpack_require__(4);
 
 var _globalData = __webpack_require__(5);
 
-var _trans = __webpack_require__(110);
+var _trans = __webpack_require__(382);
 
 //
 //
@@ -64619,7 +64577,27 @@ exports.default = {
 };
 
 /***/ }),
-/* 405 */
+/* 382 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var trans = exports.trans = {
+    mounted: function mounted() {
+        // translations
+        this.trans = {
+            __true: this.__('base.booleans.true'),
+            __false: this.__('base.booleans.false')
+        };
+    }
+};
+
+/***/ }),
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
