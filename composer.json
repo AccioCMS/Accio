@@ -16,10 +16,7 @@
     "laravel/framework": "5.6.*",
     "laravel/tinker": "~1.0",
     "laravelcollective/html": "^5.2.0",
-<<<<<<< HEAD
-=======
     "ps/image-optimizer": "^1.2",
->>>>>>> 16b3808a3978d492afca271546ddb54e5e0b8448
     "riverskies/laravel-mobile-detect": "^1.2"
   },
   "require-dev": {
