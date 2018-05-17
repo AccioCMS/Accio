@@ -1,10 +1,10 @@
 {
-  "title" :  "Default Theme",
+  "title" :  "DefaultTitle",
   "namespace" :  "DefaultTheme",
-  "organisation" :  "Accio",
+  "organisation" :  "DefaultOrganisation",
   "author" :  {
-    "name" :  "Faton Sopa",
-    "email" :  "faton.sopa@manaferra.com"
+    "name" :  "DefaultAuthor",
+    "email" :  "DefaultEmail"
   },
   "version " :  "1.0.0",
   "icon" :  "pencil",
