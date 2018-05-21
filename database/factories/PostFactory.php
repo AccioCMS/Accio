@@ -43,7 +43,7 @@ $factory->define(App\Models\Post::class, function (Faker $faker) {
 
         // Image
         $content .= "<figure>";
-        $content .= "<img alt='".$featuredImage->title."' src='".base_path($featuredImage->url)."' />";
+        $content .= "<img alt='".$featuredImage->title."' src='".url($featuredImage->url)."' />";
         $content .= "<figcaption>".$featuredImage->description." <cite>© ".$featuredImage->credit."</cite></figcaption>";
         $content .= "</figure>";
 
