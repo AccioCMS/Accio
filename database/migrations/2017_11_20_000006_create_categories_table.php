@@ -16,6 +16,7 @@ class CreateCategoriesTable extends Migration
             $table->increments('categoryID');
             $table->integer('createdByUserID')->unsigned();
             $table->integer('postTypeID')->unsigned();
+            $table->integer('parentID')->unsigned()->nullable();
             $table->integer('featuredImageID')->unsigned()->nullable();
             $table->json('title');
             $table->json('description')->nullable();
