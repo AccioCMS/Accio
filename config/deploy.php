@@ -4,29 +4,6 @@ return [
 
     /*
     |
-    | Fix Permissions on deploy
-    |
-    */
-    'permissions'=> [
-        'apache' => [
-//            [
-//                'path' => base_path().'/../../shared',
-//                'group' => 'deploy',
-//                'only_directories' => true,
-//            ],
-        ],
-
-        'chmod' => [
-//            [
-//                'path' => base_path('storage'),
-//                'permission' => 775,
-//                'only_directories' => true,
-//            ]
-        ],
-    ],
-
-    /*
-    |
     | Copy uploads on deploy
     |
     */
@@ -70,32 +47,6 @@ return [
     */
     'commands' => [
         /*
-         |
-         |--------------------------------------------------------------------------
-         | Create New Release
-         |--------------------------------------------------------------------------
-         | Commands that should be run when a release is created
-         |
-         */
-        'create_new_release' => [
-            'before' => [],
-            'after' => []
-        ],
-
-        /*
-         |
-         |--------------------------------------------------------------------------
-         | Install Composer Dependencies
-         |--------------------------------------------------------------------------
-         | Commands that should be run when installing composer dependencies
-         |
-         */
-        'composer' => [
-            'before' => [],
-            'after' => []
-        ],
-
-        /*
         |
         |--------------------------------------------------------------------------
         | Activate New Release
@@ -105,24 +56,25 @@ return [
         */
         'activate_new_release' => [
             'before' => [
-                'deploy:permissions',
-                'deploy:copy_uploads',
-                'php artisan cache:clear',
-                'deploy:env',
-                'deploy:db',
-                'deploy:cron',
+                'php artisan deploy:env',
+                'php artisan deploy:db',
+                'php artisan deploy:cron',
             ],
-            'after' => []
+            'after' => [
+                'php artisan cache:clear',
+                'php artisan config:clear',
+                'php artisan view:clear',
+            ]
         ],
 
         /*
-         |
-         |--------------------------------------------------------------------------
-         | Purge Old Releases
-         |--------------------------------------------------------------------------
-         | Commands that should be run when old release is purged
-         |
-         */
+        |
+        |--------------------------------------------------------------------------
+        | Purge Old Releases
+        |--------------------------------------------------------------------------
+        | Commands that should be run when old release is purged
+        |
+        */
         'purge_old_releases' => [
             'before' => [],
             'after' => []
@@ -134,8 +86,7 @@ return [
     | Deploy database
     |--------------------------------------------------------------------------
     |
-    | Here you specify where we should look for sql files to be imported when
-    | take place
+    | Here you specify where we should look for sql files to be imported on deploy
     |
     */
 

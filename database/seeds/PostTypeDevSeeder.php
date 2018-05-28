@@ -12,8 +12,9 @@ class PostTypeDevSeeder extends Seeder
      * @param int $totalPostTypes Number of post types to create
      * @return string
      */
-    public function run($totalPostTypes = null)
+    public function run(int $totalPostTypes)
     {
+        $output = '';
         if($totalPostTypes) {
             $postTypeNames = [];
             for ($i = 1; $i <= $totalPostTypes; $i++) {
@@ -31,8 +32,8 @@ class PostTypeDevSeeder extends Seeder
             if ($this->command) {
                 $this->command->info($output);
             }
-
-            return $output;
         }
+
+        return $output;
     }
 }

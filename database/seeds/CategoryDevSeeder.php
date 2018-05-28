@@ -16,49 +16,48 @@ class CategoryDevSeeder extends Seeder
     /**
      * Run the database seeds.
      *
-     * @param int $categoriesPerPostType
+     * @param int $totalCategories
      * @param string $postTypeSlug The slug of post type if we need to generate categories only for a specific post type
+     * @param boolean $allPostTypes True, if categories should be generate for all available posts types
      * @return string
      * @throws Exception
      */
-    public function run($categoriesPerPostType = 1, $postTypeSlug = null){
-        Cache::flush();
+    public function run(int $totalCategories = 0, string $postTypeSlug = null, bool $allPostTypes = false){
+        $output = '';
+        $postType = null;
 
-        if(!is_numeric($categoriesPerPostType)){
-            $categoriesPerPostType = 1;
-        }
-        if($categoriesPerPostType) {
+        if($totalCategories) {
             $postTypes = \App\Models\PostType::all();
             $countPostTypes = $postTypes->count();
 
-            // Ensure we have enough date to move on
-            if (!$countPostTypes) {
-                Throw new Exception("No categories created. Please add some post types first!");
-            }
-
-            // Create categories only for a specific post type
-            if ($postTypeSlug) {
-                $postType = $postTypes->where('slug', $postTypeSlug)->first();
-                if ($postType) {
-                    $this->createCategory($postType->postTypeID, $categoriesPerPostType);
-                }
-                $output = "Category created successfully";
-            } // or for all post types
-            else {
-
+            if($allPostTypes) {
                 foreach ($postTypes as $postType) {
-                    $this->createCategory($postType->postTypeID, $categoriesPerPostType);
+                    $this->createCategory($postType->postTypeID, $totalCategories);
+                }
+                $output = "Categories created successfully (" . ($totalCategories * $countPostTypes) . ")";
+            }else { // or for all post types
+
+                // Default post type
+                if(!$postTypeSlug){
+                    $postTypeSlug = config('project.default_post_type');
                 }
 
-                $output = "Categories created successfully (" . ($categoriesPerPostType * $countPostTypes) . ")";
+                $postType = getPostType($postTypeSlug);
+                if (!$postType) {
+                    Throw new Exception('Post type ' . $postTypeSlug . ' not found!');
+                }
+
+                // Create categories only for a specific post type
+                $this->createCategory($postType->postTypeID, $totalCategories);
+                $output = "Categories created successfully (".$totalCategories.")";
             }
 
             if ($this->command) {
                 $this->command->info($output);
             }
-
-            return $output;
         }
+
+        return $output;
     }
 
     /**

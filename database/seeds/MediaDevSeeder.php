@@ -8,28 +8,25 @@ class MediaDevSeeder extends Seeder
     /**
      * Run the database seeds.
      *
-     * @param int $collections Defines how many media shall be created
+     * @param int $totalMedia Defines how many media shall be created
      * @return string
      */
-    public function run($collections = null)
+    public function run(int $totalMedia)
     {
-
-        if(!is_numeric($collections)){
-            $collections = 1;
-        }
-
-        if($collections) {
-            for ($i = 1; $i <= $collections; $i++) {
+        $output = '';
+        if($totalMedia) {
+            for ($i = 1; $i <= $totalMedia; $i++) {
                 $this->createImage();
             }
 
-            $output = "Media created successfully (" . $collections . ")";
+            $output = "Media created successfully (" . $totalMedia . ")";
             if ($this->command) {
                 $this->command->info($output);
             }
 
-            return $output;
         }
+
+        return $output;
     }
 
     /**

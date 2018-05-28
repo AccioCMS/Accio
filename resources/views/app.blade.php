@@ -101,7 +101,7 @@
 <!-- jQuery autocomplete -->
 <script src="{{ URL::asset('public/backend/admin-theme-modules/devbridge-autocomplete/dist/jquery.autocomplete.min.js') }}"></script>
 
-<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 
 <!-- CROP -->
 <script src="{{ URL::asset('public/backend/crop/jquery.selectareas.js') }}" type="text/javascript"></script>
