@@ -19,11 +19,9 @@ class MediaDevSeeder extends Seeder
                 $this->createImage();
             }
 
-            $output = "Media created successfully (" . $totalMedia . ")";
-            if ($this->command) {
-                $this->command->info($output);
-            }
-
+            $this->command->info("Media created (" . $totalMedia . ")");
+        }elsE{
+            $this->command->error("Please give a total number of media you would like to create!");
         }
 
         return $output;

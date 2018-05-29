@@ -12,12 +12,12 @@ class UserDevSeeder extends Seeder
      * @param int $totalUsers
      * @param int $usersPerRole
      * @param int $roleID
-     * @return string
+     *
+     * @return void
      * @throws Exception
      */
     public function run(int $totalUsers = 0, int $usersPerRole = 0, int $roleID = 0)
     {
-        $output = '';
         if($totalUsers || $usersPerRole) {
             $usersCreated = 0;
 
@@ -28,6 +28,7 @@ class UserDevSeeder extends Seeder
 
             if($usersPerRole) {
                 foreach ($roles as $role) {
+                    $this->command->comment("Creating users with '".$role->name."' role");
                     $usersCreated++;
                     $this->createUser($usersPerRole, $role->groupID);
                 }
@@ -36,12 +37,11 @@ class UserDevSeeder extends Seeder
                 $this->createUser($totalUsers, $roleID);
             }
 
-            $output = "Users created successfully (" . ($usersCreated) . ")";
-            if ($this->command) {
-                $this->command->info($output);
-            }
+            $this->command->info("Users created (" . ($usersCreated) . ")");
+        }else{
+            $this->command->error("Please give a total number of users you would like to create!");
         }
-        return $output;
+        return;
     }
 
     /**
@@ -62,7 +62,7 @@ class UserDevSeeder extends Seeder
         // assign role
         if($users) {
             foreach($users as $user){
-                $user->assignRoles($roleID);
+                $user->assignRoles($roleID, true);
             }
         }else{
             throw new Exception("Something went wrong!");

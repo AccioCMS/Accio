@@ -49,6 +49,8 @@ class PostDevSeeder extends Seeder
      * @param int $totalMedia
      * @param int $totalTags
      * @param int|string $category
+     * @param boolean $allPostTypes
+     *
      * @return string
      * @throws Exception
      */
@@ -58,10 +60,10 @@ class PostDevSeeder extends Seeder
       string $postType = '',
       int $totalMedia = 0,
       int $totalTags = 0,
-      $category = 0
+      $category = 0,
+      $allPostTypes = false
     )
     {
-
         // Default post type
         if(!$postType){
             $postType = config('project.default_post_type');
@@ -71,68 +73,103 @@ class PostDevSeeder extends Seeder
         $this->totalMedia = $totalMedia;
         $this->totalTags = $totalTags;
         $this->postsPerCategory = $postsPerCategory;
-        $output = '';
+        $totalInserted = 0;
 
         if($this->validateRequirements()) {
 
             if ($this->postsPerCategory || $this->totalPosts) {
-                $postsCreated = 0;
-                $categories = [];
-                $categoryData = null;
                 $this->generateMedia();
                 $this->generateTags();
 
                 // generate posts for a specific category or post type
-                if($category || $this->totalPosts) {
+                if($category || ($this->totalPosts && !$this->postsPerCategory)) {
 
-                    // validate category
-                    if($category){
-                        if(is_numeric($category)){
-                            $categoryData = Category::find($category);
-                        }else{
-                            $categoryData = Category::findBySlug($category);
-                        }
-
-                        if(!$categoryData){
-                            throw new Exception('Category "'.$category.'" not found!');
+                    // create posts in all post types, without a category
+                    if($allPostTypes){
+                        $postTypes = \App\Models\PostType::all();
+                        foreach ($postTypes as $postType) {
+                            $this->command->comment('Creating posts in post type: '.$postType->name);
+                            for ($i = 1; $i <= $this->totalPosts; $i++) {
+                                $totalInserted++;
+                                $this->createPost($postType, $this->mediaList, null, $this->tagsList);
+                            }
                         }
                     }else{
                         $categoryData = null;
-                    }
 
+                        // validate category
+                        if($category){
+                            if(is_numeric($category)){
+                                $categoryData = Category::find($category);
+                            }else{
+                                $categoryData = Category::findBySlug($category);
+                            }
 
-                    for ($i = 1; $i <= $this->totalPosts; $i++) {
-                        $postsCreated++;
-                        $this->createPost($this->postType, $this->mediaList, $categoryData, $this->tagsList);
+                            if(!$categoryData){
+                                throw new Exception('Category "'.$category.'" not found!');
+                            }
+                        }else{
+                            $categoryData = null;
+                        }
+
+                        $this->command->comment('Creating posts in post type: '.$this->postType->name);
+                        for ($i = 1; $i <= $this->totalPosts; $i++) {
+                            $totalInserted++;
+                            $this->createPost($this->postType, $this->mediaList, $categoryData, $this->tagsList);
+                        }
                     }
                 }
                 else { // generate posts for each of post types
-                    // get categories of this post type
-                    if ($this->postType->hasCategories) {
-                        $categories = \App\Models\Category::all()->where('postTypeID', $this->postType->postTypeID);;
-                        if (!$categories) {
-                            throw new Exception('No categories found for post type: ' . $this->postType->slug);
+                    if($allPostTypes){
+                        $postTypes = \App\Models\PostType::all();
+                        foreach ($postTypes as $postType) {
+                            $totalInserted += $this->addPostInCategories($postType);
                         }
-                    }
-
-                    foreach ($categories as $category) {
-                        for ($i = 1; $i <= $this->postsPerCategory; $i++) {
-                            $postsCreated++;
-                            $this->createPost($this->postType, $this->mediaList, $category, $this->tagsList);
-                        }
+                    }else {
+                        $totalInserted = $this->addPostInCategories($this->postType);
                     }
                 }
 
-                $output = "Posts created successfully (" . $postsCreated . "). ";
-
-            }
-
-            if ($this->command) {
-                $this->command->info($output);
+                if ($totalInserted) {
+                    $this->command->info( "Posts created (" . $totalInserted . "). ");
+                }
+                else {
+                    $this->command->error( "No posts created!");
+                }
+            }else{
+                $this->command->error("Please give a total number of posts you would like to create!");
             }
         }
 
-        return $output;
+        return;
+    }
+
+    /**
+     * Add posts for each of category of a given post type.
+     *
+     * @param object $postType
+     * @return int
+     */
+    private function addPostInCategories($postType){
+        $totalInserted = 0;
+        $categories = \App\Models\Category::all()->where('postTypeID', $postType->postTypeID);;
+
+        if ($postType->hasCategories && $categories) {
+            $this->command->comment('Creating posts in post type: '.$postType->name);
+
+            foreach ($categories as $category) {
+                $this->command->comment(" -- Creating ".$this->postsPerCategory." posts in category: '".$category->title."''");
+
+                for ($i = 1; $i <= $this->postsPerCategory; $i++) {
+                    $totalInserted++;
+                    $this->createPost($postType, $this->mediaList, $category, $this->tagsList);
+                }
+            }
+        }else{
+            $this->command->comment('Post type "'.$postType->name.'" does not have any category!');
+        }
+
+        return $totalInserted;
     }
 
     /**

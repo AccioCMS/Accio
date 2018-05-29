@@ -25,9 +25,10 @@ class TagDevSeeder extends Seeder
 
             if ($allPostTypes) {
                 foreach ($postTypes as $postType) {
-                    $this->createTag($postType->postTypeID, $totalTags);
+                    $this->command->info("Creating tags in post type '".$postType->name."'");
+                    $this->createTag($postType, $totalTags);
                 }
-                $output = "Tags created successfully (" . ($totalTags * $countPostTypes) . ")";
+                $this->command->info("Tags created (" . ($totalTags * $countPostTypes) . ")");
             } else { // or for all post types
 
                 // Default post type
@@ -41,27 +42,31 @@ class TagDevSeeder extends Seeder
                 }
 
                 // Create tags only for a specific post type
-                $this->createTag($postType->postTypeID, $totalTags);
-
-                $output = "Tags created successfully (" . $totalTags . ")";
+                if($this->createTag($postType, $totalTags)) {
+                    $this->command->info("Tags created (" . $totalTags . ")");
+                }else{
+                    $this->command->error("Tags not created! Make sure the post type '".$postTypeSlug."' use categories!");
+                }
             }
-
-            if ($this->command) {
-                $this->command->info($output);
-            }
+        }else{
+            $this->command->error("Please give a total number of tags you would like to create!");
         }
 
         return $output;
     }
 
     /**
-     * @param int $postTypeID
+     * @param object $postType
      * @param int $tagsPerPostType
-     * @return mixed
+     * @return array
      */
-    public function createTag($postTypeID, $tagsPerPostType = 1){
-        return factory(\App\Models\Tag::class, $tagsPerPostType)->create([
-            'postTypeID' => $postTypeID,
-        ]);
+    public function createTag($postType, $tagsPerPostType = 1){
+        $tags = [];
+        if($postType->hasTags) {
+            $tags =  factory(\App\Models\Tag::class, $tagsPerPostType)->create([
+              'postTypeID' => $postType->postTypeID,
+            ]);
+        }
+        return $tags;
     }
 }
