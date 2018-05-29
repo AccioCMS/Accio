@@ -63305,7 +63305,7 @@ var store = exports.store = new _vuex2.default.Store({
             });
 
             _vue2.default.http.post(object.url, ids).then(function (resp) {
-                if (resp.statusText == "OK") {
+                if (resp.code == 200) {
                     var response = resp.body;
                     context.dispatch('handleErrors', { response: response });
                 } else {

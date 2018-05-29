@@ -18,7 +18,8 @@
     "laravelcollective/html": "^5.2.0",
     "ps/image-optimizer": "^1.2",
     "riverskies/laravel-mobile-detect": "^1.2",
-    "spatie/laravel-activitylog": "^2.5"
+    "spatie/laravel-activitylog": "^2.5",
+    "spatie/laravel-backup": "^5.7"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.1",
