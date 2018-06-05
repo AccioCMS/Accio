@@ -9,6 +9,7 @@ $factory->define(App\Models\Media::class, function (Faker $faker) {
     $destinationPath = uploadsPath($datePath);
     $fileDirectory = 'public'.explode('public', $destinationPath)[1];
     $fileDirectory = str_replace('\\','/', $fileDirectory);
+    $users = \App\Models\User::all();
 
     $fileFullPathOriginal = base_path($fileDirectory.'/original');
     if(!File::exists($fileFullPathOriginal)){
@@ -43,6 +44,7 @@ $factory->define(App\Models\Media::class, function (Faker $faker) {
         'filename' => $pathinfo['filename'].'.'.$pathinfo['extension'],
         'fileDirectory' => $fileDirectory,
         'fileSize' => bcdiv(filesize($fullPath), 1048576, 2),
-        'dimensions' => $width.'x'.$height
+        'dimensions' => $width.'x'.$height,
+        'createdByUserID' => $users->random()->userID
     ];
 });

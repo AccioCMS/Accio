@@ -155,10 +155,10 @@ class PostDevSeeder extends Seeder
         $categories = \App\Models\Category::all()->where('postTypeID', $postType->postTypeID);;
 
         if ($postType->hasCategories && $categories) {
-            $this->command->comment('Creating posts in post type: '.$postType->name);
+            $this->command->comment("Creating posts in post type '".$postType->name."'");
 
             foreach ($categories as $category) {
-                $this->command->comment(" -- Creating ".$this->postsPerCategory." posts in category: '".$category->title."''");
+                $this->command->comment(" -- Creating ".$this->postsPerCategory." posts in category '".$category->title."'");
 
                 for ($i = 1; $i <= $this->postsPerCategory; $i++) {
                     $totalInserted++;
@@ -196,7 +196,7 @@ class PostDevSeeder extends Seeder
         $this->mediaList = \App\Models\Media::all();
         if(!$this->mediaList->count() || $this->mediaList->count() < $this->totalMedia){
             $mediaDevSeeder = new MediaDevSeeder();
-            $mediaDevSeeder->run(($this->totalMedia - $this->mediaList->count()));
+            $mediaDevSeeder->setCommand($this->command)->run(($this->totalMedia - $this->mediaList->count()));
         }
         return $this;
     }
@@ -213,7 +213,7 @@ class PostDevSeeder extends Seeder
 
             if(!$this->tagsList->count() || $this->tagsList->count() < $this->totalTags){
                 $mediaDevSeeder = new TagDevSeeder();
-                $mediaDevSeeder->run(($this->totalTags - $this->tagsList->count()));
+                $mediaDevSeeder->setCommand($this->command)->run(($this->totalTags - $this->tagsList->count()));
             }
         }
         return $this;
@@ -244,6 +244,9 @@ class PostDevSeeder extends Seeder
 
         $createdTags = [];
         if($tags){
+            if($tags->count() > 5){
+                $tags = $tags->take(rand(2,6));
+            }
             foreach($tags as $tag){
                 $createdTags[] = $this->createTagRelation($postType->slug, $post->postID, $tag->tagID);
             }
