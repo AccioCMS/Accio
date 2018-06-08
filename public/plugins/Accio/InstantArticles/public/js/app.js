@@ -696,6 +696,7 @@ var globalMethods = exports.globalMethods = {
             }
         },
 
+
         // used to filter where to redirect depending which store btn is clicked
         onStoreBtnClicked: function onStoreBtnClicked(routeNamePrefix, redirectChoice, id) {
             if (redirectChoice == 'save') {
@@ -51651,13 +51652,14 @@ exports.default = {
             _this.$store.commit('setLabels', resp.body.labels);
             _this.$store.commit('setPluginsConfigs', resp.body.pluginsConfigs);
             _this.$store.commit('setLanguages', resp.body.languages);
+            _this.$store.commit('setRoute', _this.$route);
 
             _this.applicationMenuLinks = resp.body.applicationMenuLinks;
             _this.cmsMenus = resp.body.cmsMenus;
 
             // set menu mode on refresh
             if (_this.$route.query.mode !== undefined || _this.$route.query.menu_link_id !== undefined) {
-                _this.$store.commit('setMenuMode', 'cms');
+                _this.$store.commit('setMenuMode', 'menu');
             } else {
                 _this.$store.commit('setMenuMode', 'application');
             }
@@ -52767,15 +52769,15 @@ var render = function() {
               _c(
                 "button",
                 {
-                  class: { active: _vm.getMenuMode == "cms" },
+                  class: { active: _vm.getMenuMode == "menu" },
                   attrs: { id: "cmsTabBtn" },
                   on: {
                     click: function($event) {
-                      _vm.changeMenuMode("cms")
+                      _vm.changeMenuMode("menu")
                     }
                   }
                 },
-                [_vm._v("CMS")]
+                [_vm._v("Menu")]
               ),
               _vm._v(" "),
               _c(
@@ -52793,7 +52795,7 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _vm.getMenuMode == "cms"
+            _vm.getMenuMode == "menu"
               ? _c(
                   "div",
                   { staticClass: "cmsMenuNav" },
@@ -63035,6 +63037,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.store = undefined;
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _vuex = __webpack_require__(17);
 
 var _vuex2 = _interopRequireDefault(_vuex);
@@ -63106,6 +63110,7 @@ var store = exports.store = new _vuex2.default.Store({
         actionReturnedData: {},
         hasPermission: false,
         translation: '',
+        route: {},
         storeResponse: {
             errors: []
         },
@@ -63161,9 +63166,15 @@ var store = exports.store = new _vuex2.default.Store({
         },
         get_store_response: function get_store_response(state) {
             return state.storeResponse;
+        },
+        get_route: function get_route(state) {
+            return state.route;
         }
     },
     mutations: {
+        setRoute: function setRoute(state, route) {
+            state.route = route;
+        },
         setID: function setID(state, id) {
             state.id = id;
         },
@@ -63196,6 +63207,75 @@ var store = exports.store = new _vuex2.default.Store({
         }
     },
     actions: {
+        /**
+         * Set list.
+         * @param context
+         * @param object
+         */
+        setList: function setList(context, responseBody) {
+            context.dispatch('filterTranslatedValues', responseBody);
+        },
+
+
+        /**
+         * Get data from current langauge.
+         *
+         * @param items
+         * @param languageSlug
+         * @returns {Array}
+         */
+        filterTranslatedValues: function filterTranslatedValues(context, input, languageSlug) {
+            var translatedData = [];
+            var response = [];
+            var li = 0;
+            var items = {};
+
+            if (languageSlug == null) {
+                languageSlug = context.getters.get_route.params.lang;
+            }
+
+            // list response comes with a data key
+            if (input.data !== undefined) {
+                items = input.data;
+            } else {
+                items = input;
+            }
+
+            items.map(function (item) {
+                // we need an empty object to fill it later
+                if (translatedData[li] === undefined) {
+                    translatedData[li] = {};
+                }
+
+                // add attibutes for each item
+                for (var key in item) {
+                    var value = item[key];
+
+                    try {
+                        value = JSON.parse(value);
+                    } catch (e) {}
+
+                    if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value !== null && value[languageSlug] !== undefined) {
+                        translatedData[li][key] = value[languageSlug];
+                    } else {
+                        translatedData[li][key] = value;
+                    }
+                }
+
+                li++;
+            });
+
+            if (input.data !== undefined) {
+                response = input;
+                response.data = translatedData;
+            } else {
+                response = translatedData;
+            }
+
+            context.commit('setList', response);
+
+            return response;
+        },
         openLoading: function openLoading() {
             $("#loading").css("display", "flex");
             $("#loading").addClass("loadingOpened");
@@ -63335,7 +63415,6 @@ var store = exports.store = new _vuex2.default.Store({
         checkPermission: function checkPermission(context, object) {
             var app = object.app;
             var key = object.key;
-            var list = context.getters.get_list;
             var permissions = context.getters.get_global_data.permissions;
             var postTypes = context.getters.get_global_data.post_type_slugs;
             var appPermission = false;

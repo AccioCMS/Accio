@@ -1,52 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>404</title>
+<script>
+    jQuery(function(){
+        jQuery('.downloadPopup').click(function () {
+            jQuery('#downloadPopupModal, .popup-background').fadeIn();
+            jQuery('#popupFirstName').focus();
+        });
+    });
+</script>
 
-    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-
-    <style>
-        html, body {
-            height: 100%;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            color: #B0BEC5;
-            display: table;
-            font-weight: 100;
-            font-family: 'Lato', sans-serif;
-        }
-
-        .container {
-            text-align: center;
-            display: table-cell;
-            vertical-align: middle;
-        }
-
-        .content {
-            text-align: center;
-            display: inline-block;
-        }
-
-        .title {
-            font-size: 72px;
-            margin-bottom: 40px;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <div class="content">
-        <div class="title">404</div>
-        <?php
-        if(isset($message)){
-            print "<p>".$message."</p>";
-        }
-        ?>
-    </div>
-</div>
-</body>
-</html>
+<span style="text-align: center;text-align: center; width: 100%; display: inline-block;">
+    <input class="btn btn-primary downloadPopup" type="submit" value="Get program information" style="text-align: center; width: 100%; display: inline-block;max-width: 300px;">
+</span>

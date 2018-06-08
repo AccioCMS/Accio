@@ -40144,13 +40144,14 @@ exports.default = {
             _this.$store.commit('setLabels', resp.body.labels);
             _this.$store.commit('setPluginsConfigs', resp.body.pluginsConfigs);
             _this.$store.commit('setLanguages', resp.body.languages);
+            _this.$store.commit('setRoute', _this.$route);
 
             _this.applicationMenuLinks = resp.body.applicationMenuLinks;
             _this.cmsMenus = resp.body.cmsMenus;
 
             // set menu mode on refresh
             if (_this.$route.query.mode !== undefined || _this.$route.query.menu_link_id !== undefined) {
-                _this.$store.commit('setMenuMode', 'cms');
+                _this.$store.commit('setMenuMode', 'menu');
             } else {
                 _this.$store.commit('setMenuMode', 'application');
             }
@@ -40765,6 +40766,7 @@ var globalMethods = exports.globalMethods = {
                 this.$router.push({ name: name, params: { id: id } });
             }
         },
+
 
         // used to filter where to redirect depending which store btn is clicked
         onStoreBtnClicked: function onStoreBtnClicked(routeNamePrefix, redirectChoice, id) {
@@ -41613,15 +41615,15 @@ var render = function() {
               _c(
                 "button",
                 {
-                  class: { active: _vm.getMenuMode == "cms" },
+                  class: { active: _vm.getMenuMode == "menu" },
                   attrs: { id: "cmsTabBtn" },
                   on: {
                     click: function($event) {
-                      _vm.changeMenuMode("cms")
+                      _vm.changeMenuMode("menu")
                     }
                   }
                 },
-                [_vm._v("CMS")]
+                [_vm._v("Menu")]
               ),
               _vm._v(" "),
               _c(
@@ -41639,7 +41641,7 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _vm.getMenuMode == "cms"
+            _vm.getMenuMode == "menu"
               ? _c(
                   "div",
                   { staticClass: "cmsMenuNav" },
