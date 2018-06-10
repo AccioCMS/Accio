@@ -18,7 +18,7 @@ class CreateTagsTable extends Migration{
             $table->integer('featuredImageID')->unsigned()->nullable();
             $table->string('title',55);
             $table->string('slug',55);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

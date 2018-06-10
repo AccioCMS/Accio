@@ -708,7 +708,8 @@ html .fr-view img.fr-dii{
     border: 1px solid #ccc;
 }
 .datepickerContainer .time-picker{
-    width: 17%;
+    width: 33%;
+    min-width: 100px;
 }
 .time-picker input.display-time {
     margin-top: 0px;
@@ -773,4 +774,7 @@ i.fa.fa-minus-circle.fa-2x:hover {
 
 .multiselect__content-wrapper, .multiselect--active{
     z-index: 9 !important;
+}
+label:hover{
+    cursor: pointer;
 }

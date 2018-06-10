@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 380);
+/******/ 	return __webpack_require__(__webpack_require__.s = 403);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -695,6 +695,7 @@ var globalMethods = exports.globalMethods = {
                 this.$router.push({ name: name, params: { id: id } });
             }
         },
+
 
         // used to filter where to redirect depending which store btn is clicked
         onStoreBtnClicked: function onStoreBtnClicked(routeNamePrefix, redirectChoice, id) {
@@ -51651,13 +51652,14 @@ exports.default = {
             _this.$store.commit('setLabels', resp.body.labels);
             _this.$store.commit('setPluginsConfigs', resp.body.pluginsConfigs);
             _this.$store.commit('setLanguages', resp.body.languages);
+            _this.$store.commit('setRoute', _this.$route);
 
             _this.applicationMenuLinks = resp.body.applicationMenuLinks;
             _this.cmsMenus = resp.body.cmsMenus;
 
             // set menu mode on refresh
             if (_this.$route.query.mode !== undefined || _this.$route.query.menu_link_id !== undefined) {
-                _this.$store.commit('setMenuMode', 'cms');
+                _this.$store.commit('setMenuMode', 'menu');
             } else {
                 _this.$store.commit('setMenuMode', 'application');
             }
@@ -52767,15 +52769,15 @@ var render = function() {
               _c(
                 "button",
                 {
-                  class: { active: _vm.getMenuMode == "cms" },
+                  class: { active: _vm.getMenuMode == "menu" },
                   attrs: { id: "cmsTabBtn" },
                   on: {
                     click: function($event) {
-                      _vm.changeMenuMode("cms")
+                      _vm.changeMenuMode("menu")
                     }
                   }
                 },
-                [_vm._v("CMS")]
+                [_vm._v("Menu")]
               ),
               _vm._v(" "),
               _c(
@@ -52793,7 +52795,7 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _vm.getMenuMode == "cms"
+            _vm.getMenuMode == "menu"
               ? _c(
                   "div",
                   { staticClass: "cmsMenuNav" },
@@ -63035,6 +63037,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.store = undefined;
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _vuex = __webpack_require__(17);
 
 var _vuex2 = _interopRequireDefault(_vuex);
@@ -63106,6 +63110,7 @@ var store = exports.store = new _vuex2.default.Store({
         actionReturnedData: {},
         hasPermission: false,
         translation: '',
+        route: {},
         storeResponse: {
             errors: []
         },
@@ -63161,9 +63166,15 @@ var store = exports.store = new _vuex2.default.Store({
         },
         get_store_response: function get_store_response(state) {
             return state.storeResponse;
+        },
+        get_route: function get_route(state) {
+            return state.route;
         }
     },
     mutations: {
+        setRoute: function setRoute(state, route) {
+            state.route = route;
+        },
         setID: function setID(state, id) {
             state.id = id;
         },
@@ -63196,6 +63207,75 @@ var store = exports.store = new _vuex2.default.Store({
         }
     },
     actions: {
+        /**
+         * Set list.
+         * @param context
+         * @param object
+         */
+        setList: function setList(context, responseBody) {
+            context.dispatch('filterTranslatedValues', responseBody);
+        },
+
+
+        /**
+         * Get data from current langauge.
+         *
+         * @param items
+         * @param languageSlug
+         * @returns {Array}
+         */
+        filterTranslatedValues: function filterTranslatedValues(context, input, languageSlug) {
+            var translatedData = [];
+            var response = [];
+            var li = 0;
+            var items = {};
+
+            if (languageSlug == null) {
+                languageSlug = context.getters.get_route.params.lang;
+            }
+
+            // list response comes with a data key
+            if (input.data !== undefined) {
+                items = input.data;
+            } else {
+                items = input;
+            }
+
+            items.map(function (item) {
+                // we need an empty object to fill it later
+                if (translatedData[li] === undefined) {
+                    translatedData[li] = {};
+                }
+
+                // add attibutes for each item
+                for (var key in item) {
+                    var value = item[key];
+
+                    try {
+                        value = JSON.parse(value);
+                    } catch (e) {}
+
+                    if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value !== null && value[languageSlug] !== undefined) {
+                        translatedData[li][key] = value[languageSlug];
+                    } else {
+                        translatedData[li][key] = value;
+                    }
+                }
+
+                li++;
+            });
+
+            if (input.data !== undefined) {
+                response = input;
+                response.data = translatedData;
+            } else {
+                response = translatedData;
+            }
+
+            context.commit('setList', response);
+
+            return response;
+        },
         openLoading: function openLoading() {
             $("#loading").css("display", "flex");
             $("#loading").addClass("loadingOpened");
@@ -63230,30 +63310,6 @@ var store = exports.store = new _vuex2.default.Store({
                 returnedMessage = response.message;
                 type = "error";
             }
-
-            // context.commit('setInputErrorsMsg', []);
-            // var inputErrorsExist = context.getters.get_input_errors_exist;
-            // var inputErrorsMsg = [];
-            // if(inputErrorsExist){
-            //     for (var key in response.errors){
-            //         for(var i=0;i<response.errors[key].length;i++){
-            //             inputErrorsMsg.push(response.errors[key][i]);
-            //             $("#form-group-"+key).addClass("bad");
-            //             $("#form-group-"+key+" .alert").show();
-            //             $("#form-group-"+key+" .alert").append("<li>"+response.errors[key][i]+"</li>");
-            //         }
-            //     }
-            //
-            //     context.commit('setInputErrorsMsg', inputErrorsMsg);
-            //     context.commit('setInputErrorsExist', false);
-            // }
-            //
-            // $(".form-group").each(function (e) {
-            //     if(!$(this).hasClass("bad")){
-            //         var id = $(this).attr("id");
-            //         $("#"+id+" div .alert").hide(200)
-            //     }
-            // });
 
             // noty notification
             new Noty({
@@ -63335,7 +63391,6 @@ var store = exports.store = new _vuex2.default.Store({
         checkPermission: function checkPermission(context, object) {
             var app = object.app;
             var key = object.key;
-            var list = context.getters.get_list;
             var permissions = context.getters.get_global_data.permissions;
             var postTypes = context.getters.get_global_data.post_type_slugs;
             var appPermission = false;
@@ -63722,7 +63777,26 @@ exports.default = {
 /* 107 */,
 /* 108 */,
 /* 109 */,
-/* 110 */,
+/* 110 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var trans = exports.trans = {
+    mounted: function mounted() {
+        // translations
+        this.trans = {
+            __true: this.__('base.booleans.true'),
+            __false: this.__('base.booleans.false')
+        };
+    }
+};
+
+/***/ }),
 /* 111 */,
 /* 112 */,
 /* 113 */,
@@ -63992,14 +64066,37 @@ exports.default = {
 /* 377 */,
 /* 378 */,
 /* 379 */,
-/* 380 */
+/* 380 */,
+/* 381 */,
+/* 382 */,
+/* 383 */,
+/* 384 */,
+/* 385 */,
+/* 386 */,
+/* 387 */,
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */,
+/* 396 */,
+/* 397 */,
+/* 398 */,
+/* 399 */,
+/* 400 */,
+/* 401 */,
+/* 402 */,
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(381);
+module.exports = __webpack_require__(404);
 
 
 /***/ }),
-/* 381 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64015,7 +64112,7 @@ var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
 var _store = __webpack_require__(94);
 
-var _Base = __webpack_require__(382);
+var _Base = __webpack_require__(405);
 
 var _Base2 = _interopRequireDefault(_Base);
 
@@ -64040,15 +64137,15 @@ var app = new _vue2.default({
 });
 
 /***/ }),
-/* 382 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(383)
+var __vue_script__ = __webpack_require__(406)
 /* template */
-var __vue_template__ = __webpack_require__(385)
+var __vue_template__ = __webpack_require__(407)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -64087,7 +64184,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 383 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64103,7 +64200,7 @@ var _globalMethods = __webpack_require__(4);
 
 var _globalData = __webpack_require__(5);
 
-var _trans = __webpack_require__(384);
+var _trans = __webpack_require__(110);
 
 //
 //
@@ -64579,27 +64676,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 384 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var trans = exports.trans = {
-    mounted: function mounted() {
-        // translations
-        this.trans = {
-            __true: this.__('base.booleans.true'),
-            __false: this.__('base.booleans.false')
-        };
-    }
-};
-
-/***/ }),
-/* 385 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {

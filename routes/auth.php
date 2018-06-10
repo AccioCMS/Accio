@@ -6,7 +6,7 @@
  * Only define Auth routes if Auth controllers exists
  */
 if(authControllerExist()) {
-    Route::group(['as' => 'auth.', 'middleware' => ['session','translate'], 'namespace' => \App\Models\Theme::controllersNameSpace()], function () {
+    Route::group(['as' => 'auth.', 'middleware' => ['translate'], 'namespace' => \App\Models\Theme::controllersNameSpace()], function () {
         // Authentication Routes...
         Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
         Route::post('login', 'Auth\LoginController@login')->name('login.post');

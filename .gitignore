@@ -12,6 +12,7 @@ npm-debug.log
 yarn-error.log
 .env
 !.gitkeep
+.php_errors.log
 package-lock.json
 /plugins/*
 !/plugins/.gitkeep
