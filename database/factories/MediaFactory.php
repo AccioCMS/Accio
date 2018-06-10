@@ -18,8 +18,16 @@ $factory->define(App\Models\Media::class, function (Faker $faker) {
     }
 
     // Upload an image
-    $fileName = $faker->image($fileFullPathOriginal,rand(700,800),rand(400,500), null, false);
+    $fileName = $faker->image($fileFullPathOriginal, rand(700, 800), rand(400, 500), null, false);
 
+    if($fileName instanceof RuntimeException){
+        throw new Exception($fileName->getMessage());
+    }
+
+    //handle error
+    if(is_array($fileName)){
+        throw new Exception();
+    }
     // Get file data
     $fullPath = $fileFullPathOriginal.'/'.$fileName;
     $pathinfo = pathinfo($fullPath);

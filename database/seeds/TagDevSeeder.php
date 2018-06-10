@@ -7,59 +7,66 @@ class TagDevSeeder extends Seeder
     /**
      * Run the database seeds.
      *
-     * @param int $tagsPerPostType
+     * @param int $totalTags
      * @param string $postTypeSlug The slug of post type if we need to generate tags only for a specific post type
+     * @param boolean $allPostTypes True, if tags should be generated for all of available posts types
+     *
      * @return string
      * @throws Exception
      */
-    public function run($tagsPerPostType = null, $postTypeSlug = null)
+    public function run(int $totalTags = 0, string $postTypeSlug = null, bool $allPostTypes = false)
     {
-        if(!is_numeric($tagsPerPostType)){
-            $tagsPerPostType = 5;
-        }
+        $output = '';
+        $postType = null;
 
-        if($tagsPerPostType) {
+        if ($totalTags) {
             $postTypes = \App\Models\PostType::all();
+            $countPostTypes = $postTypes->count();
 
-            // Ensure we have enough date to move on
-            if (!$postTypes->count()) {
-                Throw new Exception("No tags created. Please add some post types first!");
-            }
-
-            // Create tags only for a specific post type
-            if ($postTypeSlug) {
-                $postType = $postTypes->where('slug', $postTypeSlug)->first();
-                if ($postType) {
-                    $this->createTag($postType->postTypeID, $tagsPerPostType);
-                    $output = "Tag created successfully";
-                }
-            } // or for all post types
-            else {
+            if ($allPostTypes) {
                 foreach ($postTypes as $postType) {
-                    $this->createTag($postType->postTypeID, $tagsPerPostType);
+                    $this->command->info("Creating tags in post type '".$postType->name."'");
+                    $this->createTag($postType, $totalTags);
                 }
-                $output = "Tags created successfully (" . ($tagsPerPostType * $postTypes->count()) . ") " . $tagsPerPostType . ' per post type!';
-            }
+                $this->command->info("Tags created (" . ($totalTags * $countPostTypes) . ")");
+            } else { // or for all post types
 
-
-            if(!isset($output)) {
-                if ($this->command) {
-                    $this->command->info($output);
+                // Default post type
+                if (!$postTypeSlug) {
+                    $postTypeSlug = config('project.default_post_type');
                 }
 
-                return $output;
+                $postType = getPostType($postTypeSlug);
+                if (!$postType) {
+                    Throw new Exception('Post type ' . $postTypeSlug . ' not found!');
+                }
+
+                // Create tags only for a specific post type
+                if($this->createTag($postType, $totalTags)) {
+                    $this->command->info("Tags created (" . $totalTags . ")");
+                }else{
+                    $this->command->error("Tags not created! Make sure the post type '".$postTypeSlug."' use categories!");
+                }
             }
+        }else{
+            $this->command->error("Please give a total number of tags you would like to create!");
         }
+
+        return $output;
     }
 
     /**
-     * @param int $postTypeID
+     * @param object $postType
      * @param int $tagsPerPostType
-     * @return mixed
+     * @return array
      */
-    public function createTag($postTypeID, $tagsPerPostType = 1){
-        return factory(\App\Models\Tag::class, $tagsPerPostType)->create([
-            'postTypeID' => $postTypeID,
-        ]);
+    public function createTag($postType, $tagsPerPostType = 1){
+        $tags = [];
+        if($postType->hasTags) {
+            $tags =  factory(\App\Models\Tag::class, $tagsPerPostType)->create([
+              'postTypeID' => $postType->postTypeID,
+            ]);
+        }
+        return $tags;
     }
 }

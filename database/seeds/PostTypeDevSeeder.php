@@ -6,13 +6,14 @@ use App\Models\PostType;
 
 class PostTypeDevSeeder extends Seeder
 {
+
     /**
      * Run the database seeds.
      *
      * @param int $totalPostTypes Number of post types to create
-     * @return string
+     * @return void
      */
-    public function run($totalPostTypes = null)
+    public function run(int $totalPostTypes)
     {
         if($totalPostTypes) {
             $postTypeNames = [];
@@ -25,14 +26,11 @@ class PostTypeDevSeeder extends Seeder
                 PostType::createTable($createdPostType->slug);
                 $postTypeNames[] = $createdPostType->name;
             }
-
-            $output = 'Post Type' . ($totalPostTypes > 1 ? 's' : "") . ' (' . implode(", ", $postTypeNames) . ')  created successfully!';
-
-            if ($this->command) {
-                $this->command->info($output);
-            }
-
-            return $output;
+            $this->command->info('Post Types created (' . implode(", ", $postTypeNames) . ')');
+        }else{
+            $this->command->error("Please give a total number of post type you would like to create!");
         }
+
+        return;
     }
 }
