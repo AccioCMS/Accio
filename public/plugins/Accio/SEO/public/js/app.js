@@ -51620,6 +51620,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
 
 exports.default = {
     props: ['base_url', 'base_path'],
@@ -52892,28 +52897,36 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return !_vm.isLoading
-    ? _c(
-        "div",
-        { staticClass: "main_container" },
-        [
-          _c("app-navigation", {
-            attrs: {
-              applicationMenuLinks: _vm.applicationMenuLinks,
-              cmsMenus: _vm.cmsMenus,
-              isPluginApp: _vm.isPlugin
-            }
-          }),
-          _vm._v(" "),
-          _c("app-header", { attrs: { logout_link: _vm.logout_link } }),
-          _vm._v(" "),
-          _c("router-view"),
-          _vm._v(" "),
-          _c("app-footer")
-        ],
-        1
-      )
-    : _vm._e()
+  return _c(
+    "div",
+    { staticClass: "main_container" },
+    [
+      !_vm.isLoading
+        ? [
+            _c("app-navigation", {
+              attrs: {
+                applicationMenuLinks: _vm.applicationMenuLinks,
+                cmsMenus: _vm.cmsMenus,
+                isPluginApp: _vm.isPlugin
+              }
+            }),
+            _vm._v(" "),
+            _c("app-header", { attrs: { logout_link: _vm.logout_link } }),
+            _vm._v(" "),
+            _c("router-view"),
+            _vm._v(" "),
+            _c("app-footer")
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isLoading
+        ? _c("spinner", {
+            attrs: { width: "100px", height: "100px", border: "5px" }
+          })
+        : _vm._e()
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

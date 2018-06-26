@@ -100,6 +100,7 @@ class PostTypeTest extends DuskTestCase{
 
             $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/post-type/create')
+                ->waitUntilMissing('@spinner')
                 ->type('#form-group-name input', $faker->text(10))
                 ->click('#form-group-hasCategories .yes')
                 ->click('#form-group-hasTags .yes')
@@ -107,7 +108,6 @@ class PostTypeTest extends DuskTestCase{
                 ->click('#globalSaveBtn')
                 ->waitFor('@postTypeUpdateComponent')
                 ->assertVisible('@postTypeUpdateComponent');
-
         });
     }
 
@@ -127,7 +127,6 @@ class PostTypeTest extends DuskTestCase{
             PostType::createTable($postType->slug, []);
 
             $faker = Factory::create();
-            $slug = 'post_'.str_replace('-','_',$faker->slug(1));
 
             $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/post-type/update/'.$postType->postTypeID)
