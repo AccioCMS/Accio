@@ -40771,6 +40771,13 @@ var globalMethods = exports.globalMethods = {
                 this.$router.push({ name: name, params: { id: id } });
             }
         },
+        isAdmin: function isAdmin() {
+            //admin has access into all permissions
+            if (this.getGlobalPermissions.global.admin !== undefined) {
+                return true;
+            }
+            return false;
+        },
 
 
         // used to filter where to redirect depending which store btn is clicked
@@ -40847,7 +40854,6 @@ var globalMethods = exports.globalMethods = {
 
         // toggle the action bar in tables (when listing items)
         toggleListActionBar: function toggleListActionBar(index) {
-            //console.log("index", index);
             if (this.openedItemActionBar === index) {
                 this.openedItemActionBar = '';
             } else {
@@ -41642,7 +41648,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Application")]
+                [_vm._v("Apps")]
               )
             ]),
             _vm._v(" "),
@@ -46910,8 +46916,11 @@ exports.default = {
                 if (keysArray.length == 3) {
                     if (this.customFieldValues[keysArray[0]] !== undefined && this.customFieldValues[keysArray[0]][keysArray[1]] !== undefined && this.customFieldValues[keysArray[0]][keysArray[1]][keysArray[2]] !== undefined) {
 
+                        console.log("HELLO HELLO");
                         if (_typeof(this.customFieldValues[keysArray[0]][keysArray[1]][keysArray[2]]) == 'object') {
                             this.customFieldValues[keysArray[0]][keysArray[1]][keysArray[2]] = this.deleteValue(this.customFieldValues[keysArray[0]][keysArray[1]][keysArray[2]], mediaID);
+                        } else {
+                            this.customFieldValues[keysArray[0]][keysArray[1]][keysArray[2]] = "";
                         }
                     }
                 } else if (keysArray.length == 5) {
@@ -46920,6 +46929,8 @@ exports.default = {
 
                         if (_typeof(this.customFieldValues[keysArray[0]][keysArray[4]][keysArray[1]][keysArray[2]]) == 'object') {
                             this.customFieldValues[keysArray[0]][keysArray[4]][keysArray[1]][keysArray[2]] = this.deleteValue(this.customFieldValues[keysArray[0]][keysArray[4]][keysArray[1]][keysArray[2]], mediaID);
+                        } else {
+                            this.customFieldValues[keysArray[0]][keysArray[4]][keysArray[1]][keysArray[2]] = "";
                         }
                     }
                 } else {
