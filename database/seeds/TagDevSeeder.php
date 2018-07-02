@@ -25,10 +25,10 @@ class TagDevSeeder extends Seeder
 
             if ($allPostTypes) {
                 foreach ($postTypes as $postType) {
-                    $this->command->info("Creating tags in post type '".$postType->name."'");
+                    $this->writeOutput("Creating tags in post type '".$postType->name."'");
                     $this->createTag($postType, $totalTags);
                 }
-                $this->command->info("Tags created (" . ($totalTags * $countPostTypes) . ")");
+                $this->writeOutput("Tags created (" . ($totalTags * $countPostTypes) . ")");
             } else { // or for all post types
 
                 // Default post type
@@ -43,7 +43,7 @@ class TagDevSeeder extends Seeder
 
                 // Create tags only for a specific post type
                 if($this->createTag($postType, $totalTags)) {
-                    $this->command->info("Tags created (" . $totalTags . ")");
+                    $this->writeOutput("Tags created (" . $totalTags . ")");
                 }else{
                     $this->command->error("Tags not created! Make sure the post type '".$postTypeSlug."' use categories!");
                 }
@@ -68,5 +68,16 @@ class TagDevSeeder extends Seeder
             ]);
         }
         return $tags;
+    }
+
+    /**
+     * Write output message
+     *
+     * @param string $message
+     */
+    private function writeOutput(string $message){
+        if(isset($this->command)){
+            $this->command->info($message);
+        }
     }
 }

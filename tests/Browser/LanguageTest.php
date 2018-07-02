@@ -60,7 +60,10 @@ class LanguageTest extends DuskTestCase{
                     ->select('#name')
                     ->click('#globalSaveBtn')
                     ->waitForReload()
+                    ->waitUntilMissing('@spinner')
                     ->assertVisible('@languageUpdateComponent');
+
+                App\Models\Language::orderBy('created_at', 'desc')->first()->delete();
             }
         });
     }

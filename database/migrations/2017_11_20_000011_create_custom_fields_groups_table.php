@@ -15,7 +15,7 @@ class CreateCustomFieldsGroupsTable extends Migration{
             $table->increments('customFieldGroupID');
             $table->string('title',155);
             $table->string('slug',155);
-            $table->string('description',255);
+            $table->string('description',255)->nullable();
             $table->tinyInteger('isActive')->index();
             $table->json('conditions');
             $table->timestamps();

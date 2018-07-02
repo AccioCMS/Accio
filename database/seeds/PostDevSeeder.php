@@ -88,7 +88,7 @@ class PostDevSeeder extends Seeder
                     if($allPostTypes){
                         $postTypes = \App\Models\PostType::all();
                         foreach ($postTypes as $postType) {
-                            $this->command->comment('Creating posts in post type: '.$postType->name);
+                            $this->writeOutput('Creating posts in post type: '.$postType->name, 'comment');
                             for ($i = 1; $i <= $this->totalPosts; $i++) {
                                 $totalInserted++;
                                 $this->createPost($postType, $this->mediaList, null, $this->tagsList);
@@ -112,7 +112,7 @@ class PostDevSeeder extends Seeder
                             $categoryData = null;
                         }
 
-                        $this->command->comment('Creating posts in post type: '.$this->postType->name);
+                        $this->writeOutput('Creating posts in post type: '.$this->postType->name, 'comment');
                         for ($i = 1; $i <= $this->totalPosts; $i++) {
                             $totalInserted++;
                             $this->createPost($this->postType, $this->mediaList, $categoryData, $this->tagsList);
@@ -131,13 +131,13 @@ class PostDevSeeder extends Seeder
                 }
 
                 if ($totalInserted) {
-                    $this->command->info( "Posts created (" . $totalInserted . "). ");
+                    $this->writeOutput( "Posts created (" . $totalInserted . "). ",'info');
                 }
                 else {
-                    $this->command->error( "No posts created!");
+                    $this->writeOutput( "No posts created!",'error');
                 }
             }else{
-                $this->command->error("Please give a total number of posts you would like to create!");
+                $this->writeOutput("Please give a total number of posts you would like to create!",'error');
             }
         }
 
@@ -155,10 +155,10 @@ class PostDevSeeder extends Seeder
         $categories = \App\Models\Category::all()->where('postTypeID', $postType->postTypeID);;
 
         if ($postType->hasCategories && $categories) {
-            $this->command->comment("Creating posts in post type '".$postType->name."'");
+            $this->writeOutput("Creating posts in post type '".$postType->name."'",'comment');
 
             foreach ($categories as $category) {
-                $this->command->comment(" -- Creating ".$this->postsPerCategory." posts in category '".$category->title."'");
+                $this->writeOutput(" -- Creating ".$this->postsPerCategory." posts in category '".$category->title."'",'comment');
 
                 for ($i = 1; $i <= $this->postsPerCategory; $i++) {
                     $totalInserted++;
@@ -166,7 +166,7 @@ class PostDevSeeder extends Seeder
                 }
             }
         }else{
-            $this->command->comment('Post type "'.$postType->name.'" does not have any category!');
+            $this->writeOutput('Post type "'.$postType->name.'" does not have any category!','comment');
         }
 
         return $totalInserted;
@@ -322,5 +322,22 @@ class PostDevSeeder extends Seeder
             }
         }
         return $createdCategories;
+    }
+
+    /**
+     * Write output message
+     *
+     * @param string $message
+     */
+    private function writeOutput(string $message, string $type = "info"){
+        if(isset($this->command)){
+            if($type == "info"){
+                $this->command->info($message);
+            }elseif ($type == "comment"){
+                $this->command->comment($message);
+            }elseif($type == "error"){
+                $this->command->error($message);
+            }
+        }
     }
 }

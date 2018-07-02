@@ -14,6 +14,16 @@ class CategoryDevSeeder extends Seeder
     public $exampleTitles = false;
 
     /**
+     * Write output message
+     *
+     * @param string $message
+     */
+    private function writeOutput(string $message){
+        if(isset($this->command)){
+            $this->command->info($message);
+        }
+    }
+    /**
      * Run the database seeds.
      *
      * @param int $totalCategories
@@ -25,16 +35,16 @@ class CategoryDevSeeder extends Seeder
     public function run(int $totalCategories = 0, string $postTypeSlug = null, bool $allPostTypes = false){
         $postType = null;
 
-        if($totalCategories) {
+        if($totalCategories){
             $postTypes = \App\Models\PostType::all();
             $countPostTypes = $postTypes->count();
 
             if($allPostTypes) {
                 foreach ($postTypes as $postType) {
-                    $this->command->info("Creating categories in post type '".$postType->name."'");
+                    $this->writeOutput("Creating categories in post type '".$postType->name."'");
                     $this->createCategory($postType, $totalCategories);
                 }
-                $this->command->info("Categories created (" . ($totalCategories * $countPostTypes) . ")");
+                $this->writeOutput("Categories created (" . ($totalCategories * $countPostTypes) . ")");
             }else { // or for all post types
 
                 // Default post type
@@ -49,7 +59,7 @@ class CategoryDevSeeder extends Seeder
 
                 // Create categories only for a specific post type
                 if($this->createCategory($postType, $totalCategories)) {
-                    $this->command->info("Categories created (" . $totalCategories . ")");
+                    $this->writeOutput("Categories created (" . $totalCategories . ")");
                 }else{
                     $this->command->error("Categories not created! Make sure the post type '".$postTypeSlug."' use categories!");
                 }

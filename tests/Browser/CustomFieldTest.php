@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use Accio\App\Traits\UserTrait;
+use App\Models\CustomField;
 use App\Models\CustomFieldGroup;
 use Faker\Factory;
 use Tests\DuskTestCase;
@@ -104,6 +105,7 @@ class CustomFieldTest extends DuskTestCase{
 
             $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/custom-fields/create')
+                ->waitUntilMissing('@spinner')
                 ->type('#form-group-title input', $faker->text(10))
                 ->type('#form-group-description input', $faker->text(20))
                 ->click('#form-group-app .multiselect__select')
@@ -116,6 +118,9 @@ class CustomFieldTest extends DuskTestCase{
                 ->waitFor('@customFieldEdit')
                 ->assertVisible('@customFieldEdit');
 
+            $customFieldGroup = CustomFieldGroup::orderBy('created_at', 'desc')->first();
+            CustomField::where('customFieldGroupID', $customFieldGroup->customFieldGroupID)->delete();
+            $customFieldGroup->delete();
         });
     }
 
@@ -136,6 +141,7 @@ class CustomFieldTest extends DuskTestCase{
 
             $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/custom-fields/update/'.$customFieldGroup->customFieldGroupID)
+                ->waitUntilMissing('@spinner')
                 ->type('#form-group-title input', $faker->text(10))
                 ->type('#form-group-description input', $faker->text(20))
                 ->click('#addGroup')

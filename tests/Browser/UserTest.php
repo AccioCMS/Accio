@@ -24,7 +24,6 @@ class UserTest extends DuskTestCase{
      * @throws \Throwable
      */
     public function testList(){
-        $this->getAnAdmin();
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/'.\App::getLocale().'/user/list')
@@ -74,6 +73,9 @@ class UserTest extends DuskTestCase{
             $browser->click('#globalSaveBtn')
                 ->waitFor('@userUpdateComponent')
                 ->assertVisible('@userUpdateComponent');
+
+            User::orderBy('created_at', 'desc')->first()->delete();
+
         });
     }
 

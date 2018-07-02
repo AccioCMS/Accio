@@ -485,7 +485,44 @@ var toString = class2type.toString;
 
 var hasOwn = class2type.hasOwnProperty;
 
+<<<<<<< HEAD
 var fnToString = hasOwn.toString;
+=======
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var globalMethods = exports.globalMethods = {
+    methods: {
+        // use translation method of vuex
+        __: function __(key) {
+            this.$store.dispatch('__', key);
+            return this.getTranslation;
+        },
+
+        // call checkPermission method of vuex and return his answer
+        hasPermission: function hasPermission(app, key) {
+            this.$store.dispatch('checkPermission', { app: app, key: key });
+            return this.getHasPermission; // This is causing a loop @todo
+        },
+        redirect: function redirect(name) {
+            var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+            var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+            var query = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+
+            if (id === undefined || id == '') {
+                this.$router.push({ name: name, query: query });
+            } else {
+                this.$router.push({ name: name, params: { id: id } });
+            }
+        },
+        isAdmin: function isAdmin() {
+            //admin has access into all permissions
+            if (this.getGlobalPermissions.global.admin !== undefined) {
+                return true;
+            }
+            return false;
+        },
+>>>>>>> 3141ce7012856c381633c1cc89aefad918a86e5f
 
 var ObjectFunctionString = fnToString.call( Object );
 
@@ -507,6 +544,17 @@ var isWindow = function isWindow( obj ) {
 
 
 
+<<<<<<< HEAD
+=======
+        // toggle the action bar in tables (when listing items)
+        toggleListActionBar: function toggleListActionBar(index) {
+            if (this.openedItemActionBar === index) {
+                this.openedItemActionBar = '';
+            } else {
+                this.openedItemActionBar = index;
+            }
+        },
+>>>>>>> 3141ce7012856c381633c1cc89aefad918a86e5f
 
 	var preservedScriptAttributes = {
 		type: true,
@@ -41754,13 +41802,12193 @@ exports.default = {
 /***/ 408:
 /***/ (function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
+=======
+  promise.then(function(value) {
+    // on fulfillment
+  }, function(reason) {
+    // on rejection
+  });
+  ```
+
+  Advanced Usage:
+  ---------------
+
+  Promises shine when abstracting away asynchronous interactions such as
+  `XMLHttpRequest`s.
+
+  ```js
+  function getJSON(url) {
+    return new Promise(function(resolve, reject){
+      let xhr = new XMLHttpRequest();
+
+      xhr.open('GET', url);
+      xhr.onreadystatechange = handler;
+      xhr.responseType = 'json';
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.send();
+
+      function handler() {
+        if (this.readyState === this.DONE) {
+          if (this.status === 200) {
+            resolve(this.response);
+          } else {
+            reject(new Error('getJSON: `' + url + '` failed with status: [' + this.status + ']'));
+          }
+        }
+      };
+    });
+  }
+
+  getJSON('/posts.json').then(function(json) {
+    // on fulfillment
+  }, function(reason) {
+    // on rejection
+  });
+  ```
+
+  Unlike callbacks, promises are great composable primitives.
+
+  ```js
+  Promise.all([
+    getJSON('/posts'),
+    getJSON('/comments')
+  ]).then(function(values){
+    values[0] // => postsJSON
+    values[1] // => commentsJSON
+
+    return values;
+  });
+  ```
+
+  @class Promise
+  @param {function} resolver
+  Useful for tooling.
+  @constructor
+*/
+function Promise$2(resolver) {
+  this[PROMISE_ID] = nextId();
+  this._result = this._state = undefined;
+  this._subscribers = [];
+
+  if (noop !== resolver) {
+    typeof resolver !== 'function' && needsResolver();
+    this instanceof Promise$2 ? initializePromise(this, resolver) : needsNew();
+  }
+}
+
+Promise$2.all = all$1;
+Promise$2.race = race$1;
+Promise$2.resolve = resolve$1;
+Promise$2.reject = reject$1;
+Promise$2._setScheduler = setScheduler;
+Promise$2._setAsap = setAsap;
+Promise$2._asap = asap;
+
+Promise$2.prototype = {
+  constructor: Promise$2,
+
+  /**
+    The primary way of interacting with a promise is through its `then` method,
+    which registers callbacks to receive either a promise's eventual value or the
+    reason why the promise cannot be fulfilled.
+  
+    ```js
+    findUser().then(function(user){
+      // user is available
+    }, function(reason){
+      // user is unavailable, and you are given the reason why
+    });
+    ```
+  
+    Chaining
+    --------
+  
+    The return value of `then` is itself a promise.  This second, 'downstream'
+    promise is resolved with the return value of the first promise's fulfillment
+    or rejection handler, or rejected if the handler throws an exception.
+  
+    ```js
+    findUser().then(function (user) {
+      return user.name;
+    }, function (reason) {
+      return 'default name';
+    }).then(function (userName) {
+      // If `findUser` fulfilled, `userName` will be the user's name, otherwise it
+      // will be `'default name'`
+    });
+  
+    findUser().then(function (user) {
+      throw new Error('Found user, but still unhappy');
+    }, function (reason) {
+      throw new Error('`findUser` rejected and we're unhappy');
+    }).then(function (value) {
+      // never reached
+    }, function (reason) {
+      // if `findUser` fulfilled, `reason` will be 'Found user, but still unhappy'.
+      // If `findUser` rejected, `reason` will be '`findUser` rejected and we're unhappy'.
+    });
+    ```
+    If the downstream promise does not specify a rejection handler, rejection reasons will be propagated further downstream.
+  
+    ```js
+    findUser().then(function (user) {
+      throw new PedagogicalException('Upstream error');
+    }).then(function (value) {
+      // never reached
+    }).then(function (value) {
+      // never reached
+    }, function (reason) {
+      // The `PedgagocialException` is propagated all the way down to here
+    });
+    ```
+  
+    Assimilation
+    ------------
+  
+    Sometimes the value you want to propagate to a downstream promise can only be
+    retrieved asynchronously. This can be achieved by returning a promise in the
+    fulfillment or rejection handler. The downstream promise will then be pending
+    until the returned promise is settled. This is called *assimilation*.
+  
+    ```js
+    findUser().then(function (user) {
+      return findCommentsByAuthor(user);
+    }).then(function (comments) {
+      // The user's comments are now available
+    });
+    ```
+  
+    If the assimliated promise rejects, then the downstream promise will also reject.
+  
+    ```js
+    findUser().then(function (user) {
+      return findCommentsByAuthor(user);
+    }).then(function (comments) {
+      // If `findCommentsByAuthor` fulfills, we'll have the value here
+    }, function (reason) {
+      // If `findCommentsByAuthor` rejects, we'll have the reason here
+    });
+    ```
+  
+    Simple Example
+    --------------
+  
+    Synchronous Example
+  
+    ```javascript
+    let result;
+  
+    try {
+      result = findResult();
+      // success
+    } catch(reason) {
+      // failure
+    }
+    ```
+  
+    Errback Example
+  
+    ```js
+    findResult(function(result, err){
+      if (err) {
+        // failure
+      } else {
+        // success
+      }
+    });
+    ```
+  
+    Promise Example;
+  
+    ```javascript
+    findResult().then(function(result){
+      // success
+    }, function(reason){
+      // failure
+    });
+    ```
+  
+    Advanced Example
+    --------------
+  
+    Synchronous Example
+  
+    ```javascript
+    let author, books;
+  
+    try {
+      author = findAuthor();
+      books  = findBooksByAuthor(author);
+      // success
+    } catch(reason) {
+      // failure
+    }
+    ```
+  
+    Errback Example
+  
+    ```js
+  
+    function foundBooks(books) {
+  
+    }
+  
+    function failure(reason) {
+  
+    }
+  
+    findAuthor(function(author, err){
+      if (err) {
+        failure(err);
+        // failure
+      } else {
+        try {
+          findBoooksByAuthor(author, function(books, err) {
+            if (err) {
+              failure(err);
+            } else {
+              try {
+                foundBooks(books);
+              } catch(reason) {
+                failure(reason);
+              }
+            }
+          });
+        } catch(error) {
+          failure(err);
+        }
+        // success
+      }
+    });
+    ```
+  
+    Promise Example;
+  
+    ```javascript
+    findAuthor().
+      then(findBooksByAuthor).
+      then(function(books){
+        // found books
+    }).catch(function(reason){
+      // something went wrong
+    });
+    ```
+  
+    @method then
+    @param {Function} onFulfilled
+    @param {Function} onRejected
+    Useful for tooling.
+    @return {Promise}
+  */
+  then: then,
+
+  /**
+    `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
+    as the catch block of a try/catch statement.
+  
+    ```js
+    function findAuthor(){
+      throw new Error('couldn't find that author');
+    }
+  
+    // synchronous
+    try {
+      findAuthor();
+    } catch(reason) {
+      // something went wrong
+    }
+  
+    // async with promises
+    findAuthor().catch(function(reason){
+      // something went wrong
+    });
+    ```
+  
+    @method catch
+    @param {Function} onRejection
+    Useful for tooling.
+    @return {Promise}
+  */
+  'catch': function _catch(onRejection) {
+    return this.then(null, onRejection);
+  }
+};
+
+/*global self*/
+function polyfill$1() {
+    var local = undefined;
+
+    if (typeof global !== 'undefined') {
+        local = global;
+    } else if (typeof self !== 'undefined') {
+        local = self;
+    } else {
+        try {
+            local = Function('return this')();
+        } catch (e) {
+            throw new Error('polyfill failed because global object is unavailable in this environment');
+        }
+    }
+
+    var P = local.Promise;
+
+    if (P) {
+        var promiseToString = null;
+        try {
+            promiseToString = Object.prototype.toString.call(P.resolve());
+        } catch (e) {
+            // silently ignored
+        }
+
+        if (promiseToString === '[object Promise]' && !P.cast) {
+            return;
+        }
+    }
+
+    local.Promise = Promise$2;
+}
+
+// Strange compat..
+Promise$2.polyfill = polyfill$1;
+Promise$2.Promise = Promise$2;
+
+return Promise$2;
+
+})));
+
+//# sourceMappingURL=es6-promise.map
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(8)))
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* global VERSION */
+
+__webpack_require__(5);
+
+var _es6Promise = __webpack_require__(4);
+
+var _es6Promise2 = _interopRequireDefault(_es6Promise);
+
+var _utils = __webpack_require__(0);
+
+var Utils = _interopRequireWildcard(_utils);
+
+var _api = __webpack_require__(1);
+
+var API = _interopRequireWildcard(_api);
+
+var _button = __webpack_require__(2);
+
+var _push = __webpack_require__(3);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Noty = function () {
+  /**
+   * @param {object} options
+   * @return {Noty}
+   */
+  function Noty() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Noty);
+
+    this.options = Utils.deepExtend({}, API.Defaults, options);
+    this.id = this.options.id || Utils.generateID('bar');
+    this.closeTimer = -1;
+    this.barDom = null;
+    this.layoutDom = null;
+    this.progressDom = null;
+    this.showing = false;
+    this.shown = false;
+    this.closed = false;
+    this.closing = false;
+    this.killable = this.options.timeout || this.options.closeWith.length > 0;
+    this.hasSound = this.options.sounds.sources.length > 0;
+    this.soundPlayed = false;
+    this.listeners = {
+      beforeShow: [],
+      onShow: [],
+      afterShow: [],
+      onClose: [],
+      afterClose: [],
+      onClick: [],
+      onHover: [],
+      onTemplate: []
+    };
+    this.promises = {
+      show: null,
+      close: null
+    };
+    this.on('beforeShow', this.options.callbacks.beforeShow);
+    this.on('onShow', this.options.callbacks.onShow);
+    this.on('afterShow', this.options.callbacks.afterShow);
+    this.on('onClose', this.options.callbacks.onClose);
+    this.on('afterClose', this.options.callbacks.afterClose);
+    this.on('onClick', this.options.callbacks.onClick);
+    this.on('onHover', this.options.callbacks.onHover);
+    this.on('onTemplate', this.options.callbacks.onTemplate);
+
+    return this;
+  }
+
+  /**
+   * @param {string} eventName
+   * @param {function} cb
+   * @return {Noty}
+   */
+
+
+  _createClass(Noty, [{
+    key: 'on',
+    value: function on(eventName) {
+      var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
+
+      if (typeof cb === 'function' && this.listeners.hasOwnProperty(eventName)) {
+        this.listeners[eventName].push(cb);
+      }
+
+      return this;
+    }
+
+    /**
+     * @return {Noty}
+     */
+
+  }, {
+    key: 'show',
+    value: function show() {
+      var _this = this;
+
+      if (this.options.killer === true) {
+        Noty.closeAll();
+      } else if (typeof this.options.killer === 'string') {
+        Noty.closeAll(this.options.killer);
+      }
+
+      var queueCounts = API.getQueueCounts(this.options.queue);
+
+      if (queueCounts.current >= queueCounts.maxVisible || API.PageHidden && this.options.visibilityControl) {
+        API.addToQueue(this);
+
+        if (API.PageHidden && this.hasSound && Utils.inArray('docHidden', this.options.sounds.conditions)) {
+          Utils.createAudioElements(this);
+        }
+
+        if (API.PageHidden && Utils.inArray('docHidden', this.options.titleCount.conditions)) {
+          API.docTitle.increment();
+        }
+
+        return this;
+      }
+
+      API.Store[this.id] = this;
+
+      API.fire(this, 'beforeShow');
+
+      this.showing = true;
+
+      if (this.closing) {
+        this.showing = false;
+        return this;
+      }
+
+      API.build(this);
+      API.handleModal(this);
+
+      if (this.options.force) {
+        this.layoutDom.insertBefore(this.barDom, this.layoutDom.firstChild);
+      } else {
+        this.layoutDom.appendChild(this.barDom);
+      }
+
+      if (this.hasSound && !this.soundPlayed && Utils.inArray('docVisible', this.options.sounds.conditions)) {
+        Utils.createAudioElements(this);
+      }
+
+      if (Utils.inArray('docVisible', this.options.titleCount.conditions)) {
+        API.docTitle.increment();
+      }
+
+      this.shown = true;
+      this.closed = false;
+
+      // bind button events if any
+      if (API.hasButtons(this)) {
+        Object.keys(this.options.buttons).forEach(function (key) {
+          var btn = _this.barDom.querySelector('#' + _this.options.buttons[key].id);
+          Utils.addListener(btn, 'click', function (e) {
+            Utils.stopPropagation(e);
+            _this.options.buttons[key].cb();
+          });
+        });
+      }
+
+      this.progressDom = this.barDom.querySelector('.noty_progressbar');
+
+      if (Utils.inArray('click', this.options.closeWith)) {
+        Utils.addClass(this.barDom, 'noty_close_with_click');
+        Utils.addListener(this.barDom, 'click', function (e) {
+          Utils.stopPropagation(e);
+          API.fire(_this, 'onClick');
+          _this.close();
+        }, false);
+      }
+
+      Utils.addListener(this.barDom, 'mouseenter', function () {
+        API.fire(_this, 'onHover');
+      }, false);
+
+      if (this.options.timeout) Utils.addClass(this.barDom, 'noty_has_timeout');
+      if (this.options.progressBar) {
+        Utils.addClass(this.barDom, 'noty_has_progressbar');
+      }
+
+      if (Utils.inArray('button', this.options.closeWith)) {
+        Utils.addClass(this.barDom, 'noty_close_with_button');
+
+        var closeButton = document.createElement('div');
+        Utils.addClass(closeButton, 'noty_close_button');
+        closeButton.innerHTML = '×';
+        this.barDom.appendChild(closeButton);
+
+        Utils.addListener(closeButton, 'click', function (e) {
+          Utils.stopPropagation(e);
+          _this.close();
+        }, false);
+      }
+
+      API.fire(this, 'onShow');
+
+      if (this.options.animation.open === null) {
+        this.promises.show = new _es6Promise2.default(function (resolve) {
+          resolve();
+        });
+      } else if (typeof this.options.animation.open === 'function') {
+        this.promises.show = new _es6Promise2.default(this.options.animation.open.bind(this));
+      } else {
+        Utils.addClass(this.barDom, this.options.animation.open);
+        this.promises.show = new _es6Promise2.default(function (resolve) {
+          Utils.addListener(_this.barDom, Utils.animationEndEvents, function () {
+            Utils.removeClass(_this.barDom, _this.options.animation.open);
+            resolve();
+          });
+        });
+      }
+
+      this.promises.show.then(function () {
+        var _t = _this;
+        setTimeout(function () {
+          API.openFlow(_t);
+        }, 100);
+      });
+
+      return this;
+    }
+
+    /**
+     * @return {Noty}
+     */
+
+  }, {
+    key: 'stop',
+    value: function stop() {
+      API.dequeueClose(this);
+      return this;
+    }
+
+    /**
+     * @return {Noty}
+     */
+
+  }, {
+    key: 'resume',
+    value: function resume() {
+      API.queueClose(this);
+      return this;
+    }
+
+    /**
+     * @param {int|boolean} ms
+     * @return {Noty}
+     */
+
+  }, {
+    key: 'setTimeout',
+    value: function (_setTimeout) {
+      function setTimeout(_x) {
+        return _setTimeout.apply(this, arguments);
+      }
+
+      setTimeout.toString = function () {
+        return _setTimeout.toString();
+      };
+
+      return setTimeout;
+    }(function (ms) {
+      this.stop();
+      this.options.timeout = ms;
+
+      if (this.barDom) {
+        if (this.options.timeout) {
+          Utils.addClass(this.barDom, 'noty_has_timeout');
+        } else {
+          Utils.removeClass(this.barDom, 'noty_has_timeout');
+        }
+
+        var _t = this;
+        setTimeout(function () {
+          // ugly fix for progressbar display bug
+          _t.resume();
+        }, 100);
+      }
+
+      return this;
+    })
+
+    /**
+     * @param {string} html
+     * @param {boolean} optionsOverride
+     * @return {Noty}
+     */
+
+  }, {
+    key: 'setText',
+    value: function setText(html) {
+      var optionsOverride = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      if (this.barDom) {
+        this.barDom.querySelector('.noty_body').innerHTML = html;
+      }
+
+      if (optionsOverride) this.options.text = html;
+
+      return this;
+    }
+
+    /**
+     * @param {string} type
+     * @param {boolean} optionsOverride
+     * @return {Noty}
+     */
+
+  }, {
+    key: 'setType',
+    value: function setType(type) {
+      var _this2 = this;
+
+      var optionsOverride = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      if (this.barDom) {
+        var classList = Utils.classList(this.barDom).split(' ');
+
+        classList.forEach(function (c) {
+          if (c.substring(0, 11) === 'noty_type__') {
+            Utils.removeClass(_this2.barDom, c);
+          }
+        });
+
+        Utils.addClass(this.barDom, 'noty_type__' + type);
+      }
+
+      if (optionsOverride) this.options.type = type;
+
+      return this;
+    }
+
+    /**
+     * @param {string} theme
+     * @param {boolean} optionsOverride
+     * @return {Noty}
+     */
+
+  }, {
+    key: 'setTheme',
+    value: function setTheme(theme) {
+      var _this3 = this;
+
+      var optionsOverride = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      if (this.barDom) {
+        var classList = Utils.classList(this.barDom).split(' ');
+
+        classList.forEach(function (c) {
+          if (c.substring(0, 12) === 'noty_theme__') {
+            Utils.removeClass(_this3.barDom, c);
+          }
+        });
+
+        Utils.addClass(this.barDom, 'noty_theme__' + theme);
+      }
+
+      if (optionsOverride) this.options.theme = theme;
+
+      return this;
+    }
+
+    /**
+     * @return {Noty}
+     */
+
+  }, {
+    key: 'close',
+    value: function close() {
+      var _this4 = this;
+
+      if (this.closed) return this;
+
+      if (!this.shown) {
+        // it's in the queue
+        API.removeFromQueue(this);
+        return this;
+      }
+
+      API.fire(this, 'onClose');
+
+      this.closing = true;
+
+      if (this.options.animation.close === null) {
+        this.promises.close = new _es6Promise2.default(function (resolve) {
+          resolve();
+        });
+      } else if (typeof this.options.animation.close === 'function') {
+        this.promises.close = new _es6Promise2.default(this.options.animation.close.bind(this));
+      } else {
+        Utils.addClass(this.barDom, this.options.animation.close);
+        this.promises.close = new _es6Promise2.default(function (resolve) {
+          Utils.addListener(_this4.barDom, Utils.animationEndEvents, function () {
+            if (_this4.options.force) {
+              Utils.remove(_this4.barDom);
+            } else {
+              API.ghostFix(_this4);
+            }
+            resolve();
+          });
+        });
+      }
+
+      this.promises.close.then(function () {
+        API.closeFlow(_this4);
+        API.handleModalClose(_this4);
+      });
+
+      this.closed = true;
+
+      return this;
+    }
+
+    // API functions
+
+    /**
+     * @param {boolean|string} queueName
+     * @return {Noty}
+     */
+
+  }], [{
+    key: 'closeAll',
+    value: function closeAll() {
+      var queueName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+      Object.keys(API.Store).forEach(function (id) {
+        if (queueName) {
+          if (API.Store[id].options.queue === queueName && API.Store[id].killable) {
+            API.Store[id].close();
+          }
+        } else if (API.Store[id].killable) {
+          API.Store[id].close();
+        }
+      });
+      return this;
+    }
+
+    /**
+     * @param {Object} obj
+     * @return {Noty}
+     */
+
+  }, {
+    key: 'overrideDefaults',
+    value: function overrideDefaults(obj) {
+      API.Defaults = Utils.deepExtend({}, API.Defaults, obj);
+      return this;
+    }
+
+    /**
+     * @param {int} amount
+     * @param {string} queueName
+     * @return {Noty}
+     */
+
+  }, {
+    key: 'setMaxVisible',
+    value: function setMaxVisible() {
+      var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : API.DefaultMaxVisible;
+      var queueName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'global';
+
+      if (!API.Queues.hasOwnProperty(queueName)) {
+        API.Queues[queueName] = { maxVisible: amount, queue: [] };
+      }
+
+      API.Queues[queueName].maxVisible = amount;
+      return this;
+    }
+
+    /**
+     * @param {string} innerHtml
+     * @param {String} classes
+     * @param {Function} cb
+     * @param {Object} attributes
+     * @return {NotyButton}
+     */
+
+  }, {
+    key: 'button',
+    value: function button(innerHtml) {
+      var classes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var cb = arguments[2];
+      var attributes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
+      return new _button.NotyButton(innerHtml, classes, cb, attributes);
+    }
+
+    /**
+     * @return {string}
+     */
+
+  }, {
+    key: 'version',
+    value: function version() {
+      return "3.1.4";
+    }
+
+    /**
+     * @param {String} workerPath
+     * @return {Push}
+     */
+
+  }, {
+    key: 'Push',
+    value: function Push(workerPath) {
+      return new _push.Push(workerPath);
+    }
+  }]);
+
+  return Noty;
+}();
+
+// Document visibility change controller
+
+
+exports.default = Noty;
+Utils.visibilityChangeFlow();
+module.exports = exports['default'];
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ })
+/******/ ]);
+});
+//# sourceMappingURL=noty.js.map
+
+/***/ }),
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Url", function() { return Url; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Http", function() { return Http; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Resource", function() { return Resource; });
+/*!
+ * vue-resource v1.5.0
+ * https://github.com/pagekit/vue-resource
+ * Released under the MIT License.
+ */
+
+/**
+ * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
+ */
+
+var RESOLVED = 0;
+var REJECTED = 1;
+var PENDING = 2;
+
+function Promise$1(executor) {
+
+    this.state = PENDING;
+    this.value = undefined;
+    this.deferred = [];
+
+    var promise = this;
+
+    try {
+        executor(function (x) {
+            promise.resolve(x);
+        }, function (r) {
+            promise.reject(r);
+        });
+    } catch (e) {
+        promise.reject(e);
+    }
+}
+
+Promise$1.reject = function (r) {
+    return new Promise$1(function (resolve, reject) {
+        reject(r);
+    });
+};
+
+Promise$1.resolve = function (x) {
+    return new Promise$1(function (resolve, reject) {
+        resolve(x);
+    });
+};
+
+Promise$1.all = function all(iterable) {
+    return new Promise$1(function (resolve, reject) {
+        var count = 0, result = [];
+
+        if (iterable.length === 0) {
+            resolve(result);
+        }
+
+        function resolver(i) {
+            return function (x) {
+                result[i] = x;
+                count += 1;
+
+                if (count === iterable.length) {
+                    resolve(result);
+                }
+            };
+        }
+
+        for (var i = 0; i < iterable.length; i += 1) {
+            Promise$1.resolve(iterable[i]).then(resolver(i), reject);
+        }
+    });
+};
+
+Promise$1.race = function race(iterable) {
+    return new Promise$1(function (resolve, reject) {
+        for (var i = 0; i < iterable.length; i += 1) {
+            Promise$1.resolve(iterable[i]).then(resolve, reject);
+        }
+    });
+};
+
+var p = Promise$1.prototype;
+
+p.resolve = function resolve(x) {
+    var promise = this;
+
+    if (promise.state === PENDING) {
+        if (x === promise) {
+            throw new TypeError('Promise settled with itself.');
+        }
+
+        var called = false;
+
+        try {
+            var then = x && x['then'];
+
+            if (x !== null && typeof x === 'object' && typeof then === 'function') {
+                then.call(x, function (x) {
+                    if (!called) {
+                        promise.resolve(x);
+                    }
+                    called = true;
+
+                }, function (r) {
+                    if (!called) {
+                        promise.reject(r);
+                    }
+                    called = true;
+                });
+                return;
+            }
+        } catch (e) {
+            if (!called) {
+                promise.reject(e);
+            }
+            return;
+        }
+
+        promise.state = RESOLVED;
+        promise.value = x;
+        promise.notify();
+    }
+};
+
+p.reject = function reject(reason) {
+    var promise = this;
+
+    if (promise.state === PENDING) {
+        if (reason === promise) {
+            throw new TypeError('Promise settled with itself.');
+        }
+
+        promise.state = REJECTED;
+        promise.value = reason;
+        promise.notify();
+    }
+};
+
+p.notify = function notify() {
+    var promise = this;
+
+    nextTick(function () {
+        if (promise.state !== PENDING) {
+            while (promise.deferred.length) {
+                var deferred = promise.deferred.shift(),
+                    onResolved = deferred[0],
+                    onRejected = deferred[1],
+                    resolve = deferred[2],
+                    reject = deferred[3];
+
+                try {
+                    if (promise.state === RESOLVED) {
+                        if (typeof onResolved === 'function') {
+                            resolve(onResolved.call(undefined, promise.value));
+                        } else {
+                            resolve(promise.value);
+                        }
+                    } else if (promise.state === REJECTED) {
+                        if (typeof onRejected === 'function') {
+                            resolve(onRejected.call(undefined, promise.value));
+                        } else {
+                            reject(promise.value);
+                        }
+                    }
+                } catch (e) {
+                    reject(e);
+                }
+            }
+        }
+    });
+};
+
+p.then = function then(onResolved, onRejected) {
+    var promise = this;
+
+    return new Promise$1(function (resolve, reject) {
+        promise.deferred.push([onResolved, onRejected, resolve, reject]);
+        promise.notify();
+    });
+};
+
+p.catch = function (onRejected) {
+    return this.then(undefined, onRejected);
+};
+
+/**
+ * Promise adapter.
+ */
+
+if (typeof Promise === 'undefined') {
+    window.Promise = Promise$1;
+}
+
+function PromiseObj(executor, context) {
+
+    if (executor instanceof Promise) {
+        this.promise = executor;
+    } else {
+        this.promise = new Promise(executor.bind(context));
+    }
+
+    this.context = context;
+}
+
+PromiseObj.all = function (iterable, context) {
+    return new PromiseObj(Promise.all(iterable), context);
+};
+
+PromiseObj.resolve = function (value, context) {
+    return new PromiseObj(Promise.resolve(value), context);
+};
+
+PromiseObj.reject = function (reason, context) {
+    return new PromiseObj(Promise.reject(reason), context);
+};
+
+PromiseObj.race = function (iterable, context) {
+    return new PromiseObj(Promise.race(iterable), context);
+};
+
+var p$1 = PromiseObj.prototype;
+
+p$1.bind = function (context) {
+    this.context = context;
+    return this;
+};
+
+p$1.then = function (fulfilled, rejected) {
+
+    if (fulfilled && fulfilled.bind && this.context) {
+        fulfilled = fulfilled.bind(this.context);
+    }
+
+    if (rejected && rejected.bind && this.context) {
+        rejected = rejected.bind(this.context);
+    }
+
+    return new PromiseObj(this.promise.then(fulfilled, rejected), this.context);
+};
+
+p$1.catch = function (rejected) {
+
+    if (rejected && rejected.bind && this.context) {
+        rejected = rejected.bind(this.context);
+    }
+
+    return new PromiseObj(this.promise.catch(rejected), this.context);
+};
+
+p$1.finally = function (callback) {
+
+    return this.then(function (value) {
+        callback.call(this);
+        return value;
+    }, function (reason) {
+        callback.call(this);
+        return Promise.reject(reason);
+    }
+    );
+};
+
+/**
+ * Utility functions.
+ */
+
+var ref = {};
+var hasOwnProperty = ref.hasOwnProperty;
+var ref$1 = [];
+var slice = ref$1.slice;
+var debug = false, ntick;
+
+var inBrowser = typeof window !== 'undefined';
+
+function Util (ref) {
+    var config = ref.config;
+    var nextTick = ref.nextTick;
+
+    ntick = nextTick;
+    debug = config.debug || !config.silent;
+}
+
+function warn(msg) {
+    if (typeof console !== 'undefined' && debug) {
+        console.warn('[VueResource warn]: ' + msg);
+    }
+}
+
+function error(msg) {
+    if (typeof console !== 'undefined') {
+        console.error(msg);
+    }
+}
+
+function nextTick(cb, ctx) {
+    return ntick(cb, ctx);
+}
+
+function trim(str) {
+    return str ? str.replace(/^\s*|\s*$/g, '') : '';
+}
+
+function trimEnd(str, chars) {
+
+    if (str && chars === undefined) {
+        return str.replace(/\s+$/, '');
+    }
+
+    if (!str || !chars) {
+        return str;
+    }
+
+    return str.replace(new RegExp(("[" + chars + "]+$")), '');
+}
+
+function toLower(str) {
+    return str ? str.toLowerCase() : '';
+}
+
+function toUpper(str) {
+    return str ? str.toUpperCase() : '';
+}
+
+var isArray = Array.isArray;
+
+function isString(val) {
+    return typeof val === 'string';
+}
+
+function isFunction(val) {
+    return typeof val === 'function';
+}
+
+function isObject(obj) {
+    return obj !== null && typeof obj === 'object';
+}
+
+function isPlainObject(obj) {
+    return isObject(obj) && Object.getPrototypeOf(obj) == Object.prototype;
+}
+
+function isBlob(obj) {
+    return typeof Blob !== 'undefined' && obj instanceof Blob;
+}
+
+function isFormData(obj) {
+    return typeof FormData !== 'undefined' && obj instanceof FormData;
+}
+
+function when(value, fulfilled, rejected) {
+
+    var promise = PromiseObj.resolve(value);
+
+    if (arguments.length < 2) {
+        return promise;
+    }
+
+    return promise.then(fulfilled, rejected);
+}
+
+function options(fn, obj, opts) {
+
+    opts = opts || {};
+
+    if (isFunction(opts)) {
+        opts = opts.call(obj);
+    }
+
+    return merge(fn.bind({$vm: obj, $options: opts}), fn, {$options: opts});
+}
+
+function each(obj, iterator) {
+
+    var i, key;
+
+    if (isArray(obj)) {
+        for (i = 0; i < obj.length; i++) {
+            iterator.call(obj[i], obj[i], i);
+        }
+    } else if (isObject(obj)) {
+        for (key in obj) {
+            if (hasOwnProperty.call(obj, key)) {
+                iterator.call(obj[key], obj[key], key);
+            }
+        }
+    }
+
+    return obj;
+}
+
+var assign = Object.assign || _assign;
+
+function merge(target) {
+
+    var args = slice.call(arguments, 1);
+
+    args.forEach(function (source) {
+        _merge(target, source, true);
+    });
+
+    return target;
+}
+
+function defaults(target) {
+
+    var args = slice.call(arguments, 1);
+
+    args.forEach(function (source) {
+
+        for (var key in source) {
+            if (target[key] === undefined) {
+                target[key] = source[key];
+            }
+        }
+
+    });
+
+    return target;
+}
+
+function _assign(target) {
+
+    var args = slice.call(arguments, 1);
+
+    args.forEach(function (source) {
+        _merge(target, source);
+    });
+
+    return target;
+}
+
+function _merge(target, source, deep) {
+    for (var key in source) {
+        if (deep && (isPlainObject(source[key]) || isArray(source[key]))) {
+            if (isPlainObject(source[key]) && !isPlainObject(target[key])) {
+                target[key] = {};
+            }
+            if (isArray(source[key]) && !isArray(target[key])) {
+                target[key] = [];
+            }
+            _merge(target[key], source[key], deep);
+        } else if (source[key] !== undefined) {
+            target[key] = source[key];
+        }
+    }
+}
+
+/**
+ * Root Prefix Transform.
+ */
+
+function root (options$$1, next) {
+
+    var url = next(options$$1);
+
+    if (isString(options$$1.root) && !/^(https?:)?\//.test(url)) {
+        url = trimEnd(options$$1.root, '/') + '/' + url;
+    }
+
+    return url;
+}
+
+/**
+ * Query Parameter Transform.
+ */
+
+function query (options$$1, next) {
+
+    var urlParams = Object.keys(Url.options.params), query = {}, url = next(options$$1);
+
+    each(options$$1.params, function (value, key) {
+        if (urlParams.indexOf(key) === -1) {
+            query[key] = value;
+        }
+    });
+
+    query = Url.params(query);
+
+    if (query) {
+        url += (url.indexOf('?') == -1 ? '?' : '&') + query;
+    }
+
+    return url;
+}
+
+/**
+ * URL Template v2.0.6 (https://github.com/bramstein/url-template)
+ */
+
+function expand(url, params, variables) {
+
+    var tmpl = parse(url), expanded = tmpl.expand(params);
+
+    if (variables) {
+        variables.push.apply(variables, tmpl.vars);
+    }
+
+    return expanded;
+}
+
+function parse(template) {
+
+    var operators = ['+', '#', '.', '/', ';', '?', '&'], variables = [];
+
+    return {
+        vars: variables,
+        expand: function expand(context) {
+            return template.replace(/\{([^{}]+)\}|([^{}]+)/g, function (_, expression, literal) {
+                if (expression) {
+
+                    var operator = null, values = [];
+
+                    if (operators.indexOf(expression.charAt(0)) !== -1) {
+                        operator = expression.charAt(0);
+                        expression = expression.substr(1);
+                    }
+
+                    expression.split(/,/g).forEach(function (variable) {
+                        var tmp = /([^:*]*)(?::(\d+)|(\*))?/.exec(variable);
+                        values.push.apply(values, getValues(context, operator, tmp[1], tmp[2] || tmp[3]));
+                        variables.push(tmp[1]);
+                    });
+
+                    if (operator && operator !== '+') {
+
+                        var separator = ',';
+
+                        if (operator === '?') {
+                            separator = '&';
+                        } else if (operator !== '#') {
+                            separator = operator;
+                        }
+
+                        return (values.length !== 0 ? operator : '') + values.join(separator);
+                    } else {
+                        return values.join(',');
+                    }
+
+                } else {
+                    return encodeReserved(literal);
+                }
+            });
+        }
+    };
+}
+
+function getValues(context, operator, key, modifier) {
+
+    var value = context[key], result = [];
+
+    if (isDefined(value) && value !== '') {
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+            value = value.toString();
+
+            if (modifier && modifier !== '*') {
+                value = value.substring(0, parseInt(modifier, 10));
+            }
+
+            result.push(encodeValue(operator, value, isKeyOperator(operator) ? key : null));
+        } else {
+            if (modifier === '*') {
+                if (Array.isArray(value)) {
+                    value.filter(isDefined).forEach(function (value) {
+                        result.push(encodeValue(operator, value, isKeyOperator(operator) ? key : null));
+                    });
+                } else {
+                    Object.keys(value).forEach(function (k) {
+                        if (isDefined(value[k])) {
+                            result.push(encodeValue(operator, value[k], k));
+                        }
+                    });
+                }
+            } else {
+                var tmp = [];
+
+                if (Array.isArray(value)) {
+                    value.filter(isDefined).forEach(function (value) {
+                        tmp.push(encodeValue(operator, value));
+                    });
+                } else {
+                    Object.keys(value).forEach(function (k) {
+                        if (isDefined(value[k])) {
+                            tmp.push(encodeURIComponent(k));
+                            tmp.push(encodeValue(operator, value[k].toString()));
+                        }
+                    });
+                }
+
+                if (isKeyOperator(operator)) {
+                    result.push(encodeURIComponent(key) + '=' + tmp.join(','));
+                } else if (tmp.length !== 0) {
+                    result.push(tmp.join(','));
+                }
+            }
+        }
+    } else {
+        if (operator === ';') {
+            result.push(encodeURIComponent(key));
+        } else if (value === '' && (operator === '&' || operator === '?')) {
+            result.push(encodeURIComponent(key) + '=');
+        } else if (value === '') {
+            result.push('');
+        }
+    }
+
+    return result;
+}
+
+function isDefined(value) {
+    return value !== undefined && value !== null;
+}
+
+function isKeyOperator(operator) {
+    return operator === ';' || operator === '&' || operator === '?';
+}
+
+function encodeValue(operator, value, key) {
+
+    value = (operator === '+' || operator === '#') ? encodeReserved(value) : encodeURIComponent(value);
+
+    if (key) {
+        return encodeURIComponent(key) + '=' + value;
+    } else {
+        return value;
+    }
+}
+
+function encodeReserved(str) {
+    return str.split(/(%[0-9A-Fa-f]{2})/g).map(function (part) {
+        if (!/%[0-9A-Fa-f]/.test(part)) {
+            part = encodeURI(part);
+        }
+        return part;
+    }).join('');
+}
+
+/**
+ * URL Template (RFC 6570) Transform.
+ */
+
+function template (options) {
+
+    var variables = [], url = expand(options.url, options.params, variables);
+
+    variables.forEach(function (key) {
+        delete options.params[key];
+    });
+
+    return url;
+}
+
+/**
+ * Service for URL templating.
+ */
+
+function Url(url, params) {
+
+    var self = this || {}, options$$1 = url, transform;
+
+    if (isString(url)) {
+        options$$1 = {url: url, params: params};
+    }
+
+    options$$1 = merge({}, Url.options, self.$options, options$$1);
+
+    Url.transforms.forEach(function (handler) {
+
+        if (isString(handler)) {
+            handler = Url.transform[handler];
+        }
+
+        if (isFunction(handler)) {
+            transform = factory(handler, transform, self.$vm);
+        }
+
+    });
+
+    return transform(options$$1);
+}
+
+/**
+ * Url options.
+ */
+
+Url.options = {
+    url: '',
+    root: null,
+    params: {}
+};
+
+/**
+ * Url transforms.
+ */
+
+Url.transform = {template: template, query: query, root: root};
+Url.transforms = ['template', 'query', 'root'];
+
+/**
+ * Encodes a Url parameter string.
+ *
+ * @param {Object} obj
+ */
+
+Url.params = function (obj) {
+
+    var params = [], escape = encodeURIComponent;
+
+    params.add = function (key, value) {
+
+        if (isFunction(value)) {
+            value = value();
+        }
+
+        if (value === null) {
+            value = '';
+        }
+
+        this.push(escape(key) + '=' + escape(value));
+    };
+
+    serialize(params, obj);
+
+    return params.join('&').replace(/%20/g, '+');
+};
+
+/**
+ * Parse a URL and return its components.
+ *
+ * @param {String} url
+ */
+
+Url.parse = function (url) {
+
+    var el = document.createElement('a');
+
+    if (document.documentMode) {
+        el.href = url;
+        url = el.href;
+    }
+
+    el.href = url;
+
+    return {
+        href: el.href,
+        protocol: el.protocol ? el.protocol.replace(/:$/, '') : '',
+        port: el.port,
+        host: el.host,
+        hostname: el.hostname,
+        pathname: el.pathname.charAt(0) === '/' ? el.pathname : '/' + el.pathname,
+        search: el.search ? el.search.replace(/^\?/, '') : '',
+        hash: el.hash ? el.hash.replace(/^#/, '') : ''
+    };
+};
+
+function factory(handler, next, vm) {
+    return function (options$$1) {
+        return handler.call(vm, options$$1, next);
+    };
+}
+
+function serialize(params, obj, scope) {
+
+    var array = isArray(obj), plain = isPlainObject(obj), hash;
+
+    each(obj, function (value, key) {
+
+        hash = isObject(value) || isArray(value);
+
+        if (scope) {
+            key = scope + '[' + (plain || hash ? key : '') + ']';
+        }
+
+        if (!scope && array) {
+            params.add(value.name, value.value);
+        } else if (hash) {
+            serialize(params, value, key);
+        } else {
+            params.add(key, value);
+        }
+    });
+}
+
+/**
+ * XDomain client (Internet Explorer).
+ */
+
+function xdrClient (request) {
+    return new PromiseObj(function (resolve) {
+
+        var xdr = new XDomainRequest(), handler = function (ref) {
+                var type = ref.type;
+
+
+                var status = 0;
+
+                if (type === 'load') {
+                    status = 200;
+                } else if (type === 'error') {
+                    status = 500;
+                }
+
+                resolve(request.respondWith(xdr.responseText, {status: status}));
+            };
+
+        request.abort = function () { return xdr.abort(); };
+
+        xdr.open(request.method, request.getUrl());
+
+        if (request.timeout) {
+            xdr.timeout = request.timeout;
+        }
+
+        xdr.onload = handler;
+        xdr.onabort = handler;
+        xdr.onerror = handler;
+        xdr.ontimeout = handler;
+        xdr.onprogress = function () {};
+        xdr.send(request.getBody());
+    });
+}
+
+/**
+ * CORS Interceptor.
+ */
+
+var SUPPORTS_CORS = inBrowser && 'withCredentials' in new XMLHttpRequest();
+
+function cors (request) {
+
+    if (inBrowser) {
+
+        var orgUrl = Url.parse(location.href);
+        var reqUrl = Url.parse(request.getUrl());
+
+        if (reqUrl.protocol !== orgUrl.protocol || reqUrl.host !== orgUrl.host) {
+
+            request.crossOrigin = true;
+            request.emulateHTTP = false;
+
+            if (!SUPPORTS_CORS) {
+                request.client = xdrClient;
+            }
+        }
+    }
+
+}
+
+/**
+ * Form data Interceptor.
+ */
+
+function form (request) {
+
+    if (isFormData(request.body)) {
+        request.headers.delete('Content-Type');
+    } else if (isObject(request.body) && request.emulateJSON) {
+        request.body = Url.params(request.body);
+        request.headers.set('Content-Type', 'application/x-www-form-urlencoded');
+    }
+
+}
+
+/**
+ * JSON Interceptor.
+ */
+
+function json (request) {
+
+    var type = request.headers.get('Content-Type') || '';
+
+    if (isObject(request.body) && type.indexOf('application/json') === 0) {
+        request.body = JSON.stringify(request.body);
+    }
+
+    return function (response) {
+
+        return response.bodyText ? when(response.text(), function (text) {
+
+            var type = response.headers.get('Content-Type') || '';
+
+            if (type.indexOf('application/json') === 0 || isJson(text)) {
+
+                try {
+                    response.body = JSON.parse(text);
+                } catch (e) {
+                    response.body = null;
+                }
+
+            } else {
+                response.body = text;
+            }
+
+            return response;
+
+        }) : response;
+
+    };
+}
+
+function isJson(str) {
+
+    var start = str.match(/^\s*(\[|\{)/);
+    var end = {'[': /]\s*$/, '{': /}\s*$/};
+
+    return start && end[start[1]].test(str);
+}
+
+/**
+ * JSONP client (Browser).
+ */
+
+function jsonpClient (request) {
+    return new PromiseObj(function (resolve) {
+
+        var name = request.jsonp || 'callback', callback = request.jsonpCallback || '_jsonp' + Math.random().toString(36).substr(2), body = null, handler, script;
+
+        handler = function (ref) {
+            var type = ref.type;
+
+
+            var status = 0;
+
+            if (type === 'load' && body !== null) {
+                status = 200;
+            } else if (type === 'error') {
+                status = 500;
+            }
+
+            if (status && window[callback]) {
+                delete window[callback];
+                document.body.removeChild(script);
+            }
+
+            resolve(request.respondWith(body, {status: status}));
+        };
+
+        window[callback] = function (result) {
+            body = JSON.stringify(result);
+        };
+
+        request.abort = function () {
+            handler({type: 'abort'});
+        };
+
+        request.params[name] = callback;
+
+        if (request.timeout) {
+            setTimeout(request.abort, request.timeout);
+        }
+
+        script = document.createElement('script');
+        script.src = request.getUrl();
+        script.type = 'text/javascript';
+        script.async = true;
+        script.onload = handler;
+        script.onerror = handler;
+
+        document.body.appendChild(script);
+    });
+}
+
+/**
+ * JSONP Interceptor.
+ */
+
+function jsonp (request) {
+
+    if (request.method == 'JSONP') {
+        request.client = jsonpClient;
+    }
+
+}
+
+/**
+ * Before Interceptor.
+ */
+
+function before (request) {
+
+    if (isFunction(request.before)) {
+        request.before.call(this, request);
+    }
+
+}
+
+/**
+ * HTTP method override Interceptor.
+ */
+
+function method (request) {
+
+    if (request.emulateHTTP && /^(PUT|PATCH|DELETE)$/i.test(request.method)) {
+        request.headers.set('X-HTTP-Method-Override', request.method);
+        request.method = 'POST';
+    }
+
+}
+
+/**
+ * Header Interceptor.
+ */
+
+function header (request) {
+
+    var headers = assign({}, Http.headers.common,
+        !request.crossOrigin ? Http.headers.custom : {},
+        Http.headers[toLower(request.method)]
+    );
+
+    each(headers, function (value, name) {
+        if (!request.headers.has(name)) {
+            request.headers.set(name, value);
+        }
+    });
+
+}
+
+/**
+ * XMLHttp client (Browser).
+ */
+
+function xhrClient (request) {
+    return new PromiseObj(function (resolve) {
+
+        var xhr = new XMLHttpRequest(), handler = function (event) {
+
+                var response = request.respondWith(
+                'response' in xhr ? xhr.response : xhr.responseText, {
+                    status: xhr.status === 1223 ? 204 : xhr.status, // IE9 status bug
+                    statusText: xhr.status === 1223 ? 'No Content' : trim(xhr.statusText)
+                });
+
+                each(trim(xhr.getAllResponseHeaders()).split('\n'), function (row) {
+                    response.headers.append(row.slice(0, row.indexOf(':')), row.slice(row.indexOf(':') + 1));
+                });
+
+                resolve(response);
+            };
+
+        request.abort = function () { return xhr.abort(); };
+
+        xhr.open(request.method, request.getUrl(), true);
+
+        if (request.timeout) {
+            xhr.timeout = request.timeout;
+        }
+
+        if (request.responseType && 'responseType' in xhr) {
+            xhr.responseType = request.responseType;
+        }
+
+        if (request.withCredentials || request.credentials) {
+            xhr.withCredentials = true;
+        }
+
+        if (!request.crossOrigin) {
+            request.headers.set('X-Requested-With', 'XMLHttpRequest');
+        }
+
+        // deprecated use downloadProgress
+        if (isFunction(request.progress) && request.method === 'GET') {
+            xhr.addEventListener('progress', request.progress);
+        }
+
+        if (isFunction(request.downloadProgress)) {
+            xhr.addEventListener('progress', request.downloadProgress);
+        }
+
+        // deprecated use uploadProgress
+        if (isFunction(request.progress) && /^(POST|PUT)$/i.test(request.method)) {
+            xhr.upload.addEventListener('progress', request.progress);
+        }
+
+        if (isFunction(request.uploadProgress) && xhr.upload) {
+            xhr.upload.addEventListener('progress', request.uploadProgress);
+        }
+
+        request.headers.forEach(function (value, name) {
+            xhr.setRequestHeader(name, value);
+        });
+
+        xhr.onload = handler;
+        xhr.onabort = handler;
+        xhr.onerror = handler;
+        xhr.ontimeout = handler;
+        xhr.send(request.getBody());
+    });
+}
+
+/**
+ * Http client (Node).
+ */
+
+function nodeClient (request) {
+
+    var client = __webpack_require__(30);
+
+    return new PromiseObj(function (resolve) {
+
+        var url = request.getUrl();
+        var body = request.getBody();
+        var method = request.method;
+        var headers = {}, handler;
+
+        request.headers.forEach(function (value, name) {
+            headers[name] = value;
+        });
+
+        client(url, {body: body, method: method, headers: headers}).then(handler = function (resp) {
+
+            var response = request.respondWith(resp.body, {
+                status: resp.statusCode,
+                statusText: trim(resp.statusMessage)
+            });
+
+            each(resp.headers, function (value, name) {
+                response.headers.set(name, value);
+            });
+
+            resolve(response);
+
+        }, function (error$$1) { return handler(error$$1.response); });
+    });
+}
+
+/**
+ * Base client.
+ */
+
+function Client (context) {
+
+    var reqHandlers = [sendRequest], resHandlers = [];
+
+    if (!isObject(context)) {
+        context = null;
+    }
+
+    function Client(request) {
+        while (reqHandlers.length) {
+
+            var handler = reqHandlers.pop();
+
+            if (isFunction(handler)) {
+
+                var response = (void 0), next = (void 0);
+
+                response = handler.call(context, request, function (val) { return next = val; }) || next;
+
+                if (isObject(response)) {
+                    return new PromiseObj(function (resolve, reject) {
+
+                        resHandlers.forEach(function (handler) {
+                            response = when(response, function (response) {
+                                return handler.call(context, response) || response;
+                            }, reject);
+                        });
+
+                        when(response, resolve, reject);
+
+                    }, context);
+                }
+
+                if (isFunction(response)) {
+                    resHandlers.unshift(response);
+                }
+
+            } else {
+                warn(("Invalid interceptor of type " + (typeof handler) + ", must be a function"));
+            }
+        }
+    }
+
+    Client.use = function (handler) {
+        reqHandlers.push(handler);
+    };
+
+    return Client;
+}
+
+function sendRequest(request) {
+
+    var client = request.client || (inBrowser ? xhrClient : nodeClient);
+
+    return client(request);
+}
+
+/**
+ * HTTP Headers.
+ */
+
+var Headers = function Headers(headers) {
+    var this$1 = this;
+
+
+    this.map = {};
+
+    each(headers, function (value, name) { return this$1.append(name, value); });
+};
+
+Headers.prototype.has = function has (name) {
+    return getName(this.map, name) !== null;
+};
+
+Headers.prototype.get = function get (name) {
+
+    var list = this.map[getName(this.map, name)];
+
+    return list ? list.join() : null;
+};
+
+Headers.prototype.getAll = function getAll (name) {
+    return this.map[getName(this.map, name)] || [];
+};
+
+Headers.prototype.set = function set (name, value) {
+    this.map[normalizeName(getName(this.map, name) || name)] = [trim(value)];
+};
+
+Headers.prototype.append = function append (name, value) {
+
+    var list = this.map[getName(this.map, name)];
+
+    if (list) {
+        list.push(trim(value));
+    } else {
+        this.set(name, value);
+    }
+};
+
+Headers.prototype.delete = function delete$1 (name) {
+    delete this.map[getName(this.map, name)];
+};
+
+Headers.prototype.deleteAll = function deleteAll () {
+    this.map = {};
+};
+
+Headers.prototype.forEach = function forEach (callback, thisArg) {
+        var this$1 = this;
+
+    each(this.map, function (list, name) {
+        each(list, function (value) { return callback.call(thisArg, value, name, this$1); });
+    });
+};
+
+function getName(map, name) {
+    return Object.keys(map).reduce(function (prev, curr) {
+        return toLower(name) === toLower(curr) ? curr : prev;
+    }, null);
+}
+
+function normalizeName(name) {
+
+    if (/[^a-z0-9\-#$%&'*+.^_`|~]/i.test(name)) {
+        throw new TypeError('Invalid character in header field name');
+    }
+
+    return trim(name);
+}
+
+/**
+ * HTTP Response.
+ */
+
+var Response = function Response(body, ref) {
+    var url = ref.url;
+    var headers = ref.headers;
+    var status = ref.status;
+    var statusText = ref.statusText;
+
+
+    this.url = url;
+    this.ok = status >= 200 && status < 300;
+    this.status = status || 0;
+    this.statusText = statusText || '';
+    this.headers = new Headers(headers);
+    this.body = body;
+
+    if (isString(body)) {
+
+        this.bodyText = body;
+
+    } else if (isBlob(body)) {
+
+        this.bodyBlob = body;
+
+        if (isBlobText(body)) {
+            this.bodyText = blobText(body);
+        }
+    }
+};
+
+Response.prototype.blob = function blob () {
+    return when(this.bodyBlob);
+};
+
+Response.prototype.text = function text () {
+    return when(this.bodyText);
+};
+
+Response.prototype.json = function json () {
+    return when(this.text(), function (text) { return JSON.parse(text); });
+};
+
+Object.defineProperty(Response.prototype, 'data', {
+
+    get: function get() {
+        return this.body;
+    },
+
+    set: function set(body) {
+        this.body = body;
+    }
+
+});
+
+function blobText(body) {
+    return new PromiseObj(function (resolve) {
+
+        var reader = new FileReader();
+
+        reader.readAsText(body);
+        reader.onload = function () {
+            resolve(reader.result);
+        };
+
+    });
+}
+
+function isBlobText(body) {
+    return body.type.indexOf('text') === 0 || body.type.indexOf('json') !== -1;
+}
+
+/**
+ * HTTP Request.
+ */
+
+var Request = function Request(options$$1) {
+
+    this.body = null;
+    this.params = {};
+
+    assign(this, options$$1, {
+        method: toUpper(options$$1.method || 'GET')
+    });
+
+    if (!(this.headers instanceof Headers)) {
+        this.headers = new Headers(this.headers);
+    }
+};
+
+Request.prototype.getUrl = function getUrl () {
+    return Url(this);
+};
+
+Request.prototype.getBody = function getBody () {
+    return this.body;
+};
+
+Request.prototype.respondWith = function respondWith (body, options$$1) {
+    return new Response(body, assign(options$$1 || {}, {url: this.getUrl()}));
+};
+
+/**
+ * Service for sending network requests.
+ */
+
+var COMMON_HEADERS = {'Accept': 'application/json, text/plain, */*'};
+var JSON_CONTENT_TYPE = {'Content-Type': 'application/json;charset=utf-8'};
+
+function Http(options$$1) {
+
+    var self = this || {}, client = Client(self.$vm);
+
+    defaults(options$$1 || {}, self.$options, Http.options);
+
+    Http.interceptors.forEach(function (handler) {
+
+        if (isString(handler)) {
+            handler = Http.interceptor[handler];
+        }
+
+        if (isFunction(handler)) {
+            client.use(handler);
+        }
+
+    });
+
+    return client(new Request(options$$1)).then(function (response) {
+
+        return response.ok ? response : PromiseObj.reject(response);
+
+    }, function (response) {
+
+        if (response instanceof Error) {
+            error(response);
+        }
+
+        return PromiseObj.reject(response);
+    });
+}
+
+Http.options = {};
+
+Http.headers = {
+    put: JSON_CONTENT_TYPE,
+    post: JSON_CONTENT_TYPE,
+    patch: JSON_CONTENT_TYPE,
+    delete: JSON_CONTENT_TYPE,
+    common: COMMON_HEADERS,
+    custom: {}
+};
+
+Http.interceptor = {before: before, method: method, jsonp: jsonp, json: json, form: form, header: header, cors: cors};
+Http.interceptors = ['before', 'method', 'jsonp', 'json', 'form', 'header', 'cors'];
+
+['get', 'delete', 'head', 'jsonp'].forEach(function (method$$1) {
+
+    Http[method$$1] = function (url, options$$1) {
+        return this(assign(options$$1 || {}, {url: url, method: method$$1}));
+    };
+
+});
+
+['post', 'put', 'patch'].forEach(function (method$$1) {
+
+    Http[method$$1] = function (url, body, options$$1) {
+        return this(assign(options$$1 || {}, {url: url, method: method$$1, body: body}));
+    };
+
+});
+
+/**
+ * Service for interacting with RESTful services.
+ */
+
+function Resource(url, params, actions, options$$1) {
+
+    var self = this || {}, resource = {};
+
+    actions = assign({},
+        Resource.actions,
+        actions
+    );
+
+    each(actions, function (action, name) {
+
+        action = merge({url: url, params: assign({}, params)}, options$$1, action);
+
+        resource[name] = function () {
+            return (self.$http || Http)(opts(action, arguments));
+        };
+    });
+
+    return resource;
+}
+
+function opts(action, args) {
+
+    var options$$1 = assign({}, action), params = {}, body;
+
+    switch (args.length) {
+
+        case 2:
+
+            params = args[0];
+            body = args[1];
+
+            break;
+
+        case 1:
+
+            if (/^(POST|PUT|PATCH)$/i.test(options$$1.method)) {
+                body = args[0];
+            } else {
+                params = args[0];
+            }
+
+            break;
+
+        case 0:
+
+            break;
+
+        default:
+
+            throw 'Expected up to 2 arguments [params, body], got ' + args.length + ' arguments';
+    }
+
+    options$$1.body = body;
+    options$$1.params = assign({}, options$$1.params, params);
+
+    return options$$1;
+}
+
+Resource.actions = {
+
+    get: {method: 'GET'},
+    save: {method: 'POST'},
+    query: {method: 'GET'},
+    update: {method: 'PUT'},
+    remove: {method: 'DELETE'},
+    delete: {method: 'DELETE'}
+
+};
+
+/**
+ * Install plugin.
+ */
+
+function plugin(Vue) {
+
+    if (plugin.installed) {
+        return;
+    }
+
+    Util(Vue);
+
+    Vue.url = Url;
+    Vue.http = Http;
+    Vue.resource = Resource;
+    Vue.Promise = PromiseObj;
+
+    Object.defineProperties(Vue.prototype, {
+
+        $url: {
+            get: function get() {
+                return options(Vue.url, this, this.$options.url);
+            }
+        },
+
+        $http: {
+            get: function get() {
+                return options(Vue.http, this, this.$options.http);
+            }
+        },
+
+        $resource: {
+            get: function get() {
+                return Vue.resource.bind(this);
+            }
+        },
+
+        $promise: {
+            get: function get() {
+                var this$1 = this;
+
+                return function (executor) { return new Vue.Promise(executor, this$1); };
+            }
+        }
+
+    });
+}
+
+if (typeof window !== 'undefined' && window.Vue) {
+    window.Vue.use(plugin);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (plugin);
+
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _vue = __webpack_require__(8);
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _vueFroalaWysiwyg = __webpack_require__(33);
+
+var _vueFroalaWysiwyg2 = _interopRequireDefault(_vueFroalaWysiwyg);
+
+var _vueMultiselect = __webpack_require__(13);
+
+var _vueMultiselect2 = _interopRequireDefault(_vueMultiselect);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// general cms app
+_vue2.default.component('app', __webpack_require__(35));
+_vue2.default.component('application-link', __webpack_require__(50));
+_vue2.default.component('cms-menu-link', __webpack_require__(55));
+
+// Spinner (Loading compontent)
+_vue2.default.component('spinner', __webpack_require__(60));
+
+// Custom Fields
+_vue2.default.component("field", __webpack_require__(65));
+_vue2.default.component("customField", __webpack_require__(75));
+
+// Categories
+_vue2.default.component("category-item", __webpack_require__(80));
+
+// noty css
+__webpack_require__(85);
+
+// Multi select plugin
+_vue2.default.component("multiselect", _vueMultiselect2.default);
+
+// Froala Editor
+_vue2.default.use(_vueFroalaWysiwyg2.default);
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _vueFroala = __webpack_require__(34);
+
+var _vueFroala2 = _interopRequireDefault(_vueFroala);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _vueFroala2.default;
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _stringify = __webpack_require__(14);
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (Vue) {
+  var Options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+
+  var froalaEditorFunctionality = {
+
+    props: ['tag', 'value', 'config', 'onManualControllerReady'],
+
+    watch: {
+      value: function value() {
+        this.model = this.value;
+        this.updateValue();
+      }
+    },
+
+    render: function render(createElement) {
+      return createElement(this.currentTag, [this.$slots.default]);
+    },
+
+    created: function created() {
+      this.currentTag = this.tag || this.currentTag;
+      this.model = this.value;
+    },
+
+    mounted: function mounted() {
+      if (this.SPECIAL_TAGS.indexOf(this.currentTag) != -1) {
+
+        this.hasSpecialTag = true;
+      }
+
+      if (this.onManualControllerReady) {
+        this.generateManualController();
+      } else {
+        this.createEditor();
+      }
+    },
+
+    beforeDestroy: function beforeDestroy() {
+      this.destroyEditor();
+    },
+
+    data: function data() {
+
+      return {
+        currentTag: 'div',
+        listeningEvents: [],
+
+        _$element: null,
+
+        _$editor: null,
+
+        currentConfig: null,
+
+        defaultConfig: {
+          immediateVueModelUpdate: false,
+          vueIgnoreAttrs: null
+        },
+
+        editorInitialized: false,
+
+        SPECIAL_TAGS: ['img', 'button', 'input', 'a'],
+        INNER_HTML_ATTR: 'innerHTML',
+        hasSpecialTag: false,
+
+        model: null,
+        oldModel: null
+      };
+    },
+    methods: {
+      updateValue: function updateValue() {
+        if ((0, _stringify2.default)(this.oldModel) == (0, _stringify2.default)(this.model)) {
+          return;
+        }
+
+        this.setContent();
+      },
+
+      createEditor: function createEditor() {
+
+        if (this.editorInitialized) {
+          return;
+        }
+
+        this.currentConfig = this.config || this.defaultConfig;
+
+        this._$element = $(this.$el);
+
+        this.setContent(true);
+
+        this.registerEvents();
+        this._$editor = this._$element.froalaEditor(this.currentConfig).data('froala.editor').$el;
+        this.initListeners();
+
+        this.editorInitialized = true;
+      },
+
+      setContent: function setContent(firstTime) {
+
+        if (!this.editorInitialized && !firstTime) {
+          return;
+        }
+
+        if (this.model || this.model == '') {
+
+          this.oldModel = this.model;
+
+          if (this.hasSpecialTag) {
+            this.setSpecialTagContent();
+          } else {
+            this.setNormalTagContent(firstTime);
+          }
+        }
+      },
+
+      setNormalTagContent: function setNormalTagContent(firstTime) {
+
+        var self = this;
+
+        function htmlSet() {
+
+          self._$element.froalaEditor('html.set', self.model || '', true);
+
+          self._$element.froalaEditor('undo.reset');
+          self._$element.froalaEditor('undo.saveStep');
+        }
+
+        if (firstTime) {
+          this.registerEvent(this._$element, 'froalaEditor.initialized', function () {
+            htmlSet();
+          });
+        } else {
+          htmlSet();
+        }
+      },
+
+      setSpecialTagContent: function setSpecialTagContent() {
+
+        var tags = this.model;
+
+        if (tags) {
+
+          for (var attr in tags) {
+            if (tags.hasOwnProperty(attr) && attr != this.INNER_HTML_ATTR) {
+              this._$element.attr(attr, tags[attr]);
+            }
+          }
+
+          if (tags.hasOwnProperty(this.INNER_HTML_ATTR)) {
+            this._$element[0].innerHTML = tags[this.INNER_HTML_ATTR];
+          }
+        }
+      },
+
+      destroyEditor: function destroyEditor() {
+
+        if (this._$element) {
+
+          this.listeningEvents && this._$element.off(this.listeningEvents.join(" "));
+          this._$editor.off('keyup');
+          this._$element.froalaEditor('destroy');
+          this.listeningEvents.length = 0;
+          this._$element = null;
+          this.editorInitialized = false;
+        }
+      },
+
+      getEditor: function getEditor() {
+
+        if (this._$element) {
+          return this._$element.froalaEditor.bind(this._$element);
+        }
+        return null;
+      },
+
+      generateManualController: function generateManualController() {
+
+        var self = this;
+        var controls = {
+          initialize: this.createEditor,
+          destroy: this.destroyEditor,
+          getEditor: this.getEditor
+        };
+
+        this.onManualControllerReady(controls);
+      },
+
+      updateModel: function updateModel() {
+
+        var modelContent = '';
+
+        if (this.hasSpecialTag) {
+
+          var attributeNodes = this._$element[0].attributes;
+          var attrs = {};
+
+          for (var i = 0; i < attributeNodes.length; i++) {
+
+            var attrName = attributeNodes[i].name;
+            if (this.currentConfig.vueIgnoreAttrs && this.currentConfig.vueIgnoreAttrs.indexOf(attrName) != -1) {
+              continue;
+            }
+            attrs[attrName] = attributeNodes[i].value;
+          }
+
+          if (this._$element[0].innerHTML) {
+            attrs[this.INNER_HTML_ATTR] = this._$element[0].innerHTML;
+          }
+
+          modelContent = attrs;
+        } else {
+
+          var returnedHtml = this._$element.froalaEditor('html.get');
+          if (typeof returnedHtml === 'string') {
+            modelContent = returnedHtml;
+          }
+        }
+
+        this.oldModel = modelContent;
+        this.$emit('input', modelContent);
+      },
+
+      initListeners: function initListeners() {
+        var self = this;
+
+        this.registerEvent(this._$element, 'froalaEditor.contentChanged', function () {
+          self.updateModel();
+        });
+        if (this.currentConfig.immediateVueModelUpdate) {
+          this.registerEvent(this._$editor, 'keyup', function () {
+            self.updateModel();
+          });
+        }
+      },
+
+      registerEvent: function registerEvent(element, eventName, callback) {
+
+        if (!element || !eventName || !callback) {
+          return;
+        }
+
+        this.listeningEvents.push(eventName);
+        element.on(eventName, callback);
+      },
+
+      registerEvents: function registerEvents() {
+
+        var events = this.currentConfig.events;
+        if (!events) {
+          return;
+        }
+
+        for (var event in events) {
+          if (events.hasOwnProperty(event)) {
+            this.registerEvent(this._$element, event, events[event]);
+          }
+        }
+      }
+    }
+  };
+
+  Vue.component('froala', froalaEditorFunctionality);
+
+  var froalaViewFunctionality = {
+
+    props: ['tag', 'value'],
+
+    watch: {
+      value: function value(newValue) {
+        this._element.innerHTML = newValue;
+      }
+    },
+
+    created: function created() {
+      this.currentTag = this.tag || this.currentTag;
+    },
+
+    render: function render(createElement) {
+      return createElement(this.currentTag, {
+        class: 'fr-view'
+      });
+    },
+
+    mounted: function mounted() {
+      this._element = this.$el;
+
+      if (this.value) {
+        this._element.innerHTML = this.value;
+      }
+    },
+
+    data: function data() {
+
+      return {
+        currentTag: 'div',
+        _element: null
+      };
+    }
+  };
+
+  Vue.component('froalaView', froalaViewFunctionality);
+};
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(36)
+/* template */
+var __vue_template__ = __webpack_require__(49)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "vendor\\acciocms\\core\\src\\resources\\views\\components\\App.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f10aed9e", Component.options)
+  } else {
+    hotAPI.reload("data-v-f10aed9e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _froala = __webpack_require__(37);
+
+var _Header = __webpack_require__(38);
+
+var _Header2 = _interopRequireDefault(_Header);
+
+var _Footer = __webpack_require__(41);
+
+var _Footer2 = _interopRequireDefault(_Footer);
+
+var _Navigation = __webpack_require__(44);
+
+var _Navigation2 = _interopRequireDefault(_Navigation);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: ['base_url', 'base_path'],
+    components: {
+        'appHeader': _Header2.default,
+        'appFooter': _Footer2.default,
+        'appNavigation': _Navigation2.default
+    },
+    mixins: [_froala.froalaMixin],
+    data: function data() {
+        return {
+            isLoading: true,
+            applicationMenuLinks: [],
+            cmsMenus: [],
+            logout_link: ''
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        this.$store.commit('setBaseURL', this.base_url);
+        this.$store.commit('setBasePath', this.base_path);
+
+        // basic data for cms start
+        this.$http.get(this.base_url + '/' + this.$route.params.adminPrefix + '/get-base-data').then(function (resp) {
+            _this.$store.commit('setLogoutLink', resp.body.logoutLink);
+            _this.logout_link = resp.body.logoutLink;
+            _this.$store.commit('setAuth', resp.body.auth);
+            _this.$store.commit('setGlobalData', resp.body.global_data);
+            _this.$store.commit('setLabels', resp.body.labels);
+            _this.$store.commit('setPluginsConfigs', resp.body.pluginsConfigs);
+            _this.$store.commit('setLanguages', resp.body.languages);
+            _this.$store.commit('setRoute', _this.$route);
+
+            _this.applicationMenuLinks = resp.body.applicationMenuLinks;
+            _this.cmsMenus = resp.body.cmsMenus;
+
+            // set menu mode on refresh
+            if (_this.$route.query.mode !== undefined || _this.$route.query.menu_link_id !== undefined) {
+                _this.$store.commit('setMenuMode', 'menu');
+            } else {
+                _this.$store.commit('setMenuMode', 'application');
+            }
+
+            if (_this.$route.meta.module == 'posts') {
+                _this.$store.commit('setOpenModule', _this.$route.params.post_type);
+            } else {
+                _this.$store.commit('setOpenModule', _this.$route.meta.module);
+            }
+
+            // if is not plugin
+            if (!_this.isPlugin) {
+                // create all froala components, custom plugins, buttons and extra functionality
+                _this.froalaConstruct();
+            }
+        }).then(function (resp) {
+            _this.isLoading = false;
+        });
+    },
+
+    computed: {
+        isPlugin: function isPlugin() {
+            var path = this.$route.path;
+            return path.includes("plugins");
+        }
+    },
+    watch: {
+        // watch for url changes and component doesn't change
+        '$route': function $route() {
+            // reset vuex params
+            if (!this.isPlugin) {
+                this.$store.commit('setMediaSelectedFiles', {});
+                this.$store.commit('setStoreResponse', { errors: [] });
+            }
+        }
+    }
+};
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var froalaMixin = exports.froalaMixin = {
+    methods: {
+        froalaConstruct: function froalaConstruct() {
+            this.froalaAddImage();
+            this.froalaAddVideo();
+            this.froalaEmbedPlugin();
+            this.froalaRemoveEmbed();
+            this.froalaPrepare();
+        },
+
+
+        // Add image commands for the froala editor (Custom buttons of editors button panel)
+        froalaAddImage: function froalaAddImage() {
+            var global = this;
+
+            // make add image command for each editor on the app
+            $.FroalaEditor.DefineIconTemplate('file-image-o', '<i class="fa fa-[NAME]"></i>'); // define the media icon
+            $.FroalaEditor.DefineIcon('addImage', { NAME: 'file-image-o' }); // add media icon
+            $.FroalaEditor.RegisterCommand('addImage', { // create add media button
+                title: 'Add image',
+                focus: true,
+                undo: true,
+                icon: 'addImage',
+                refreshAfterCallback: false,
+                // open media when this button is clicked
+                callback: function callback(e) {
+
+                    $('button[data-cmd="addImage"]').click(function () {
+                        // get button click event to get the ID of the editor
+                        var isDisabled = $(this).attr('aria-disabled'); // get if btn is disabled
+                        if (isDisabled === undefined || isDisabled === 'false') {
+                            // if btn is disabled should not be clickable
+                            var id = $(this).parents('.froala-container').children('.froala').attr('id');
+                            global.$store.commit('setOpenMediaOptions', { format: 'image', inputName: id, langSlug: '' });
+                            global.$store.commit('setIsMediaOpen', true);
+                        }
+
+                        //this.selection.save();
+                    });
+                }
+            });
+
+            // Define a button.
+            $.FroalaEditor.RegisterQuickInsertButton('addImage', {
+                icon: 'addImage',
+                title: 'Add image',
+                undo: true,
+                // Callback for the button.
+                callback: function callback() {
+                    $('a[data-cmd="addImage"]').click(function () {
+                        // get button click event to get the ID of the editor
+                        var isDisabled = $(this).attr('aria-disabled'); // get if btn is disabled
+                        if (isDisabled === undefined || isDisabled === 'false') {
+                            // if btn is disabled should not be clickable
+                            var id = $(this).parents('.froala-container').children('.froala').attr('id');
+                            global.$store.commit('setOpenMediaOptions', { format: 'image', inputName: id, langSlug: '' });
+                            global.$store.commit('setIsMediaOpen', true);
+                        }
+                    });
+                }
+            });
+        },
+
+
+        // Add video commands for the froala editor (Custom buttons of editors button panel)
+        froalaAddVideo: function froalaAddVideo() {
+            var global = this;
+
+            // make add image command for each editor on the app
+            $.FroalaEditor.DefineIconTemplate('file-video-o', '<i class="fa fa-[NAME]"></i>'); // define the media icon
+            $.FroalaEditor.DefineIcon('addVideo', { NAME: 'file-video-o' }); // add media icon
+            $.FroalaEditor.RegisterCommand('addVideo', { // create add media button
+                title: 'Add video',
+                focus: false,
+                undo: true,
+                icon: 'addVideo',
+                refreshAfterCallback: false,
+                // open media when this button is clicked
+                callback: function callback(e) {
+                    var editor = this;
+                    $('button[data-cmd="addVideo"]').click(function () {
+                        // get button click event to get the ID of the editor
+                        var isDisabled = $(this).attr('aria-disabled'); // get if btn is disabled
+                        if (isDisabled === undefined || isDisabled === 'false') {
+                            // if btn is disabled should not be clickable
+                            var id = $(this).parents('.froala-container').children('.froala').attr('id');
+                            global.$store.commit('setOpenMediaOptions', { format: 'video', inputName: id, langSlug: '' });
+                            global.$store.commit('setIsMediaOpen', true);
+                        }
+                    });
+                }
+            });
+
+            // Define a button.
+            $.FroalaEditor.RegisterQuickInsertButton('addVideo', {
+                icon: 'addVideo',
+                title: 'Add video',
+                // Save changes to undo stack.
+                undo: true,
+                // Callback for the button.
+                callback: function callback() {
+                    $('button[data-cmd="addVideo"]').click(function () {
+                        // get button click event to get the ID of the editor
+                        var isDisabled = $(this).attr('aria-disabled'); // get if btn is disabled
+                        if (isDisabled === undefined || isDisabled === 'false') {
+                            // if btn is disabled should not be clickable
+                            var id = $(this).parents('.froala-container').children('.froala').attr('id');
+                            global.$store.commit('setOpenMediaOptions', { format: 'video', inputName: id, langSlug: '' });
+                            global.$store.commit('setIsMediaOpen', true);
+                        }
+                    });
+                }
+            });
+        },
+
+
+        // insert embed plugin
+        froalaEmbedPlugin: function froalaEmbedPlugin() {
+            // Define popup template.
+            $.extend($.FroalaEditor.POPUP_TEMPLATES, {
+                "embedPlugin.popup": '[_CUSTOM_LAYER_][_BUTTONS_]'
+            });
+
+            // The custom popup is defined inside a plugin (new or existing).
+            $.FroalaEditor.PLUGINS.embedPlugin = function (editor) {
+                // Create custom popup.
+                function initPopup() {
+                    // Popup buttons.
+                    var popup_buttons = '';
+
+                    // Create the list of buttons.
+                    popup_buttons += '<div class="fr-buttons">';
+                    popup_buttons += editor.button.buildList(['insertEmbedCode', '|']);
+                    popup_buttons += '</div>';
+
+                    // Load popup template.
+                    var template = {
+                        custom_layer: '<div class="embed-code-input-container"><input class="embed-code-input" type="text" placeholder="Paste embed code"></div>',
+                        buttons: popup_buttons
+                    };
+
+                    // Create popup.
+                    var $popup = editor.popups.create('embedPlugin.popup', template);
+
+                    return $popup;
+                }
+
+                // Show the popup
+                function showPopup() {
+                    // Get the popup object defined above.
+                    var $popup = editor.popups.get('embedPlugin.popup');
+
+                    // If popup doesn't exist then create it.
+                    // To improve performance it is best to create the popup when it is first needed
+                    // and not when the editor is initialized.
+                    if (!$popup) $popup = initPopup();
+                    // Set the editor toolbar as the popup's container.
+                    editor.popups.setContainer('embedPlugin.popup', editor.$tb);
+                    // This custom popup is opened by pressing a button from the editor's toolbar.
+                    // Get the button's object in order to place the popup relative to it.
+                    var $btn = editor.$tb.find('.fr-command[data-cmd="embedBtn"]');
+
+                    // Set the popup's position.
+                    var left = $btn.offset().left + $btn.outerWidth() / 2;
+                    var top = $btn.offset().top + (editor.opts.toolbarBottom ? 10 : $btn.outerHeight() - 10);
+
+                    // Show the custom popup.
+                    // The button's outerHeight is required in case the popup needs to be displayed above it.
+                    editor.popups.show('embedPlugin.popup', left, top, $btn.outerHeight());
+                }
+
+                // Hide the custom popup.
+                function hidePopup() {
+                    editor.popups.hide('embedPlugin.popup');
+                }
+
+                // Methods visible outside the plugin.
+                return {
+                    showPopup: showPopup,
+                    hidePopup: hidePopup
+                };
+            };
+
+            // Define an icon and command for the button that opens the custom popup.
+            $.FroalaEditor.DefineIcon('buttonIcon', { NAME: 'star' });
+            $.FroalaEditor.RegisterCommand('embedBtn', {
+                title: 'Embed code',
+                icon: 'buttonIcon',
+                undo: false,
+                focus: false,
+                plugin: 'embedPlugin',
+                callback: function callback() {
+                    //this.selection.save();
+                    this.embedPlugin.showPopup();
+                }
+            });
+
+            // Define custom popup 1.
+            $.FroalaEditor.DefineIcon('insertEmbedCode', { NAME: 'Insert', template: 'text' });
+            $.FroalaEditor.RegisterCommand('insertEmbedCode', {
+                title: 'Insert Embed Code',
+                undo: true,
+                focus: true,
+                refreshAfterCallback: true,
+                callback: function callback() {
+
+                    var embedCode = this.popups.get('embedPlugin.popup').find('.embed-code-input').val();
+                    this.popups.get('embedPlugin.popup').find('.embed-code-input').val("");
+                    var id = $(".embed-container").length + (Math.floor(Math.random() * (999 - 1)) + 1);
+
+                    this.html.insert("<div class='embed-container' contenteditable='false'>" + "<div class='embed-wrapper' id='embed-wrapper-" + id + "'></div>" + embedCode + "</div><p></p>\n");
+
+                    // set html
+                    //this.html.set(this.html.get());
+                    this.undo.saveStep();
+
+                    this.selection.setAtEnd(0);
+                    this.selection.restore();
+
+                    this.embedPlugin.hidePopup();
+                }
+            });
+        },
+
+
+        // insert plugin for removing embed code container
+        froalaRemoveEmbed: function froalaRemoveEmbed() {
+            // Define custom popup 1.
+            $.FroalaEditor.DefineIcon('deleteEmbedCode', { NAME: 'Delete', template: 'text' });
+            $.FroalaEditor.RegisterCommand('deleteEmbedCode', {
+                title: 'Delete Embed Code',
+                undo: false,
+                focus: false,
+                refreshAfterCallback: true,
+                callback: function callback() {
+                    $(".embed-wrapper.selected").parents(".embed-container").remove();
+                    this.removeEmbedPlugin.hidePopup();
+                }
+            });
+
+            // Define popup template.
+            $.extend($.FroalaEditor.POPUP_TEMPLATES, {
+                "removeEmbedPlugin.popup": '[_BUTTONS_]'
+            });
+
+            // The custom popup is defined inside a plugin (new or existing).
+            $.FroalaEditor.PLUGINS.removeEmbedPlugin = function (editor) {
+                // Create custom popup.
+                function initPopup() {
+                    // Popup buttons.
+                    var popup_buttons = '';
+
+                    // Create the list of buttons.
+                    popup_buttons += '<div class="fr-buttons">';
+                    popup_buttons += editor.button.buildList(['deleteEmbedCode', '|']);
+                    popup_buttons += '</div>';
+
+                    // Load popup template.
+                    var template = {
+                        buttons: popup_buttons
+                    };
+
+                    // Create popup.
+                    var $popup = editor.popups.create('removeEmbedPlugin.popup', template);
+
+                    return $popup;
+                }
+
+                // Show the popup
+                function showPopup(left, top) {
+                    // Get the popup object defined above.
+                    var $popup = editor.popups.get('removeEmbedPlugin.popup');
+
+                    // If popup doesn't exist then create it.
+                    // To improve performance it is best to create the popup when it is first needed
+                    // and not when the editor is initialized.
+                    if (!$popup) $popup = initPopup();
+
+                    // Set the editor toolbar as the popup's container.
+                    editor.popups.setContainer('removeEmbedPlugin.popup', editor.$tb);
+
+                    // This will trigger the refresh event assigned to the popup.
+                    // editor.popups.refresh('removeEmbedPlugin.popup');
+
+                    // This custom popup is opened by pressing a button from the editor's toolbar.
+                    // Get the button's object in order to place the popup relative to it.
+                    var $btn = editor.$tb.find('.fr-command[data-cmd="embedBtn"]');
+
+                    // Show the custom popup.
+                    // The button's outerHeight is required in case the popup needs to be displayed above it.
+                    // editor.popups.show('removeEmbedPlugin.popup', left, top, $btn.outerHeight());
+                    editor.popups.show('removeEmbedPlugin.popup', left, top, $btn.outerHeight());
+                }
+
+                // Hide the custom popup.
+                function hidePopup() {
+                    editor.popups.hide('removeEmbedPlugin.popup');
+                }
+
+                // Methods visible outside the plugin.
+                return {
+                    showPopup: showPopup,
+                    hidePopup: hidePopup
+                };
+            };
+        },
+
+
+        /**
+         *  Handel's base functionality like selected class for embed,
+         *  create new line paragraph when enter is clicked in figcaption etc
+         */
+        froalaPrepare: function froalaPrepare() {
+            // remove selected class on the embed wrapper when elsewhere is clicked
+            $(document).click(function (e) {
+                if (e.target.className !== "embed-wrapper" && e.target.className !== "embed-wrapper selected") {
+                    $(".embed-wrapper").removeClass("selected");
+                }
+            });
+
+            var initializedEditorsIDs = [];
+            var interval = setInterval(function () {
+                var editorsCount = $(".froala").length;
+                if (editorsCount > 0) {
+                    editorsCount++;
+
+                    $('.froala').each(function (e) {
+                        var _this = this;
+
+                        var id = $(this).attr("id");
+                        var editor = $('#' + id);
+
+                        if (initializedEditorsIDs.indexOf(id) == -1) {
+
+                            // click even to select embed wraper and show popup delete button for embed code
+                            editor.on('froalaEditor.click', function (e, editor, clickEvent) {
+                                var clickedClass = clickEvent.target.className;
+                                var id = clickEvent.target.id;
+                                if (clickedClass == 'embed-wrapper') {
+                                    $(".embed-wrapper").removeClass("selected");
+                                    $("#" + id).addClass("selected");
+                                    editor.removeEmbedPlugin.showPopup(clickEvent.pageX, clickEvent.pageY);
+                                } else {
+                                    $(".embed-wrapper").removeClass("selected");
+                                }
+                            });
+
+                            // create new line paragraph when enter is clicked in figcaption etc
+                            editor.froalaEditor('events.on', 'keydown', function (e) {
+                                if (e.keyCode == 13) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    e.stopImmediatePropagation();
+
+                                    var newLine = false;
+                                    var blocks = $(_this).froalaEditor('selection.blocks');
+
+                                    if (blocks[0] !== undefined && blocks[0].nodeName == "FIGURE") {
+                                        var afterElement = $(_this).froalaEditor('selection.get').anchorNode;
+                                        newLine = true;
+                                    } else if (blocks[0] !== undefined && blocks[0].nodeName == "FIGCAPTION") {
+                                        if (blocks[0].innerText == "\n" || blocks[0].innerText == "<br>") {
+                                            var afterElement = $(_this).froalaEditor('selection.get').anchorNode.parentNode;
+                                        } else {
+                                            var afterElement = $(_this).froalaEditor('selection.get').anchorNode.parentElement.parentNode;
+                                        }
+                                        newLine = true;
+                                    }
+                                    //should we create an empty paragraph at dhe end of the element
+                                    if (newLine) {
+                                        $(_this).froalaEditor('selection.setAfter', afterElement);
+                                        $(_this).froalaEditor('selection.restore');
+                                        $(_this).froalaEditor('html.insert', '<p></p>');
+                                        return false;
+                                    }
+                                }
+                            }, true);
+
+                            // remove figure when the images is being deleted
+                            $('.froala').each(function (e) {
+                                var id = $(this).attr("id");
+                                $('#' + id).on('froalaEditor.image.beforeRemove', function (e, editor, $img) {
+                                    $img.closest("figure").remove();
+                                });
+                            });
+                        }
+
+                        initializedEditorsIDs.push(id);
+                    });
+
+                    if (editorsCount === initializedEditorsIDs.length) {
+                        clearInterval(interval);
+                    }
+                }
+            }, 1000);
+        }
+    }
+};
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(39)
+/* template */
+var __vue_template__ = __webpack_require__(40)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "vendor\\acciocms\\core\\src\\resources\\views\\components\\general\\Header.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2f191a21", Component.options)
+  } else {
+    hotAPI.reload("data-v-2f191a21", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: ['logout_link'],
+    data: function data() {
+        return {
+            dropdownActive: false
+        };
+    },
+
+    methods: {
+        changeMenuType: function changeMenuType() {
+            this.$store.commit("setNavigationMenuStateIsMobile", !this.IsMobile);
+
+            if (this.IsMobile) {
+                $("body").attr("class", "nav-sm");
+            } else {
+                $("body").attr("class", "nav-md");
+            }
+        }
+    },
+    computed: {
+        Auth: function Auth() {
+            return this.$store.getters.get_auth;
+        },
+        IsMobile: function IsMobile() {
+            return this.$store.getters.get_navigation_menu_state_is_mobile;
+        },
+
+        // get languages
+        getLanguages: function getLanguages() {
+            return this.$store.getters.get_languages;
+        },
+
+        // get base path
+        basePath: function basePath() {
+            return this.$store.getters.get_base_path;
+        }
+    }
+};
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+>>>>>>> 3141ce7012856c381633c1cc89aefad918a86e5f
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+<<<<<<< HEAD
   return _c("div", { staticClass: "right_col", attrs: { role: "main" } }, [
     _c("div", { staticClass: "componentsWs" }, [
       _vm._m(0),
+=======
+  return _c(
+    "div",
+    {
+      staticClass: "top_nav",
+      on: {
+        mouseleave: function($event) {
+          _vm.dropdownActive = false
+        }
+      }
+    },
+    [
+      _c("div", { staticClass: "nav_menu" }, [
+        _c("nav", [
+          _c("div", { staticClass: "nav toggle" }, [
+            _c(
+              "a",
+              {
+                attrs: { id: "menu_toggle" },
+                on: { click: _vm.changeMenuType }
+              },
+              [_c("i", { staticClass: "fa fa-bars" })]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "ul",
+            { staticClass: "nav navbar-nav navbar-right headerBarNavigation" },
+            [
+              _c("li", [
+                _c(
+                  "a",
+                  {
+                    staticClass: "user-profile dropdown-toggle",
+                    staticStyle: { cursor: "pointer" },
+                    attrs: {
+                      "data-toggle": "dropdown",
+                      "aria-expanded": "false"
+                    },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.dropdownActive = !_vm.dropdownActive
+                      }
+                    }
+                  },
+                  [
+                    _c("img", { attrs: { src: _vm.Auth.avatar, alt: "" } }),
+                    _vm._v(
+                      _vm._s(_vm.Auth.firstName) +
+                        "  " +
+                        _vm._s(_vm.Auth.lastName) +
+                        "\n                        "
+                    ),
+                    _c("span", { staticClass: " fa fa-angle-down" })
+                  ]
+                ),
+                _vm._v(" "),
+                _vm.dropdownActive
+                  ? _c(
+                      "ul",
+                      {
+                        staticClass:
+                          "dropdown-menu dropdown-usermenu pull-right",
+                        staticStyle: { display: "block" }
+                      },
+                      [
+                        _c(
+                          "li",
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                attrs: {
+                                  to:
+                                    _vm.basePath +
+                                    "/" +
+                                    this.$route.params.adminPrefix +
+                                    "/" +
+                                    this.$route.params.lang +
+                                    "/user/update/" +
+                                    _vm.Auth.userID
+                                }
+                              },
+                              [_vm._v("Profile")]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("li", [
+                          _c("a", { attrs: { href: _vm.logout_link } }, [
+                            _c("i", {
+                              staticClass: "fa fa-sign-out pull-right"
+                            }),
+                            _vm._v(" Log Out")
+                          ])
+                        ])
+                      ]
+                    )
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.getLanguages, function(language) {
+                return _c(
+                  "li",
+                  {
+                    class: { active: _vm.$route.params.lang == language.slug },
+                    staticStyle: { cursor: "pointer" },
+                    on: {
+                      click: function($event) {
+                        _vm.$router.push({ params: { lang: language.slug } })
+                        _vm.$router.go(0)
+                      }
+                    }
+                  },
+                  [_c("a", [_vm._v(_vm._s(language.name))])]
+                )
+              })
+            ],
+            2
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2f191a21", module.exports)
+  }
+}
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(42)
+/* template */
+var __vue_template__ = __webpack_require__(43)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "vendor\\acciocms\\core\\src\\resources\\views\\components\\general\\Footer.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0de6b62f", Component.options)
+  } else {
+    hotAPI.reload("data-v-0de6b62f", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {};
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("footer", [
+      _c("div", { staticClass: "pull-right" }, [
+        _vm._v("\n        Accio - Created by "),
+        _c("a", { attrs: { href: "http://www.manaferra.com/" } }, [
+          _vm._v("Accio")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearfix" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0de6b62f", module.exports)
+  }
+}
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(45)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(47)
+/* template */
+var __vue_template__ = __webpack_require__(48)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-443f0828"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "vendor\\acciocms\\core\\src\\resources\\views\\components\\general\\Navigation.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-443f0828", Component.options)
+  } else {
+    hotAPI.reload("data-v-443f0828", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(46);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("8edcdec0", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-443f0828\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Navigation.vue", function() {
+     var newContent = require("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-443f0828\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Navigation.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.slide[data-v-443f0828] {\n    -webkit-transition: all .5s ease;\n    transition: all .5s ease;\n    height: auto;\n}\n.slide.v-enter[data-v-443f0828], .slide.v-leave[data-v-443f0828] {\n    height: 0;\n    opacity: 0;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _globalComputed = __webpack_require__(3);
+
+var _globalMethods = __webpack_require__(4);
+
+var _globalData = __webpack_require__(5);
+
+var _globalUpdated = __webpack_require__(6);
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    mixins: [_globalComputed.globalComputed, _globalMethods.globalMethods, _globalData.globalData, _globalUpdated.globalUpdated],
+    props: ['applicationMenuLinks', 'cmsMenus', 'isPluginApp'],
+    methods: {
+        // change the menu mode (switch between cms and application menu)
+        changeMenuMode: function changeMenuMode(mode) {
+            this.$store.commit('setMenuMode', mode);
+        }
+    },
+    data: function data() {
+        return {
+            activeMenu: 0
+        };
+    },
+
+    computed: {
+        getMenuMode: function getMenuMode() {
+            return this.$store.getters.get_menu_mode;
+        },
+        Auth: function Auth() {
+            return this.$store.getters.get_auth;
+        },
+        Settings: function Settings() {
+            return this.getGlobalData.settings;
+        },
+        IsMobile: function IsMobile() {
+            return this.$store.getters.get_navigation_menu_state_is_mobile;
+        }
+    }
+};
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-md-3 left_col" }, [
+    _c("div", { staticClass: "left_col scroll-view" }, [
+      _c(
+        "div",
+        { staticClass: "navbar nav_title", staticStyle: { border: "0" } },
+        [
+          !_vm.isPluginApp
+            ? _c(
+                "router-link",
+                {
+                  staticClass: "site_title",
+                  attrs: { to: "/" + _vm.$route.params.adminPrefix, tag: "a" }
+                },
+                [
+                  _c("div", { staticClass: "profile" }, [
+                    _c("div", { staticClass: "profile_pic" }, [
+                      _c("img", {
+                        staticClass: "img-circle profile_img",
+                        attrs: { src: _vm.Settings.logo, alt: "" }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("span", [_vm._v(_vm._s(_vm.Settings.siteTitle))])
+                ]
+              )
+            : _c(
+                "a",
+                {
+                  staticClass: "site_title",
+                  attrs: {
+                    href: this.basePath + "/" + _vm.$route.params.adminPrefix
+                  }
+                },
+                [
+                  _c("div", { staticClass: "profile" }, [
+                    _c("div", { staticClass: "profile_pic" }, [
+                      _c("img", {
+                        staticClass: "img-circle profile_img",
+                        attrs: { src: _vm.Settings.logo, alt: "" }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("span", [_vm._v(_vm._s(_vm.Settings.siteTitle))])
+                ]
+              )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "main_menu_side hidden-print main_menu",
+          attrs: { id: "sidebar-menu" }
+        },
+        [
+          _c("div", { staticClass: "menu_section" }, [
+            _c("div", { staticClass: "navBarTabs" }, [
+              _c(
+                "button",
+                {
+                  class: { active: _vm.getMenuMode == "menu" },
+                  attrs: { id: "cmsTabBtn" },
+                  on: {
+                    click: function($event) {
+                      _vm.changeMenuMode("menu")
+                    }
+                  }
+                },
+                [_vm._v("Menu")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  class: { active: _vm.getMenuMode == "application" },
+                  attrs: { id: "applicationTabBtn" },
+                  on: {
+                    click: function($event) {
+                      _vm.changeMenuMode("application")
+                    }
+                  }
+                },
+                [_vm._v("Apps")]
+              )
+            ]),
+            _vm._v(" "),
+            _vm.getMenuMode == "menu"
+              ? _c(
+                  "div",
+                  { staticClass: "cmsMenuNav" },
+                  _vm._l(_vm.cmsMenus, function(menu, key, index) {
+                    return _c(
+                      "div",
+                      { key: key, staticClass: "navMenuSection" },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "navMenuSection-header",
+                            attrs: { "data-id": "menuSection" + menu.menuID },
+                            on: {
+                              click: function($event) {
+                                _vm.activeMenu = index
+                              }
+                            }
+                          },
+                          [_c("h3", [_vm._v(_vm._s(menu.title))])]
+                        ),
+                        _vm._v(" "),
+                        _c("transition", { attrs: { name: "slide" } }, [
+                          index == _vm.activeMenu
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass: "navMenuSection-list",
+                                  staticStyle: { display: "block" },
+                                  attrs: { id: "menuSection" + menu.menuID }
+                                },
+                                [
+                                  _c(
+                                    "ul",
+                                    {
+                                      staticClass: "nav side-menu dimension1UL"
+                                    },
+                                    _vm._l(menu.menuLinks, function(
+                                      link,
+                                      index
+                                    ) {
+                                      return _c("cms-menu-link", {
+                                        key: index,
+                                        attrs: { data: link }
+                                      })
+                                    })
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ])
+                      ],
+                      1
+                    )
+                  })
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.getMenuMode == "application"
+              ? _c("div", { staticClass: "applicationMenuNav" }, [
+                  _c(
+                    "ul",
+                    { staticClass: "nav side-menu" },
+                    _vm._l(_vm.applicationMenuLinks, function(link, index) {
+                      return _c("application-link", {
+                        key: index,
+                        attrs: { data: link, isPluginApp: _vm.isPluginApp }
+                      })
+                    })
+                  )
+                ])
+              : _vm._e()
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-443f0828", module.exports)
+  }
+}
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "main_container" },
+    [
+      !_vm.isLoading
+        ? [
+            _c("app-navigation", {
+              attrs: {
+                applicationMenuLinks: _vm.applicationMenuLinks,
+                cmsMenus: _vm.cmsMenus,
+                isPluginApp: _vm.isPlugin
+              }
+            }),
+            _vm._v(" "),
+            _c("app-header", { attrs: { logout_link: _vm.logout_link } }),
+            _vm._v(" "),
+            _c("router-view"),
+            _vm._v(" "),
+            _c("app-footer")
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isLoading
+        ? _c("spinner", {
+            attrs: { width: "100px", height: "100px", border: "5px" }
+          })
+        : _vm._e()
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-f10aed9e", module.exports)
+  }
+}
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(51)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(53)
+/* template */
+var __vue_template__ = __webpack_require__(54)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-58102e36"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "vendor\\acciocms\\core\\src\\resources\\views\\components\\vendor\\ApplicationLink.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-58102e36", Component.options)
+  } else {
+    hotAPI.reload("data-v-58102e36", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(52);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("52fbda91", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-58102e36\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ApplicationLink.vue", function() {
+     var newContent = require("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-58102e36\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ApplicationLink.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.slide[data-v-58102e36] {\n    -webkit-transition: all 1s ease;\n    transition: all 1s ease;\n    height: auto;\n}\n.slide.v-enter[data-v-58102e36], .slide.v-leave[data-v-58102e36] {\n    height: 0;\n    opacity: 0;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: ['data', 'isPluginApp'],
+    methods: {
+        makeActive: function makeActive() {
+            if (this.data.module !== undefined) {
+                this.$store.commit('setOpenModule', this.data.module);
+            }
+        }
+    },
+    computed: {
+        // open module (used in navigation)
+        getOpenModule: function getOpenModule() {
+            return this.$store.getters.get_open_module;
+        }
+    }
+};
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.data.access
+    ? _c(
+        "li",
+        {
+          staticClass: "menu-parent-link",
+          class: { active: _vm.data.module == _vm.getOpenModule }
+        },
+        [
+          _vm.data.link != ""
+            ? [
+                _vm.isPluginApp == 1
+                  ? [
+                      _c("a", { attrs: { href: _vm.data.link } }, [
+                        _vm.data.icon
+                          ? _c("i", { class: _vm.data.icon })
+                          : _vm._e(),
+                        _vm._v(
+                          "\n                " + _vm._s(_vm.data.label) + " "
+                        ),
+                        _vm.data.children
+                          ? _c("span", { staticClass: "fa fa-chevron-down" })
+                          : _vm._e()
+                      ])
+                    ]
+                  : [
+                      _vm.data.module != "plugins"
+                        ? _c(
+                            "router-link",
+                            {
+                              attrs: { tag: "a", to: _vm.data.link },
+                              nativeOn: {
+                                click: function($event) {
+                                  return _vm.makeActive($event)
+                                }
+                              }
+                            },
+                            [
+                              _vm.data.icon
+                                ? _c("i", { class: _vm.data.icon })
+                                : _vm._e(),
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(_vm.data.label) +
+                                  " "
+                              ),
+                              _vm.data.children
+                                ? _c("span", {
+                                    staticClass: "fa fa-chevron-down"
+                                  })
+                                : _vm._e()
+                            ]
+                          )
+                        : _c("a", { attrs: { href: _vm.data.link } }, [
+                            _vm.data.icon
+                              ? _c("i", { class: _vm.data.icon })
+                              : _vm._e(),
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(_vm.data.label) +
+                                " "
+                            ),
+                            _vm.data.children
+                              ? _c("span", {
+                                  staticClass: "fa fa-chevron-down"
+                                })
+                              : _vm._e()
+                          ])
+                    ]
+              ]
+            : _c(
+                "a",
+                {
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.makeActive($event)
+                    }
+                  }
+                },
+                [
+                  _vm.data.icon ? _c("i", { class: _vm.data.icon }) : _vm._e(),
+                  _vm._v("\n        " + _vm._s(_vm.data.label) + "\n        "),
+                  _vm.data.children
+                    ? _c("span", {
+                        staticClass: "fa",
+                        class: {
+                          "fa-chevron-down":
+                            _vm.data.module != _vm.getOpenModule,
+                          "fa-chevron-up": _vm.data.module == _vm.getOpenModule
+                        }
+                      })
+                    : _vm._e()
+                ]
+              ),
+          _vm._v(" "),
+          _c("transition", { attrs: { name: "slide" } }, [
+            _c(
+              "ul",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value:
+                      _vm.data.children && _vm.data.module == _vm.getOpenModule,
+                    expression: "data.children && data.module == getOpenModule"
+                  }
+                ],
+                staticClass: "nav child_menu",
+                staticStyle: { display: "block !important" }
+              },
+              _vm._l(_vm.data.children, function(link, index) {
+                return _c("application-link", {
+                  key: index,
+                  attrs: { data: link, isPluginApp: _vm.isPluginApp }
+                })
+              })
+            )
+          ])
+        ],
+        2
+      )
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-58102e36", module.exports)
+  }
+}
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(56)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(58)
+/* template */
+var __vue_template__ = __webpack_require__(59)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-1cc9a92e"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "vendor\\acciocms\\core\\src\\resources\\views\\components\\vendor\\CmsMenuLink.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1cc9a92e", Component.options)
+  } else {
+    hotAPI.reload("data-v-1cc9a92e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(57);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("c3b07f54", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1cc9a92e\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CmsMenuLink.vue", function() {
+     var newContent = require("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1cc9a92e\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CmsMenuLink.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.slide[data-v-1cc9a92e] {\n    -webkit-transition: all .5s ease;\n    transition: all .5s ease;\n    height: auto;\n}\n.slide.v-enter[data-v-1cc9a92e], .slide.v-leave[data-v-1cc9a92e] {\n    height: 0;\n    opacity: 0;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    props: ['data'],
+    data: function data() {
+        return {
+            isChildUlActive: false,
+            link: ''
+        };
+    },
+    mounted: function mounted() {
+        var url = this.data.link;
+        var devider = '?';
+        if (url.indexOf("?") != -1) {
+            devider = '&';
+        }
+        this.link = url + devider + 'menu_link_id=' + this.data.menuLinkID;
+    }
+};
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.data.access
+    ? _c(
+        "li",
+        { staticClass: "clearfix" },
+        [
+          _c(
+            "router-link",
+            {
+              staticClass: "col-lg-10 col-md-10 col-sm-10",
+              attrs: { tag: "a", to: _vm.link }
+            },
+            [_vm._v("\n        " + _vm._s(_vm.data.label) + "\n    ")]
+          ),
+          _vm._v(" "),
+          _vm.data.children
+            ? _c("span", {
+                staticClass: "fa arrowIcon",
+                class: {
+                  "fa-chevron-down": !_vm.isChildUlActive,
+                  "fa-chevron-up": _vm.isChildUlActive
+                },
+                on: {
+                  click: function($event) {
+                    _vm.isChildUlActive = !_vm.isChildUlActive
+                  }
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "clearfix" }),
+          _vm._v(" "),
+          _c("transition", { attrs: { name: "slide" } }, [
+            _vm.data.children && _vm.isChildUlActive
+              ? _c(
+                  "ul",
+                  {
+                    staticClass: "nav child_menu",
+                    staticStyle: { display: "block !important" }
+                  },
+                  _vm._l(_vm.data.children, function(link, index) {
+                    return _c("cms-menu-link", {
+                      key: index,
+                      attrs: { data: link }
+                    })
+                  })
+                )
+              : _vm._e()
+          ])
+        ],
+        1
+      )
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1cc9a92e", module.exports)
+  }
+}
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(61)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(63)
+/* template */
+var __vue_template__ = __webpack_require__(64)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "vendor\\acciocms\\core\\src\\resources\\views\\components\\vendor\\Spinner.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b08f3936", Component.options)
+  } else {
+    hotAPI.reload("data-v-b08f3936", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(62);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("710c290f", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b08f3936\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Spinner.vue", function() {
+     var newContent = require("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b08f3936\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Spinner.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.loader {\r\n  border-style: solid !important;\r\n  border-color: #f3f3f3 !important;\r\n  border-radius: 50%;\r\n  border-top-color: #3498db !important;\r\n  -webkit-animation: spin 1s linear infinite;\r\n  animation: spin 1s linear infinite;\r\n  margin: auto;\n}\n@-webkit-keyframes spin {\n0% { -webkit-transform: rotate(0deg);\n}\n100% { -webkit-transform: rotate(360deg);\n}\n}\n@keyframes spin {\n0% { -webkit-transform: rotate(0deg); transform: rotate(0deg);\n}\n100% { -webkit-transform: rotate(360deg); transform: rotate(360deg);\n}\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+exports.default = {
+    mounted: function mounted() {},
+
+    props: ['width', 'height', 'border']
+};
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "componentLoadingWrapper", attrs: { dusk: "spinner" } },
+    [
+      _c("div", {
+        staticClass: "loader",
+        style:
+          "width:" +
+          _vm.width +
+          "; height:" +
+          _vm.height +
+          ";" +
+          " border:" +
+          _vm.border +
+          ";"
+      })
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b08f3936", module.exports)
+  }
+}
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(66)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(68)
+/* template */
+var __vue_template__ = __webpack_require__(74)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-39e86596"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "vendor\\acciocms\\core\\src\\resources\\views\\components\\custom_fields\\Field.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-39e86596", Component.options)
+  } else {
+    hotAPI.reload("data-v-39e86596", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(67);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("9eacf5e6", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-39e86596\",\"scoped\":true,\"hasInlineConfig\":true}!./style.css", function() {
+     var newContent = require("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-39e86596\",\"scoped\":true,\"hasInlineConfig\":true}!./style.css");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.inputFields[data-v-39e86596]{\r\n    height: 40px;\r\n    border: 1px solid #eaeaea;\r\n    outline: none;\r\n    -webkit-box-shadow: none;\r\n            box-shadow: none;\r\n    border-radius: 7px;\n}\n.textareaFields[data-v-39e86596]{\r\n    border: 1px solid #eaeaea;\r\n    outline: none;\r\n    -webkit-box-shadow: none;\r\n            box-shadow: none;\r\n    border-radius: 7px;\n}\n.text-left-checkbox-lable[data-v-39e86596]{\r\n    float: left;\r\n    margin-right: 10px;\n}\n.newField[data-v-39e86596]{\r\n    float: right;\n}\n.removeField[data-v-39e86596]{\r\n    float:right;\r\n    cursor:pointer;\r\n    color: #FFF;\r\n    margin-top: 6px;\n}\n.removeField[data-v-39e86596]:hover{\r\n    color:#CCC;\n}\n.checkboxStyled[data-v-39e86596]{\r\n    width: 20px;\r\n    height: 20px;\r\n    display: block;\r\n    margin-top: 8px !important;\n}\n.customFieldTitleWrapper[data-v-39e86596]{\r\n    height: 45px;\r\n    background-color: #069;\n}\n.customFieldTitleWrapper h4[data-v-39e86596]{\r\n    color: #FFF;\r\n    padding-left: 5px;\r\n    margin-top: 12px;\n}\n.disabled[data-v-39e86596]{\r\n    display:none !important;\n}\n.startingInputsContainer .x_title[data-v-39e86596]:hover{\r\n    cursor: pointer;\n}\n.startingInputsContainer .row[data-v-39e86596]{\r\n    margin-top: 10px;\n}\n.hiddenField[data-v-39e86596]{\r\n    display: none;\n}\ndiv.rulesGroups[data-v-39e86596], div.siblingRules[data-v-39e86596]{\r\n    margin-bottom: 30px;\n}\ndiv.rulesGroups .background[data-v-39e86596], div.siblingRules .background[data-v-39e86596]{\r\n    background-color: #f9f6f6;\r\n    padding-top: 10px;\r\n    padding-bottom: 10px;\n}\n.addRule[data-v-39e86596]{\r\n    text-align:center;\n}\n.customFieldsPanelTitle[data-v-39e86596]{\r\n    margin-top:10px;\n}\n.removeSubFieldWrapper[data-v-39e86596]{\r\n    height: 43px;\r\n    background-color: #069;\r\n    padding-right: 10px;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _FieldRule = __webpack_require__(69);
+
+var _FieldRule2 = _interopRequireDefault(_FieldRule);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    props: ['field', 'index', 'trans', 'languages', 'dbTables', 'allFields', 'options', 'isInUpdate', 'isSubField', 'groupSlug'],
+    components: {
+        'field-rule': _FieldRule2.default
+    },
+    mounted: function mounted() {
+        if (Object.keys(this.languages).length) {
+            this.languageState = this.languages[0].slug;
+            this.defaultLanguageSlug = this.languages[0].slug;
+        }
+        for (var k in this.options) {
+            this.typeOptions.push(this.options[k]);
+        }
+        if (this.field.parent == 0) {
+            this.typeOptions.push({ inputType: 'repeater', typeName: 'Repeater' });
+        }
+    },
+    data: function data() {
+        return {
+            typeOptions: [],
+            languageState: '',
+            isSlugCreated: false,
+            displaySlugLoading: false,
+            readonly: true,
+            layoutOptions: ['row', 'table', 'block']
+        };
+    },
+
+    methods: {
+        // toggle custom field
+        toggle: function toggle(id) {
+            $(".startingInputsContainer#" + id + " .body").slideToggle(200);
+        },
+        addSubField: function addSubField() {
+            this.$emit('addSubField', this.field.id);
+        },
+
+        // make request to the parent component to remove the field
+        removeField: function removeField(event, index) {
+            this.$emit("removeField", index);
+        },
+        createSlug: function createSlug(inLang) {
+            var _this = this;
+
+            var id = this.field.id;
+
+            if (!this.isSlugCreated && id.indexOf('NEW') > -1) {
+                var defaultLangSlug = this.languages[0].slug;
+                // only in the default language
+                if (inLang == defaultLangSlug) {
+                    this.displaySlugLoading = true;
+                    var title = this.field.label[defaultLangSlug];
+
+                    // ket all keys form fields array
+                    var keys = [];
+                    for (var k in this.allFields) {
+                        if (this.allFields[k].slug != '' && this.allFields[k].id != this.field.id) {
+                            keys.push({ id: this.allFields[k].id, slug: this.allFields[k].slug });
+                        }
+                    }
+                    // get generated key
+                    this.$http.post(this.basePath + '/' + this.$route.params.adminPrefix + '/json/custom-fields/generate-field-slug-request', { id: this.field.id, title: title, keys: keys }).then(function (resp) {
+                        if (resp.status == 200) {
+                            _this.field.slug = resp.body;
+                            _this.isSlugCreated = true;
+                            _this.displaySlugLoading = false;
+                        }
+                    }, function (error) {
+                        console.log(error);
+                        _this.displaySlugLoading = false;
+                    });
+                }
+            }
+        },
+
+        // add new rule group
+        addGroup: function addGroup() {
+            this.field.rules.push([{ field: '', operator: { label: 'Equals', value: 'equals' }, value: '' }]);
+        },
+
+        // add new rule to the list
+        addRule: function addRule(index) {
+            this.field.rules[index].push({ field: '', operator: { label: 'Equals', value: 'equals' }, value: '' });
+        },
+
+        // request a field remove rule to parent
+        removeRule: function removeRule(request) {
+            this.$emit('removeFieldRule', { fieldIndex: this.index, groupIndex: request.groupIndex, ruleIndex: request.index });
+        },
+
+        // remove field request in parent create component
+        fieldTypeChanged: function fieldTypeChanged(actionName) {
+            this.$emit('refreshFieldRulesValues', this.index);
+        }
+    },
+    computed: {
+        basePath: function basePath() {
+            return this.$store.getters.get_base_path;
+        }
+    }
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(70)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(72)
+/* template */
+var __vue_template__ = __webpack_require__(73)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-08c753d1"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "vendor\\acciocms\\core\\src\\resources\\views\\components\\custom_fields\\FieldRule.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-08c753d1", Component.options)
+  } else {
+    hotAPI.reload("data-v-08c753d1", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(71);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("15b07011", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-08c753d1\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FieldRule.vue", function() {
+     var newContent = require("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-08c753d1\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FieldRule.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.inputFields[data-v-08c753d1]{\n    height: 40px;\n    border: 1px solid #eaeaea;\n    outline: none;\n    -webkit-box-shadow: none;\n            box-shadow: none;\n    border-radius: 7px;\n}\ni[data-v-08c753d1]{\n    margin-top: 5px;\n    cursor: pointer;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _globalComputed = __webpack_require__(3);
+
+var _globalMethods = __webpack_require__(4);
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    mixins: [_globalComputed.globalComputed, _globalMethods.globalMethods],
+    props: ['rule', 'index', 'groupIndex', 'fields', 'fieldID', 'defaultLanguageSlug'],
+    data: function data() {
+        return {
+            fieldsOptions: [],
+            trans: {},
+            fieldIndex: 0,
+            isLoading: true,
+            valueOptions: []
+        };
+    },
+
+    methods: {
+        removeRule: function removeRule(index) {
+            this.$emit('removeRule', { groupIndex: this.groupIndex, index: index });
+        },
+        updateValueAfterSelect: function updateValueAfterSelect(value) {
+            this.rule.value = value.value;
+        },
+        shouldFieldBeShown: function shouldFieldBeShown(field) {
+            if (field.id == this.fieldID) {
+                return false;
+            }
+
+            if (field.type.inputType != 'text' && field.type.inputType != 'number' && field.type.inputType != 'checkbox' && field.type.inputType != 'radio' && field.type.inputType != 'dropdown' && field.type.inputType != 'db') {
+                console.log(field.type);
+                return false;
+            }
+            return true;
+        },
+
+
+        // search for post by post type
+        searchPosts: function searchPosts(query, index) {
+            var _this = this;
+
+            this.valueOptions = [];
+            if (query) {
+                var postTypeSlug = this.fields[this.rule.field.index].dbTable.name;
+                if (postTypeSlug !== undefined && postTypeSlug != "") {
+                    this.isLoading = true;
+                    this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/posts/search/' + postTypeSlug + '/' + query).then(function (resp) {
+                        var result = [];
+                        var list = resp.body.list;
+                        for (var k in list) {
+                            result.push({
+                                name: list[k].title,
+                                value: list[k].ID
+                            });
+                        }
+                        _this.valueOptions = result;
+                        _this.isLoading = false;
+                    }, function (error) {
+                        console.log(error);
+                    });
+                }
+            }
+        }
+    },
+    computed: {
+        // makes multioptions string to array
+        multioptionsStringToArray: function multioptionsStringToArray() {
+            var string = this.fields[this.rule.field.index].multioptionValues;
+            var options = string.split(',');
+            var result = [];
+            if (Array.isArray(options)) {
+                for (var k in options) {
+                    var splitedOptions = options[k].split(':');
+                    if (Array.isArray(splitedOptions) && splitedOptions !== undefined && splitedOptions[0] !== undefined && splitedOptions[1] !== undefined) {
+                        result.push({ value: splitedOptions[0].trim(), label: splitedOptions[1].trim() });
+                    }
+                }
+            }
+            return result;
+        }
+    }
+};
+
+/***/ }),
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "ruleGroup",
+      attrs: { id: "ruleGroup-" + _vm.groupIndex + "-" + _vm.index }
+    },
+    [
+      _c("div", { staticClass: "row" }, [
+        _vm.index
+          ? _c(
+              "div",
+              { staticStyle: { "margin-top": "8px", "text-align": "center" } },
+              [
+                _c(
+                  "h5",
+                  {
+                    staticStyle: {
+                      "text-transform": "uppercase",
+                      "font-weight": "bold"
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm.trans.__and))]
+                )
+              ]
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearfix" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-11 col-sm-11 col-xs-11" }, [
+          _c(
+            "div",
+            { staticClass: "form-group", attrs: { id: "form-group-field" } },
+            [
+              _c("div", { staticClass: "col-md-4 col-sm-4 col-xs-12" }, [
+                _vm.fields.length
+                  ? _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.rule.field,
+                            expression: "rule.field"
+                          }
+                        ],
+                        staticClass: "form-control inputFields",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.rule,
+                              "field",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      _vm._l(_vm.fields, function(option, index) {
+                        return _vm.shouldFieldBeShown(option)
+                          ? _c(
+                              "option",
+                              {
+                                attrs: { "data-type": index },
+                                domProps: {
+                                  value: { index: index, slug: option.slug }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(
+                                      option.label[_vm.defaultLanguageSlug]
+                                    ) +
+                                    "\n                        "
+                                )
+                              ]
+                            )
+                          : _vm._e()
+                      })
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "alert" })
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "col-md-4 col-sm-4 col-xs-12",
+                  attrs: { id: "form-group-operator" }
+                },
+                [
+                  _c("multiselect", {
+                    attrs: {
+                      "track-by": "value",
+                      options: [
+                        { label: "Equals", value: "equals" },
+                        { label: "Not equals", value: "not-equals" }
+                      ],
+                      label: "label",
+                      "select-label": "",
+                      "deselect-label": "",
+                      "allow-empty": false
+                    },
+                    model: {
+                      value: _vm.rule.operator,
+                      callback: function($$v) {
+                        _vm.$set(_vm.rule, "operator", $$v)
+                      },
+                      expression: "rule.operator"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.rule.field != ""
+                ? [
+                    _vm.fields[_vm.rule.field.index].type.inputType == "text" ||
+                    _vm.fields[_vm.rule.field.index].type.inputType ==
+                      "number" ||
+                    _vm.fields[_vm.rule.field.index].type.inputType == "radio"
+                      ? _c(
+                          "div",
+                          { staticClass: "col-md-4 col-sm-4 col-xs-12" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.rule.value,
+                                  expression: "rule.value"
+                                }
+                              ],
+                              staticClass: "form-control inputFields",
+                              attrs: { type: "text" },
+                              domProps: { value: _vm.rule.value },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.rule,
+                                    "value",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.fields[_vm.rule.field.index].type.inputType ==
+                      "dropdown" ||
+                    _vm.fields[_vm.rule.field.index].type.inputType ==
+                      "checkbox"
+                      ? _c(
+                          "div",
+                          { staticClass: "col-md-4 col-sm-4 col-xs-12" },
+                          [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.rule.value,
+                                    expression: "rule.value"
+                                  }
+                                ],
+                                staticClass: "form-control inputFields",
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.rule,
+                                      "value",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
+                              },
+                              _vm._l(_vm.multioptionsStringToArray, function(
+                                opt,
+                                i
+                              ) {
+                                return _c(
+                                  "option",
+                                  { domProps: { value: opt.value } },
+                                  [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(opt.label) +
+                                        "\n                            "
+                                    )
+                                  ]
+                                )
+                              })
+                            )
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.fields[_vm.rule.field.index].type.inputType == "db"
+                      ? _c(
+                          "div",
+                          { staticClass: "col-md-4 col-sm-4 col-xs-12" },
+                          [
+                            _c(
+                              "multiselect",
+                              {
+                                attrs: {
+                                  id: "ajax",
+                                  label: "name",
+                                  "track-by": "value",
+                                  value: _vm.value,
+                                  placeholder: "Type to search",
+                                  "open-direction": "bottom",
+                                  options: _vm.valueOptions,
+                                  multiple: false,
+                                  searchable: true,
+                                  loading: _vm.isLoading,
+                                  "internal-search": false,
+                                  "close-on-select": true,
+                                  "options-limit": 300,
+                                  limit: 3,
+                                  "limit-text": _vm.limitText,
+                                  "max-height": 600,
+                                  "show-no-results": false,
+                                  "select-label": "",
+                                  "deselect-label": ""
+                                },
+                                on: {
+                                  input: _vm.updateValueAfterSelect,
+                                  "search-change": function($event) {
+                                    _vm.searchPosts($event, _vm.index)
+                                  }
+                                },
+                                scopedSlots: _vm._u([
+                                  {
+                                    key: "clear",
+                                    fn: function(props) {
+                                      return [
+                                        _vm.rule.value != null &&
+                                        _vm.rule.value.length
+                                          ? _c("div", {
+                                              staticClass: "multiselect__clear"
+                                            })
+                                          : _vm._e()
+                                      ]
+                                    }
+                                  }
+                                ]),
+                                model: {
+                                  value: _vm.rule.value,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.rule, "value", $$v)
+                                  },
+                                  expression: "rule.value"
+                                }
+                              },
+                              [
+                                _c(
+                                  "span",
+                                  {
+                                    attrs: { slot: "noResult" },
+                                    slot: "noResult"
+                                  },
+                                  [
+                                    _vm._v(
+                                      "Oops! No elements found. Consider changing the search query."
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      : _vm._e()
+                  ]
+                : _vm._e()
+            ],
+            2
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-1 col-sm-1 col-xs-1" }, [
+          _c("i", {
+            staticClass: "fa fa-minus-circle fa-2x",
+            on: {
+              click: function($event) {
+                _vm.removeRule(_vm.index)
+              }
+            }
+          })
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-08c753d1", module.exports)
+  }
+}
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "startingInputs col-md-12 col-sm-12 startingInputsContainer",
+      class: { removePaddingAndMargin: _vm.isSubField },
+      attrs: { id: _vm.index }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "x_title customFieldTitleWrapper",
+          class: { removePaddingAndMargin: _vm.isSubField },
+          on: {
+            click: function($event) {
+              _vm.toggle(_vm.index)
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+            _c("div", { staticClass: "col-md-10 col-sm-10" }, [
+              _c("h4", [_vm._v(_vm._s(_vm.field.label[_vm.languages[0].slug]))])
+            ]),
+            _vm._v(" "),
+            !_vm.isSubField
+              ? _c("div", { staticClass: "col-md-2 col-sm-2" }, [
+                  _c("i", {
+                    staticClass: "removeField fa fa-2x fa-close",
+                    on: {
+                      click: function($event) {
+                        _vm.removeField($event, _vm.index)
+                      }
+                    }
+                  })
+                ])
+              : _vm._e()
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _vm.isSubField
+        ? _c("div", {
+            staticClass: "clearfix",
+            staticStyle: { "margin-top": "10px" }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "form-group col-md-12 col-sm-12 col-xs-12 body",
+          staticStyle: { display: "none" }
+        },
+        [
+          _c("div", { staticClass: "languageTabs" }, [
+            _c(
+              "ul",
+              _vm._l(_vm.languages, function(lang, key, index) {
+                return _c(
+                  "li",
+                  {
+                    staticClass: "btn btn-default",
+                    class: { active: _vm.languageState == lang.slug },
+                    on: {
+                      click: function($event) {
+                        _vm.languageState = lang.slug
+                      }
+                    }
+                  },
+                  [_vm._v(_vm._s(lang.name))]
+                )
+              })
+            )
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.languages, function(lang, key, index) {
+            return _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.languageState == lang.slug,
+                    expression: "languageState == lang.slug"
+                  }
+                ],
+                staticClass: "row"
+              },
+              [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__fieldName) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.label[lang.slug],
+                          expression: "field.label[lang.slug]"
+                        }
+                      ],
+                      staticClass: "form-control inputFields fieldName",
+                      attrs: { type: "text", name: "label" },
+                      domProps: { value: _vm.field.label[lang.slug] },
+                      on: {
+                        change: function($event) {
+                          _vm.createSlug(lang.slug)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.field.label,
+                            lang.slug,
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+              _c(
+                "label",
+                {
+                  staticClass:
+                    "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                },
+                [_vm._v(_vm._s(_vm.trans.__slug) + ":")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.field.slug,
+                      expression: "field.slug"
+                    }
+                  ],
+                  staticClass: "form-control inputFields fieldSlug",
+                  attrs: { type: "text", name: "name", readonly: _vm.readonly },
+                  domProps: { value: _vm.field.slug },
+                  on: {
+                    dblclick: function($event) {
+                      _vm.readonly = false
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.field, "slug", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.displaySlugLoading
+                  ? _c("img", {
+                      staticClass: "slugLoading",
+                      attrs: {
+                        src: _vm.basePath + "/public/images/loading.svg"
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("small", [
+                  _vm._v(
+                    _vm._s(_vm.trans.__frontEndSlugExp) +
+                      " " +
+                      _vm._s(_vm.groupSlug) +
+                      "__" +
+                      _vm._s(_vm.field.slug)
+                  )
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.languages, function(lang, key, index) {
+            return _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.languageState == lang.slug,
+                    expression: "languageState == lang.slug"
+                  }
+                ],
+                staticClass: "row"
+              },
+              [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__placeholder) + ": ")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.placeholder[lang.slug],
+                          expression: "field.placeholder[lang.slug]"
+                        }
+                      ],
+                      staticClass: "form-control inputFields placeholder",
+                      attrs: { type: "text", name: "placeholder" },
+                      domProps: { value: _vm.field.placeholder[lang.slug] },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.field.placeholder,
+                            lang.slug,
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "row" },
+            _vm._l(_vm.languages, function(lang, key, index) {
+              return _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.languageState == lang.slug,
+                      expression: "languageState == lang.slug"
+                    }
+                  ],
+                  staticClass: "col-md-12 col-sm-12 col-xs-12"
+                },
+                [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__fieldNote) + ": ")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.note[lang.slug],
+                          expression: "field.note[lang.slug]"
+                        }
+                      ],
+                      staticClass: "form-control textareaFields",
+                      attrs: { rows: "5" },
+                      domProps: { value: _vm.field.note[lang.slug] },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.field.note,
+                            lang.slug,
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]
+              )
+            })
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+              _c(
+                "label",
+                {
+                  staticClass:
+                    "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                },
+                [_vm._v(_vm._s(_vm.trans.__defaultValue) + ": ")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.field.defaultValue,
+                      expression: "field.defaultValue"
+                    }
+                  ],
+                  staticClass: "form-control inputFields defaultValue",
+                  attrs: { type: "text", name: "defaultValue" },
+                  domProps: { value: _vm.field.defaultValue },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.field, "defaultValue", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+              _c(
+                "label",
+                {
+                  staticClass:
+                    "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                },
+                [_vm._v(_vm._s(_vm.trans.__layout) + ": ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-8 col-sm-8 col-xs-12" },
+                [
+                  _c("multiselect", {
+                    attrs: {
+                      "deselect-label": "",
+                      "select-label": "",
+                      placeholder: "Select one",
+                      options: _vm.layoutOptions,
+                      searchable: false,
+                      "allow-empty": false,
+                      id: _vm.options
+                    },
+                    model: {
+                      value: _vm.field.layout,
+                      callback: function($$v) {
+                        _vm.$set(_vm.field, "layout", $$v)
+                      },
+                      expression: "field.layout"
+                    }
+                  })
+                ],
+                1
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+              _c(
+                "label",
+                {
+                  staticClass:
+                    "control-label text-left-checkbox-lable col-md-2 col-sm-2 col-xs-12"
+                },
+                [_vm._v(_vm._s(_vm.trans.__isActive) + " :")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.field.isActive,
+                    expression: "field.isActive"
+                  }
+                ],
+                staticClass: "checkboxStyled col-md-8 col-sm-8 col-xs-12",
+                attrs: { type: "checkbox" },
+                domProps: {
+                  checked: Array.isArray(_vm.field.isActive)
+                    ? _vm._i(_vm.field.isActive, null) > -1
+                    : _vm.field.isActive
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.field.isActive,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 &&
+                          _vm.$set(_vm.field, "isActive", $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          _vm.$set(
+                            _vm.field,
+                            "isActive",
+                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                          )
+                      }
+                    } else {
+                      _vm.$set(_vm.field, "isActive", $$c)
+                    }
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+              _c(
+                "label",
+                {
+                  staticClass:
+                    "control-label text-left-checkbox-lable col-md-2 col-sm-2 col-xs-12"
+                },
+                [_vm._v(_vm._s(_vm.trans.__translatable) + " :")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.field.isTranslatable,
+                    expression: "field.isTranslatable"
+                  }
+                ],
+                staticClass: "checkboxStyled col-md-8 col-sm-8 col-xs-12",
+                attrs: { type: "checkbox" },
+                domProps: {
+                  checked: Array.isArray(_vm.field.isTranslatable)
+                    ? _vm._i(_vm.field.isTranslatable, null) > -1
+                    : _vm.field.isTranslatable
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.field.isTranslatable,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 &&
+                          _vm.$set(
+                            _vm.field,
+                            "isTranslatable",
+                            $$a.concat([$$v])
+                          )
+                      } else {
+                        $$i > -1 &&
+                          _vm.$set(
+                            _vm.field,
+                            "isTranslatable",
+                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                          )
+                      }
+                    } else {
+                      _vm.$set(_vm.field, "isTranslatable", $$c)
+                    }
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+              _c(
+                "label",
+                {
+                  staticClass:
+                    "control-label text-left-checkbox-lable col-md-2 col-sm-2 col-xs-12"
+                },
+                [_vm._v(_vm._s(_vm.trans.__required) + ":")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.field.isRequired,
+                    expression: "field.isRequired"
+                  }
+                ],
+                staticClass: "checkboxStyled col-md-8 col-sm-8 col-xs-12",
+                attrs: { type: "checkbox" },
+                domProps: {
+                  checked: Array.isArray(_vm.field.isRequired)
+                    ? _vm._i(_vm.field.isRequired, null) > -1
+                    : _vm.field.isRequired
+                },
+                on: {
+                  change: function($event) {
+                    var $$a = _vm.field.isRequired,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 &&
+                          _vm.$set(_vm.field, "isRequired", $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          _vm.$set(
+                            _vm.field,
+                            "isRequired",
+                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                          )
+                      }
+                    } else {
+                      _vm.$set(_vm.field, "isRequired", $$c)
+                    }
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _vm.field.parent == 0
+            ? _c(
+                "div",
+                { staticClass: "row", staticStyle: { "margin-top": "40px" } },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "col-md-12 col-sm-12 col-xs-12" },
+                    [
+                      _c(
+                        "label",
+                        { staticClass: "col-md-12 col-sm-12 col-xs-12" },
+                        [_vm._v(_vm._s(_vm.trans.__siblingRulesTitle) + ":")]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.field.rules, function(ruleGroup, groupIndex) {
+                        return _c(
+                          "div",
+                          { staticClass: "siblingRules col-sm-12 col-xs-12" },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "background" },
+                              [
+                                _vm._l(ruleGroup, function(rule, index) {
+                                  return _c("field-rule", {
+                                    key: index,
+                                    attrs: {
+                                      rule: rule,
+                                      index: index,
+                                      groupIndex: groupIndex,
+                                      fields: _vm.allFields,
+                                      fieldID: _vm.field.id,
+                                      defaultLanguageSlug:
+                                        _vm.defaultLanguageSlug
+                                    },
+                                    on: { removeRule: _vm.removeRule }
+                                  })
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "addRule",
+                                    staticStyle: { "text-align": "center" }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fa fa-plus-circle fa-2x",
+                                      staticStyle: { cursor: "pointer" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.addRule(groupIndex)
+                                        }
+                                      }
+                                    })
+                                  ]
+                                )
+                              ],
+                              2
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticStyle: {
+                                  "text-align": "center",
+                                  "margin-top": "20px"
+                                }
+                              },
+                              [
+                                _c(
+                                  "h5",
+                                  {
+                                    staticStyle: {
+                                      "text-transform": "uppercase",
+                                      "font-weight": "bold"
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.trans.__or))]
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticStyle: {
+                            "text-align": "center",
+                            "margin-top": "20px"
+                          }
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-default",
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.addGroup($event)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        Add a new group rules\n                    "
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ],
+                    2
+                  )
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "clearfix" }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "x_title", staticStyle: { "margin-top": "50px" } },
+            [
+              _c("h2", [_vm._v(_vm._s(_vm.trans.__properties))]),
+              _vm._v(" "),
+              _c("div", { staticClass: "clearfix" })
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+              _c(
+                "label",
+                {
+                  staticClass:
+                    "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                },
+                [_vm._v(_vm._s(_vm.trans.__inputType) + ":")]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-4 col-sm-4 col-xs-12" },
+                [
+                  _c("multiselect", {
+                    attrs: {
+                      "deselect-label": "",
+                      "select-label": "",
+                      "track-by": "typeName",
+                      label: "typeName",
+                      placeholder: "Select one",
+                      options: _vm.typeOptions,
+                      searchable: false,
+                      "allow-empty": false,
+                      id: _vm.options
+                    },
+                    on: { select: _vm.fieldTypeChanged },
+                    model: {
+                      value: _vm.field.type,
+                      callback: function($$v) {
+                        _vm.$set(_vm.field, "type", $$v)
+                      },
+                      expression: "field.type"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.field.type.inputType == "repeater"
+                ? _c("div", { staticClass: "col-md-4 col-sm-4 col-xs-12" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.addSubField($event)
+                          }
+                        }
+                      },
+                      [_vm._v("Add new subfield")]
+                    )
+                  ])
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _vm.field.type.inputType == "radio" ||
+          _vm.field.type.inputType == "checkbox" ||
+          _vm.field.type.inputType == "dropdown"
+            ? _c("div", { staticClass: "row" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "col-md-12 col-sm-12 col-xs-12 multioptionValuesWrapper"
+                  },
+                  [
+                    _c(
+                      "label",
+                      {
+                        staticClass:
+                          "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                      },
+                      [_vm._v(_vm._s(_vm.trans.__options) + ":")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.field.multioptionValues,
+                            expression: "field.multioptionValues"
+                          }
+                        ],
+                        staticClass:
+                          "form-control textareaFields multioptionValues",
+                        attrs: {
+                          rows: "3",
+                          name: "multioptionValues",
+                          placeholder:
+                            "Example : value:Title, name:Name, lastname:Lastname"
+                        },
+                        domProps: { value: _vm.field.multioptionValues },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.field,
+                              "multioptionValues",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c(
+              "div",
+              { staticClass: "col-md-12 col-sm-12 col-xs-12 wrapperStyle" },
+              [
+                _c(
+                  "label",
+                  {
+                    staticClass:
+                      "control-label col-md-2 col-sm-2 col-xs-12 text-left",
+                    staticStyle: { "padding-top": "33px" }
+                  },
+                  [_vm._v(_vm._s(_vm.trans.__wrapperStyle) + ":")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-md-8 col-sm-8 col-xs-12",
+                    staticStyle: { margin: "0", padding: "0" }
+                  },
+                  [
+                    _c("div", { staticClass: "col-md-4 col-sm-4" }, [
+                      _c(
+                        "label",
+                        { staticClass: "col-md-12 col-sm-12 col-xs-12" },
+                        [_vm._v(_vm._s(_vm.trans.__width))]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.field.wrapperStyle.width,
+                            expression: "field.wrapperStyle.width"
+                          }
+                        ],
+                        staticClass: "form-control inputFields",
+                        attrs: { type: "text", name: "wrapperStyleWidth" },
+                        domProps: { value: _vm.field.wrapperStyle.width },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.field.wrapperStyle,
+                              "width",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4 col-sm-4" }, [
+                      _c(
+                        "label",
+                        { staticClass: "col-md-12 col-sm-12 col-xs-12" },
+                        [_vm._v(_vm._s(_vm.trans.__class))]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.field.wrapperStyle.class,
+                            expression: "field.wrapperStyle.class"
+                          }
+                        ],
+                        staticClass: "form-control inputFields",
+                        attrs: { type: "text", name: "wrapperStyleWidth" },
+                        domProps: { value: _vm.field.wrapperStyle.class },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.field.wrapperStyle,
+                              "class",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4 col-sm-4" }, [
+                      _c(
+                        "label",
+                        { staticClass: "col-md-12 col-sm-12 col-xs-12" },
+                        [_vm._v(_vm._s(_vm.trans.__id))]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.field.wrapperStyle.id,
+                            expression: "field.wrapperStyle.id"
+                          }
+                        ],
+                        staticClass: "form-control inputFields",
+                        attrs: { type: "text", name: "wrapperStyleWidth" },
+                        domProps: { value: _vm.field.wrapperStyle.id },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.field.wrapperStyle,
+                              "id",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c(
+              "div",
+              { staticClass: "col-md-12 col-sm-12 col-xs-12 fieldStyle" },
+              [
+                _c(
+                  "label",
+                  {
+                    staticClass:
+                      "control-label col-md-2 col-sm-2 col-xs-12 text-left",
+                    staticStyle: { "padding-top": "33px" }
+                  },
+                  [_vm._v(_vm._s(_vm.trans.__fieldStyle) + ":")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-md-8 col-sm-8 col-xs-12",
+                    staticStyle: { margin: "0", padding: "0" }
+                  },
+                  [
+                    _c("div", { staticClass: "col-md-4 col-sm-4" }, [
+                      _c(
+                        "label",
+                        { staticClass: "col-md-12 col-sm-12 col-xs-12" },
+                        [_vm._v(_vm._s(_vm.trans.__width))]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.field.fieldStyle.width,
+                            expression: "field.fieldStyle.width"
+                          }
+                        ],
+                        staticClass: "form-control inputFields",
+                        attrs: { type: "text", name: "wrapperStyleWidth" },
+                        domProps: { value: _vm.field.fieldStyle.width },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.field.fieldStyle,
+                              "width",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4 col-sm-4" }, [
+                      _c(
+                        "label",
+                        { staticClass: "col-md-12 col-sm-12 col-xs-12" },
+                        [_vm._v(_vm._s(_vm.trans.__class))]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.field.fieldStyle.class,
+                            expression: "field.fieldStyle.class"
+                          }
+                        ],
+                        staticClass: "form-control inputFields",
+                        attrs: { type: "text", name: "wrapperStyleWidth" },
+                        domProps: { value: _vm.field.fieldStyle.class },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.field.fieldStyle,
+                              "class",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4 col-sm-4" }, [
+                      _c(
+                        "label",
+                        { staticClass: "col-md-12 col-sm-12 col-xs-12" },
+                        [_vm._v(_vm._s(_vm.trans.__id))]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.field.fieldStyle.id,
+                            expression: "field.fieldStyle.id"
+                          }
+                        ],
+                        staticClass: "form-control inputFields",
+                        attrs: { type: "text", name: "wrapperStyleWidth" },
+                        domProps: { value: _vm.field.fieldStyle.id },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.field.fieldStyle,
+                              "id",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _vm.field.type.inputType == "db"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__table) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-md-8 col-sm-8 col-xs-12" },
+                    [
+                      _c("multiselect", {
+                        attrs: {
+                          "deselect-label": "Can't remove this value",
+                          "track-by": "label",
+                          label: "label",
+                          placeholder: "Select one",
+                          options: _vm.dbTables,
+                          searchable: false,
+                          "group-values": "options",
+                          "group-label": "group",
+                          "allow-empty": false
+                        },
+                        model: {
+                          value: _vm.field.properties.dbTable,
+                          callback: function($$v) {
+                            _vm.$set(_vm.field.properties, "dbTable", $$v)
+                          },
+                          expression: "field.properties.dbTable"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "db" ||
+          _vm.field.type.inputType == "image" ||
+          _vm.field.type.inputType == "dropdown"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "control-label col-md-2 col-sm-2 col-xs-12"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__isMultiple) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.isMultiple,
+                          expression: "field.isMultiple"
+                        }
+                      ],
+                      staticClass: "checkboxStyled",
+                      attrs: { type: "checkbox" },
+                      domProps: {
+                        checked: Array.isArray(_vm.field.isMultiple)
+                          ? _vm._i(_vm.field.isMultiple, null) > -1
+                          : _vm.field.isMultiple
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.field.isMultiple,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 &&
+                                _vm.$set(
+                                  _vm.field,
+                                  "isMultiple",
+                                  $$a.concat([$$v])
+                                )
+                            } else {
+                              $$i > -1 &&
+                                _vm.$set(
+                                  _vm.field,
+                                  "isMultiple",
+                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                )
+                            }
+                          } else {
+                            _vm.$set(_vm.field, "isMultiple", $$c)
+                          }
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "textarea" ||
+          _vm.field.type.inputType == "text"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__characterLimit) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.properties.characterLimit,
+                          expression: "field.properties.characterLimit"
+                        }
+                      ],
+                      staticClass: "form-control inputFields",
+                      attrs: { type: "number" },
+                      domProps: { value: _vm.field.properties.characterLimit },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.field.properties,
+                            "characterLimit",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "textarea"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__rows) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.properties.rows,
+                          expression: "field.properties.rows"
+                        }
+                      ],
+                      staticClass: "form-control inputFields",
+                      attrs: { type: "number" },
+                      domProps: { value: _vm.field.properties.rows },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.field.properties,
+                            "rows",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "textarea"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__allowHTML) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.properties.allowHTML,
+                          expression: "field.properties.allowHTML"
+                        }
+                      ],
+                      staticClass: "checkboxStyled",
+                      attrs: { type: "checkbox" },
+                      domProps: {
+                        checked: Array.isArray(_vm.field.properties.allowHTML)
+                          ? _vm._i(_vm.field.properties.allowHTML, null) > -1
+                          : _vm.field.properties.allowHTML
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.field.properties.allowHTML,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 &&
+                                _vm.$set(
+                                  _vm.field.properties,
+                                  "allowHTML",
+                                  $$a.concat([$$v])
+                                )
+                            } else {
+                              $$i > -1 &&
+                                _vm.$set(
+                                  _vm.field.properties,
+                                  "allowHTML",
+                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                )
+                            }
+                          } else {
+                            _vm.$set(_vm.field.properties, "allowHTML", $$c)
+                          }
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "textarea"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__allowParagraphs) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.properties.allowParagraphs,
+                          expression: "field.properties.allowParagraphs"
+                        }
+                      ],
+                      staticClass: "checkboxStyled",
+                      attrs: { type: "checkbox" },
+                      domProps: {
+                        checked: Array.isArray(
+                          _vm.field.properties.allowParagraphs
+                        )
+                          ? _vm._i(_vm.field.properties.allowParagraphs, null) >
+                            -1
+                          : _vm.field.properties.allowParagraphs
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.field.properties.allowParagraphs,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 &&
+                                _vm.$set(
+                                  _vm.field.properties,
+                                  "allowParagraphs",
+                                  $$a.concat([$$v])
+                                )
+                            } else {
+                              $$i > -1 &&
+                                _vm.$set(
+                                  _vm.field.properties,
+                                  "allowParagraphs",
+                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                )
+                            }
+                          } else {
+                            _vm.$set(
+                              _vm.field.properties,
+                              "allowParagraphs",
+                              $$c
+                            )
+                          }
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "editor"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__toolbar) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.field.properties.toolbar,
+                            expression: "field.properties.toolbar"
+                          }
+                        ],
+                        staticClass: "form-control inputFields",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.field.properties,
+                              "toolbar",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "basic" } }, [
+                          _vm._v("Basic")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "compact" } }, [
+                          _vm._v("Compact")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "full" } }, [
+                          _vm._v("Full")
+                        ])
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "file" ||
+          _vm.field.type.inputType == "image"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__maxUploadSize) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.properties.maxUploadSize,
+                          expression: "field.properties.maxUploadSize"
+                        }
+                      ],
+                      staticClass: "form-control inputFields",
+                      attrs: { type: "number" },
+                      domProps: { value: _vm.field.properties.maxUploadSize },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.field.properties,
+                            "maxUploadSize",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "image"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__minWidth) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.properties.minWidth,
+                          expression: "field.properties.minWidth"
+                        }
+                      ],
+                      staticClass: "form-control inputFields",
+                      attrs: { type: "number" },
+                      domProps: { value: _vm.field.properties.minWidth },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.field.properties,
+                            "minWidth",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "image"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__minHeight) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.properties.minHeight,
+                          expression: "field.properties.minHeight"
+                        }
+                      ],
+                      staticClass: "form-control inputFields",
+                      attrs: { type: "number" },
+                      domProps: { value: _vm.field.properties.minHeight },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.field.properties,
+                            "minHeight",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "image"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__maxWidth) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.properties.maxWidth,
+                          expression: "field.properties.maxWidth"
+                        }
+                      ],
+                      staticClass: "form-control inputFields",
+                      attrs: { type: "number" },
+                      domProps: { value: _vm.field.properties.maxWidth },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.field.properties,
+                            "maxWidth",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "image"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__maxHeight) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.properties.maxHeight,
+                          expression: "field.properties.maxHeight"
+                        }
+                      ],
+                      staticClass: "form-control inputFields",
+                      attrs: { type: "number" },
+                      domProps: { value: _vm.field.properties.maxHeight },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.field.properties,
+                            "maxHeight",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "number" ||
+          _vm.field.type.inputType == "range"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__min) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.properties.min,
+                          expression: "field.properties.min"
+                        }
+                      ],
+                      staticClass: "form-control inputFields",
+                      attrs: { type: "number" },
+                      domProps: { value: _vm.field.properties.min },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.field.properties,
+                            "min",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "number" ||
+          _vm.field.type.inputType == "range"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__max) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.properties.max,
+                          expression: "field.properties.max"
+                        }
+                      ],
+                      staticClass: "form-control inputFields",
+                      attrs: { type: "number" },
+                      domProps: { value: _vm.field.properties.max },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.field.properties,
+                            "max",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "range"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__rangeLabel) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.properties.rangeLabel,
+                          expression: "field.properties.rangeLabel"
+                        }
+                      ],
+                      staticClass: "form-control inputFields",
+                      attrs: { type: "number" },
+                      domProps: { value: _vm.field.properties.rangeLabel },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.field.properties,
+                            "rangeLabel",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "dropdown"
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "control-label col-md-2 col-sm-2 col-xs-12 text-left"
+                    },
+                    [_vm._v(_vm._s(_vm.trans.__allowOther) + ":")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.field.properties.allowOther,
+                          expression: "field.properties.allowOther"
+                        }
+                      ],
+                      staticClass: "checkboxStyled",
+                      attrs: { type: "checkbox" },
+                      domProps: {
+                        checked: Array.isArray(_vm.field.properties.allowOther)
+                          ? _vm._i(_vm.field.properties.allowOther, null) > -1
+                          : _vm.field.properties.allowOther
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.field.properties.allowOther,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 &&
+                                _vm.$set(
+                                  _vm.field.properties,
+                                  "allowOther",
+                                  $$a.concat([$$v])
+                                )
+                            } else {
+                              $$i > -1 &&
+                                _vm.$set(
+                                  _vm.field.properties,
+                                  "allowOther",
+                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                )
+                            }
+                          } else {
+                            _vm.$set(_vm.field.properties, "allowOther", $$c)
+                          }
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.field.type.inputType == "repeater"
+            ? _c("div", { staticClass: "row subfields" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "col-md-10 col-sm-10 col-xs-10 col-md-offset-2 col-sm-offset-2"
+                  },
+                  _vm._l(_vm.allFields, function(childField, subIndex) {
+                    return _c("div", [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "col-md-11 col-sm-11 col-xs-11 removePaddingAndMargin"
+                        },
+                        [
+                          childField.parent != 0 &&
+                          childField.parent == _vm.field.id
+                            ? _c("field", {
+                                attrs: {
+                                  field: childField,
+                                  isSubField: true,
+                                  index: subIndex,
+                                  trans: _vm.trans,
+                                  options: _vm.options,
+                                  languages: _vm.languages,
+                                  groupSlug: _vm.groupSlug,
+                                  dbTables: _vm.dbTables
+                                }
+                              })
+                            : _vm._e()
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      childField.parent != 0 &&
+                      childField.parent == _vm.field.id
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "col-md-1 col-sm-1 col-xs-1 removeSubFieldWrapper removePaddingAndMargin"
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "removeField fa fa-2x fa-close",
+                                on: {
+                                  click: function($event) {
+                                    _vm.removeField($event, subIndex)
+                                  }
+                                }
+                              })
+                            ]
+                          )
+                        : _vm._e()
+                    ])
+                  })
+                )
+              ])
+            : _vm._e()
+        ],
+        2
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-39e86596", module.exports)
+  }
+}
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(76)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(78)
+/* template */
+var __vue_template__ = __webpack_require__(79)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-2e0bb956"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "vendor\\acciocms\\core\\src\\resources\\views\\components\\vendor\\CustomField.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2e0bb956", Component.options)
+  } else {
+    hotAPI.reload("data-v-2e0bb956", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(77);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("5d710f0c", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2e0bb956\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CustomField.vue", function() {
+     var newContent = require("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2e0bb956\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CustomField.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.subFieldTable[data-v-2e0bb956]{\n    width: 100%;\n    border: 1px solid #EAEAEA;\n}\n.subFieldTable tr td[data-v-2e0bb956], .subFieldTable tr th[data-v-2e0bb956]{\n    border: 1px solid #EAEAEA;\n}\n.subFieldTable tr th[data-v-2e0bb956]{\n    height: 30px;\n    text-align: center;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var _globalMethods = __webpack_require__(4);
+
+var _globalComputed = __webpack_require__(3);
+
+exports.default = {
+    mixins: [_globalMethods.globalMethods, _globalComputed.globalComputed],
+    props: ['field', 'index', 'customFieldValues', 'vModel', 'lang', 'trans', 'groupSlug', 'childrenFieldsGroups', 'isSubField', 'childKey', 'subFieldGroupIndex', "isParentTranslatable"],
+    data: function data() {
+        return {
+            fromDBOptions: [],
+            dropdownOptions: [],
+            isLoading: false,
+            dropdownValue: [],
+            customFieldValuesTmp: [],
+            subFields: [],
+            subFieldsActive: true,
+            tmpVModel: []
+        };
+    },
+    created: function created() {
+        this.subFields = this.getSubFields;
+
+        if (!this.isSubField) {
+            if (this.field.isTranslatable) {
+                this.customFieldValuesTmp = this.customFieldValues[this.vModel][this.lang.slug];
+            } else {
+                this.customFieldValuesTmp = this.customFieldValues[this.vModel];
+            }
+        } else {
+            if (this.isParentTranslatable) {
+                this.customFieldValuesTmp = this.customFieldValues[this.vModel][this.lang.slug][this.subFieldGroupIndex][this.childKey];
+            } else {
+                this.customFieldValuesTmp = this.customFieldValues[this.vModel][this.subFieldGroupIndex][this.childKey];
+            }
+        }
+
+        if (this.field.type == "dropdown") {
+            if (_typeof(this.customFieldValuesTmp) == 'object' && Object.keys(this.customFieldValuesTmp).length || typeof this.customFieldValuesTmp == 'number' && this.customFieldValuesTmp != '') {
+                this.getDropdownOptions(this.field);
+                for (var k in this.dropdownOptions) {
+                    var value = this.dropdownOptions[k].value;
+                    if (this.customFieldValuesTmp.indexOf(value) != -1) {
+                        this.dropdownValue.push(this.dropdownOptions[k]);
+                    }
+                }
+            }
+        } else if (this.field.type == "db") {
+            this.getFromDBOptions(this.field);
+        } else if (this.field.type == "editor") {
+            if (this.field.isTranslatable) {
+                if (_typeof(this.customFieldValues[this.vModel][this.lang.slug]) == "object" && Object.keys(this.customFieldValues[this.vModel][this.lang.slug]).length == 0) {
+                    this.customFieldValues[this.vModel][this.lang.slug] = "";
+                }
+            } else {
+                if (_typeof(this.customFieldValues[this.vModel]) == "object" && Object.keys(this.customFieldValues[this.vModel]).length == 0) {
+                    this.customFieldValues[this.vModel] = "";
+                }
+            }
+        }
+    },
+
+    methods: {
+
+        // change boolean value
+        changeBoolean: function changeBoolean(option, key, isTranslatable) {
+            var childKey = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+            var childGroupIndex = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
+
+            if (childKey == '') {
+                if (isTranslatable) {
+                    this.customFieldValues[key][this.lang.slug] = option;
+                } else {
+                    this.customFieldValues[key] = option;
+                }
+            } else {
+                if (isTranslatable) {
+                    this.customFieldValues[key][this.lang.slug][childGroupIndex][childKey] = option;
+                } else {
+                    this.customFieldValues[key][childGroupIndex][childKey] = option;
+                }
+            }
+        },
+
+
+        // get options from db
+        getFromDBOptions: function getFromDBOptions(field) {
+            var _this = this;
+
+            if (!this.fromDBOptions.length) {
+                this.isLoading = true;
+                this.$http.post(this.basePath + '/' + this.$route.params.adminPrefix + '/json/custom-fields/get-table-data', field.properties.dbTable).then(function (resp) {
+                    if (field.properties.dbTable.name != 'users') {
+                        _this.fromDBOptions = resp.body;
+                    } else {
+                        var tmp = [];
+                        var tmpData = resp.body;
+                        for (var k in tmpData) {
+                            tmpData[k].fullName = tmpData[k].firstName + " " + tmpData[k].lastName;
+                            tmp.push(tmpData[k]);
+                        }
+                        _this.fromDBOptions = tmp;
+                    }
+                    _this.isLoading = false;
+                }, function (error) {
+                    _this.isLoading = false;
+                }).then(function (resp) {
+                    _this.setTmpVModel();
+                });
+            }
+        },
+        setTmpVModel: function setTmpVModel() {
+            if (_typeof(this.customFieldValuesTmp) == 'object' && Object.keys(this.customFieldValuesTmp).length || typeof this.customFieldValuesTmp == 'number' && this.customFieldValuesTmp != '') {
+                for (var k in this.fromDBOptions) {
+                    if (this.field.properties.dbTable.belongsTo == 'User') {
+                        var id = this.fromDBOptions[k].userID;
+                    } else if (this.field.properties.dbTable.belongsTo == 'PostType') {
+                        var id = this.fromDBOptions[k].ID;
+                    }
+
+                    if (this.field.isMultiple) {
+                        if (this.customFieldValuesTmp.indexOf(id) != -1) {
+                            this.tmpVModel.push(this.fromDBOptions[k]);
+                        }
+                    } else {
+                        if (id != this.customFieldValuesTmp) {
+                            this.tmpVModel = this.fromDBOptions[k];
+                        }
+                    }
+                }
+            }
+        },
+
+
+        // make the options for the dropdown multiselect
+        getDropdownOptions: function getDropdownOptions(field) {
+            var optionsInOBJ = field.optionsValues.object;
+            var options = [];
+            for (var k in optionsInOBJ) {
+                options.push({ name: optionsInOBJ[k], value: k });
+            }
+            this.dropdownOptions = options;
+        },
+
+
+        // sets the selected value/s for multiselect dropdown input type
+        setDropdownVModel: function setDropdownVModel(ev) {
+            var result = [];
+            for (var k in this.dropdownValue) {
+                result.push(this.dropdownValue[k].value);
+            }
+            if (!this.isSubField) {
+                if (this.field.isTranslatable) {
+                    this.customFieldValues[this.vModel][this.lang.slug] = result;
+                } else {
+                    this.customFieldValues[this.vModel] = result;
+                }
+            } else {
+                if (this.field.isTranslatable) {
+                    this.customFieldValues[this.vModel][this.lang.slug][this.subFieldGroupIndex][this.childKey] = result;
+                } else {
+                    this.customFieldValues[this.vModel][this.subFieldGroupIndex][this.childKey] = result;
+                }
+            }
+        },
+
+
+        // open the media popup and with his options
+        openMedia: function openMedia(format, inputName, langSlug, multiple, clear) {
+            this.$store.commit('setOpenMediaOptions', {
+                multiple: multiple,
+                has_multile_files: true,
+                multipleInputs: true,
+                format: format,
+                inputName: inputName,
+                langSlug: langSlug,
+                clear: clear
+            });
+            this.$store.commit('setIsMediaOpen', true);
+        },
+
+
+        /**
+         * this function is used to remove the selected images in custom fields
+         * */
+        deleteSelectedMediaFile: function deleteSelectedMediaFile(key, mediaID) {
+            // delete media from vuex
+            var mediaArr = this.mediaSelectedFiles;
+            for (var k in mediaArr[key]) {
+                if (key == "featuredImage") {
+                    delete mediaArr[key];
+                    continue;
+                }
+                if (mediaArr[key][k].mediaID == mediaID) {
+                    mediaArr[key].splice(k, 1);
+                }
+                if (mediaArr[key].length == 0) {
+                    delete mediaArr[key];
+                }
+            }
+            // delete media from the custom field variables
+            this.deleteImagesFromCustomFields(key, mediaID);
+
+            this.$store.commit('setMediaSelectedFiles', "");
+            this.$store.commit('setMediaSelectedFiles', mediaArr);
+        },
+
+
+        /**
+         *  Delete media from the custom custom field variables
+         * */
+        deleteImagesFromCustomFields: function deleteImagesFromCustomFields(key, mediaID) {
+            // delete media ids in custom field values
+            if (this.customFieldValues[key] !== undefined) {
+                if (_typeof(this.customFieldValues[key]) == 'object') {
+                    for (var cKey in this.customFieldValues[key]) {
+                        if (this.customFieldValues[key][cKey] == mediaID) {
+                            this.customFieldValues[key].splice(cKey, 1);
+                        }
+                    }
+                } else {
+                    this.customFieldValues[key] = [];
+                }
+            } else {
+                var keysArray = key.split("___");
+                /* if non translatable sub fields */
+                if (keysArray.length == 3) {
+                    if (this.customFieldValues[keysArray[0]] !== undefined && this.customFieldValues[keysArray[0]][keysArray[1]] !== undefined && this.customFieldValues[keysArray[0]][keysArray[1]][keysArray[2]] !== undefined) {
+
+                        console.log("HELLO HELLO");
+                        if (_typeof(this.customFieldValues[keysArray[0]][keysArray[1]][keysArray[2]]) == 'object') {
+                            this.customFieldValues[keysArray[0]][keysArray[1]][keysArray[2]] = this.deleteValue(this.customFieldValues[keysArray[0]][keysArray[1]][keysArray[2]], mediaID);
+                        } else {
+                            this.customFieldValues[keysArray[0]][keysArray[1]][keysArray[2]] = "";
+                        }
+                    }
+                } else if (keysArray.length == 5) {
+                    // For translatable sub custom fields (within repeater custom field)
+                    if (this.customFieldValues[keysArray[0]] !== undefined && this.customFieldValues[keysArray[0]][keysArray[4]] !== undefined && this.customFieldValues[keysArray[0]][keysArray[4]][keysArray[1]] !== undefined && this.customFieldValues[keysArray[0]][keysArray[4]][keysArray[1]][keysArray[2]] !== undefined) {
+
+                        if (_typeof(this.customFieldValues[keysArray[0]][keysArray[4]][keysArray[1]][keysArray[2]]) == 'object') {
+                            this.customFieldValues[keysArray[0]][keysArray[4]][keysArray[1]][keysArray[2]] = this.deleteValue(this.customFieldValues[keysArray[0]][keysArray[4]][keysArray[1]][keysArray[2]], mediaID);
+                        } else {
+                            this.customFieldValues[keysArray[0]][keysArray[4]][keysArray[1]][keysArray[2]] = "";
+                        }
+                    }
+                } else {
+                    /* FOR TRANSLATABLE MEDIA CUSTOM FIELDS */
+                    var _keysArray = key.split("__lang__");
+
+                    if (_keysArray.length == 2) {
+                        if (this.customFieldValues[_keysArray[0]] !== undefined && _typeof(this.customFieldValues[_keysArray[0]]) == 'object') {
+                            for (var _cKey in this.customFieldValues[_keysArray[0]]) {
+                                // if field is multiple (custom field that allows multiple images)
+                                if (_typeof(this.customFieldValues[_keysArray[0]][_cKey]) == 'object') {
+                                    this.customFieldValues[_keysArray[0]][_cKey] = this.deleteValue(this.customFieldValues[_keysArray[0]][_cKey], mediaID);
+                                } else {
+                                    // if custom field allows only one image to be selected
+                                    this.customFieldValues[_keysArray[0]][_cKey] = [];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+
+        /**
+         * Deletes a value from the array
+         * @param array main array
+         * @param value to be deleted
+         * @returns {*}
+         */
+        deleteValue: function deleteValue(array, value) {
+            var index = array.indexOf(value);
+            delete array[index];
+            return this.remakeArray(array);
+        },
+
+        /**
+         * remakes array with the count keys (used after delete a key)
+         * @param array
+         * @returns {Array}
+         */
+        remakeArray: function remakeArray(array) {
+            var count = 0;
+            var result = [];
+            for (var k in array) {
+                result[count] = array[k];
+                count++;
+            }
+            return result;
+        },
+
+
+        // repair url to get the thumb
+        constructUrl: function constructUrl(image) {
+            var url = "";
+            if (image.type == "image") {
+                url = "/" + image.fileDirectory + "/200x200/" + image.filename;
+            } else if (image.type == "document") {
+                url = this.documentIconUrl;
+            } else if (image.type == "video") {
+                url = this.videoIconUrl;
+            } else if (image.type == "audio") {
+                url = this.audioIconUrl;
+            }
+            return url;
+        },
+
+
+        // add a sub field value for the repeater input type
+        addSubFieldValue: function addSubFieldValue() {
+            var tmp = {};
+            this.subFields = [];
+            if (this.childrenFieldsGroups[this.field.customFieldID] !== undefined) {
+                var fields = this.childrenFieldsGroups[this.field.customFieldID];
+                if (this.field.isTranslatable) {
+                    this.$store.commit("addSubCustomField", { key: this.groupSlug + '__' + this.field.slug, value: fields, lang: this.lang.slug });
+                } else {
+                    this.$store.commit("addSubCustomField", { key: this.groupSlug + '__' + this.field.slug, value: fields });
+                }
+                for (var k in fields) {
+                    var field = fields[k];
+                    tmp[this.groupSlug + '__' + field.slug] = [];
+                }
+            }
+            this.subFields = this.getSubFields;
+
+            if (this.field.isTranslatable) {
+                this.customFieldValues[this.vModel][this.lang.slug].push(tmp);
+            } else {
+                this.customFieldValues[this.vModel].push(tmp);
+            }
+        },
+
+
+        // when remove sub field button is clicked / to remove a sub field
+        removeSubFieldValue: function removeSubFieldValue(subFieldGroupIndex) {
+            this.subFieldsActive = false;
+
+            // remove fields
+            var subFields = this.subFields;
+            this.subFields = [];
+
+            var result = [];
+            for (var groupKey in subFields) {
+                var globalGroupKey = this.groupSlug + '__' + this.field.slug;
+                if (groupKey == globalGroupKey) {
+                    var tmp = [];
+
+                    if (this.field.isTranslatable) {
+                        for (var langKey in subFields[groupKey]) {
+                            var langTmp = [];
+                            for (var k in subFields[groupKey][langKey]) {
+                                if (k != subFieldGroupIndex) {
+                                    langTmp.push(subFields[groupKey][langKey][k]);
+                                }
+                            }
+                            tmp[langKey] = langTmp;
+                        }
+                    } else {
+                        for (var _k in subFields[groupKey]) {
+                            if (_k != subFieldGroupIndex) {
+                                tmp.push(subFields[groupKey][_k]);
+                            }
+                        }
+                    }
+                    result[groupKey] = tmp;
+                } else {
+                    result[groupKey] = subFields[groupKey];
+                }
+            }
+
+            this.subFields = result;
+            this.$store.commit("setSubCustomFields", this.subFields);
+
+            // remove values
+            var customFieldValues = this.customFieldValues[this.vModel];
+            this.customFieldValues[this.vModel] = [];
+            var result = [];
+
+            for (var _k2 in customFieldValues) {
+                if (_k2 != subFieldGroupIndex) {
+                    result.push(customFieldValues[_k2]);
+                }
+            }
+            this.customFieldValues[this.vModel] = result;
+            this.customFieldValuesTmp = result;
+
+            var global = this;
+            setTimeout(function () {
+                global.subFieldsActive = true;
+            }, 100);
+        },
+        populateDBValue: function populateDBValue(ev, type) {
+            if (type == "user") {
+                var val = ev.userID;
+            } else if (type == "PostType") {
+                var val = ev.ID;
+            }
+
+            if (!this.isSubField) {
+                if (this.field.isTranslatable) {
+                    if (this.field.isMultiple) {
+                        this.customFieldValues[this.vModel][this.lang.slug].push(val);
+                    } else {
+                        this.customFieldValues[this.vModel][this.lang.slug] = val;
+                    }
+                } else {
+                    if (this.field.isMultiple) {
+                        this.customFieldValues[this.vModel].push(val);
+                    } else {
+                        this.customFieldValues[this.vModel] = val;
+                    }
+                }
+            } else {
+                if (this.isParentTranslatable) {
+                    if (this.field.isMultiple) {
+                        this.customFieldValues[this.vModel][this.subFieldGroupIndex][this.childKey].push(val);
+                    } else {
+                        this.customFieldValues[this.vModel][this.subFieldGroupIndex][this.childKey] = val;
+                    }
+                } else {
+                    if (this.field.isMultiple) {
+                        this.customFieldValues[this.vModel][this.subFieldGroupIndex][this.childKey].push(val);
+                    } else {
+                        this.customFieldValues[this.vModel][this.subFieldGroupIndex][this.childKey] = val;
+                    }
+                }
+            }
+        }
+    },
+    computed: {
+        basePath: function basePath() {
+            // return if media popup is open (true or false)
+            return this.$store.getters.get_base_path;
+        },
+        mediaSelectedFiles: function mediaSelectedFiles() {
+            // return when user chose files form media
+            return this.$store.getters.get_media_selected_files;
+        },
+        isMediaOpen: function isMediaOpen() {
+            // return if media popup is open (true or false)
+            return this.$store.getters.get_is_media_open;
+        },
+        mediaOptions: function mediaOptions() {
+            // return the options for opening the media popup
+            return this.$store.getters.get_open_media_options;
+        },
+        getSubFields: function getSubFields() {
+            return this.$store.getters.get_sub_custom_fields;
+        },
+        froalaConfig: function froalaConfig() {
+            return this.$store.getters.get_froala_compact_config;
+        }
+    }
+};
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "form-group",
+      attrs: { id: "form-group-" + _vm.vModel + "_" + _vm.lang.slug }
+    },
+    [
+      !_vm.isSubField
+        ? _c(
+            "label",
+            { staticClass: "control-label col-md-2 col-sm-2 col-xs-12" },
+            [_vm._v(_vm._s(_vm.field.label[_vm.lang.slug]))]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.field.type == "text"
+        ? [
+            !_vm.isSubField
+              ? _c(
+                  "div",
+                  { staticClass: "col-md-10 col-sm-10 col-xs-12" },
+                  [
+                    !_vm.field.isTranslatable
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.customFieldValues[_vm.vModel],
+                              expression: "customFieldValues[vModel]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: _vm.vModel,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value: _vm.customFieldValues[_vm.vModel]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues,
+                                _vm.vModel,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      : _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ],
+                              expression: "customFieldValues[vModel][lang.slug]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: _vm.vModel,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][_vm.lang.slug]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel],
+                                _vm.lang.slug,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isSubField
+              ? _c(
+                  "div",
+                  [
+                    _vm.isParentTranslatable
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ][_vm.subFieldGroupIndex][_vm.childKey],
+                              expression:
+                                "customFieldValues[vModel][lang.slug][subFieldGroupIndex][childKey]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: _vm.childKey,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][_vm.lang.slug][
+                                _vm.subFieldGroupIndex
+                              ][_vm.childKey]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ][_vm.subFieldGroupIndex],
+                                _vm.childKey,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      : _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.subFieldGroupIndex
+                                ][_vm.childKey],
+                              expression:
+                                "customFieldValues[vModel][subFieldGroupIndex][childKey]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: _vm.childKey,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][
+                                _vm.subFieldGroupIndex
+                              ][_vm.childKey]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.subFieldGroupIndex
+                                ],
+                                _vm.childKey,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e()
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.field.type == "textarea"
+        ? [
+            !_vm.isSubField
+              ? _c(
+                  "div",
+                  { staticClass: "col-md-10 col-sm-10 col-xs-12" },
+                  [
+                    !_vm.field.isTranslatable
+                      ? _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.customFieldValues[_vm.vModel],
+                              expression: "customFieldValues[vModel]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            id: _vm.vModel,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value: _vm.customFieldValues[_vm.vModel]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues,
+                                _vm.vModel,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.field.isTranslatable
+                      ? _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ],
+                              expression: "customFieldValues[vModel][lang.slug]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            id: _vm.vModel,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][_vm.lang.slug]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel],
+                                _vm.lang.slug,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isSubField
+              ? _c(
+                  "div",
+                  [
+                    _vm.isParentTranslatable
+                      ? _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ][_vm.subFieldGroupIndex][_vm.childKey],
+                              expression:
+                                "customFieldValues[vModel][lang.slug][subFieldGroupIndex][childKey]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            id: _vm.childKey,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][_vm.lang.slug][
+                                _vm.subFieldGroupIndex
+                              ][_vm.childKey]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ][_vm.subFieldGroupIndex],
+                                _vm.childKey,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      : _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.subFieldGroupIndex
+                                ][_vm.childKey],
+                              expression:
+                                "customFieldValues[vModel][subFieldGroupIndex][childKey]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            id: _vm.childKey,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][
+                                _vm.subFieldGroupIndex
+                              ][_vm.childKey]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.subFieldGroupIndex
+                                ],
+                                _vm.childKey,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e()
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.field.type == "editor" && !_vm.isSubField
+        ? _c(
+            "div",
+            { staticClass: "col-md-10 col-sm-10 col-xs-12" },
+            [
+              _c(
+                "div",
+                { staticClass: "editor froala-container" },
+                [
+                  _vm.field.isTranslatable
+                    ? _c("froala", {
+                        staticClass: "froala",
+                        attrs: {
+                          tag: "textarea",
+                          config: _vm.froalaConfig,
+                          id:
+                            "froala-custom-field-" +
+                            _vm.index +
+                            "-" +
+                            _vm.lang.slug
+                        },
+                        model: {
+                          value:
+                            _vm.customFieldValues[_vm.vModel][_vm.lang.slug],
+                          callback: function($$v) {
+                            _vm.$set(
+                              _vm.customFieldValues[_vm.vModel],
+                              _vm.lang.slug,
+                              $$v
+                            )
+                          },
+                          expression: "customFieldValues[vModel][lang.slug]"
+                        }
+                      })
+                    : _c("froala", {
+                        staticClass: "froala",
+                        attrs: {
+                          tag: "textarea",
+                          config: _vm.froalaConfig,
+                          id: "froala-custom-field-" + _vm.index
+                        },
+                        model: {
+                          value: _vm.customFieldValues[_vm.vModel],
+                          callback: function($$v) {
+                            _vm.$set(_vm.customFieldValues, _vm.vModel, $$v)
+                          },
+                          expression: "customFieldValues[vModel]"
+                        }
+                      })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm._l(
+                _vm.StoreResponse.errors[_vm.vModel + "_" + _vm.lang.slug],
+                function(error) {
+                  return _vm.StoreResponse.errors[
+                    _vm.vModel + "_" + _vm.lang.slug
+                  ]
+                    ? _c("div", { staticClass: "alert" }, [
+                        _vm._v(_vm._s(error))
+                      ])
+                    : _vm._e()
+                }
+              )
+            ],
+            2
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.field.type == "email"
+        ? [
+            !_vm.isSubField
+              ? _c(
+                  "div",
+                  { staticClass: "col-md-10 col-sm-10 col-xs-12" },
+                  [
+                    !_vm.field.isTranslatable
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.customFieldValues[_vm.vModel],
+                              expression: "customFieldValues[vModel]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "email",
+                            id: _vm.vModel,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value: _vm.customFieldValues[_vm.vModel]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues,
+                                _vm.vModel,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      : _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ],
+                              expression: "customFieldValues[vModel][lang.slug]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "email",
+                            id: _vm.vModel,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][_vm.lang.slug]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel],
+                                _vm.lang.slug,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isSubField
+              ? _c(
+                  "div",
+                  [
+                    _vm.isParentTranslatable
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ][_vm.subFieldGroupIndex][_vm.childKey],
+                              expression:
+                                "customFieldValues[vModel][lang.slug][subFieldGroupIndex][childKey]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "email",
+                            id: _vm.childKey,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][_vm.lang.slug][
+                                _vm.subFieldGroupIndex
+                              ][_vm.childKey]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ][_vm.subFieldGroupIndex],
+                                _vm.childKey,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      : _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.subFieldGroupIndex
+                                ][_vm.childKey],
+                              expression:
+                                "customFieldValues[vModel][subFieldGroupIndex][childKey]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "email",
+                            id: _vm.childKey,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][
+                                _vm.subFieldGroupIndex
+                              ][_vm.childKey]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.subFieldGroupIndex
+                                ],
+                                _vm.childKey,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e()
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.field.type == "number"
+        ? [
+            !_vm.isSubField
+              ? _c(
+                  "div",
+                  { staticClass: "col-md-10 col-sm-10 col-xs-12" },
+                  [
+                    !_vm.field.isTranslatable
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.customFieldValues[_vm.vModel],
+                              expression: "customFieldValues[vModel]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: _vm.vModel,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value: _vm.customFieldValues[_vm.vModel]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues,
+                                _vm.vModel,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      : _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ],
+                              expression: "customFieldValues[vModel][lang.slug]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: _vm.vModel,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][_vm.lang.slug]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel],
+                                _vm.lang.slug,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isSubField
+              ? _c(
+                  "div",
+                  [
+                    _vm.isParentTranslatable
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ][_vm.subFieldGroupIndex][_vm.childKey],
+                              expression:
+                                "customFieldValues[vModel][lang.slug][subFieldGroupIndex][childKey]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: _vm.childKey,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][_vm.lang.slug][
+                                _vm.subFieldGroupIndex
+                              ][_vm.childKey]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ][_vm.subFieldGroupIndex],
+                                _vm.childKey,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      : _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.subFieldGroupIndex
+                                ][_vm.childKey],
+                              expression:
+                                "customFieldValues[vModel][subFieldGroupIndex][childKey]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: _vm.childKey,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug]
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][
+                                _vm.subFieldGroupIndex
+                              ][_vm.childKey]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.subFieldGroupIndex
+                                ],
+                                _vm.childKey,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e()
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.field.type == "date"
+        ? [
+            !_vm.isSubField
+              ? _c(
+                  "div",
+                  { staticClass: "col-md-10 col-sm-10 col-xs-12" },
+                  [
+                    !_vm.field.isTranslatable
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.customFieldValues[_vm.vModel],
+                              expression: "customFieldValues[vModel]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "date",
+                            id: _vm.vModel,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug],
+                            format: "dd/MM/yyyy"
+                          },
+                          domProps: {
+                            value: _vm.customFieldValues[_vm.vModel]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues,
+                                _vm.vModel,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      : _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ],
+                              expression: "customFieldValues[vModel][lang.slug]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "date",
+                            id: _vm.vModel,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug],
+                            format: "dd/MM/yyyy"
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][_vm.lang.slug]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel],
+                                _vm.lang.slug,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isSubField
+              ? _c(
+                  "div",
+                  [
+                    _vm.isParentTranslatable
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ][_vm.subFieldGroupIndex][_vm.childKey],
+                              expression:
+                                "customFieldValues[vModel][lang.slug][subFieldGroupIndex][childKey]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "date",
+                            id: _vm.childKey,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug],
+                            format: "dd/MM/yyyy"
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][_vm.lang.slug][
+                                _vm.subFieldGroupIndex
+                              ][_vm.childKey]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.lang.slug
+                                ][_vm.subFieldGroupIndex],
+                                _vm.childKey,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      : _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value:
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.subFieldGroupIndex
+                                ][_vm.childKey],
+                              expression:
+                                "customFieldValues[vModel][subFieldGroupIndex][childKey]"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "date",
+                            id: _vm.childKey,
+                            placeholder: _vm.field.placeholder[_vm.lang.slug],
+                            format: "dd/MM/yyyy"
+                          },
+                          domProps: {
+                            value:
+                              _vm.customFieldValues[_vm.vModel][
+                                _vm.subFieldGroupIndex
+                              ][_vm.childKey]
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.customFieldValues[_vm.vModel][
+                                  _vm.subFieldGroupIndex
+                                ],
+                                _vm.childKey,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e()
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.field.type == "boolean"
+        ? [
+            !_vm.isSubField
+              ? _c("div", { staticClass: "col-md-6 col-sm-6 col-xs-12" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "btn-group",
+                      attrs: { "data-toggle": "buttons" }
+                    },
+                    [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "btn btn-default",
+                          attrs: {
+                            "data-toggle-class": "btn-primary",
+                            "data-toggle-passive-class": "btn-default"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.changeBoolean(
+                                true,
+                                _vm.vModel,
+                                _vm.field.isTranslatable
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("input", {
+                            attrs: {
+                              type: "radio",
+                              name: "visible",
+                              value: "true"
+                            }
+                          }),
+                          _vm._v(
+                            "   " +
+                              _vm._s(_vm.trans.__true) +
+                              "  \n                "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "btn btn-primary active",
+                          attrs: {
+                            "data-toggle-class": "btn-primary",
+                            "data-toggle-passive-class": "btn-default"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.changeBoolean(
+                                false,
+                                _vm.vModel,
+                                _vm.field.isTranslatable
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("input", {
+                            attrs: {
+                              type: "radio",
+                              name: "visible",
+                              value: "false"
+                            }
+                          }),
+                          _vm._v(
+                            " " +
+                              _vm._s(_vm.trans.__false) +
+                              "\n                "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(
+                        _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ],
+                        function(error) {
+                          return _vm.StoreResponse.errors[
+                            _vm.vModel + "_" + _vm.lang.slug
+                          ]
+                            ? _c("div", { staticClass: "alert" }, [
+                                _vm._v(_vm._s(error))
+                              ])
+                            : _vm._e()
+                        }
+                      )
+                    ],
+                    2
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isSubField
+              ? _c("div", [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "btn-group",
+                      attrs: { "data-toggle": "buttons" }
+                    },
+                    [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "btn btn-default",
+                          attrs: {
+                            "data-toggle-class": "btn-primary",
+                            "data-toggle-passive-class": "btn-default"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.changeBoolean(
+                                true,
+                                _vm.vModel,
+                                _vm.isParentTranslatable,
+                                _vm.childKey,
+                                _vm.subFieldGroupIndex
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("input", {
+                            attrs: {
+                              type: "radio",
+                              name: "visible",
+                              value: "true"
+                            }
+                          }),
+                          _vm._v(
+                            "   " +
+                              _vm._s(_vm.trans.__true) +
+                              "  \n                "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "btn btn-primary active",
+                          attrs: {
+                            "data-toggle-class": "btn-primary",
+                            "data-toggle-passive-class": "btn-default"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.changeBoolean(
+                                false,
+                                _vm.vModel,
+                                _vm.isParentTranslatable,
+                                _vm.childKey,
+                                _vm.subFieldGroupIndex
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("input", {
+                            attrs: {
+                              type: "radio",
+                              name: "visible",
+                              value: "false"
+                            }
+                          }),
+                          _vm._v(
+                            " " +
+                              _vm._s(_vm.trans.__false) +
+                              "\n                "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(
+                        _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ],
+                        function(error) {
+                          return _vm.StoreResponse.errors[
+                            _vm.vModel + "_" + _vm.lang.slug
+                          ]
+                            ? _c("div", { staticClass: "alert" }, [
+                                _vm._v(_vm._s(error))
+                              ])
+                            : _vm._e()
+                        }
+                      )
+                    ],
+                    2
+                  )
+                ])
+              : _vm._e()
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.field.type == "checkbox"
+        ? [
+            !_vm.isSubField
+              ? _c(
+                  "div",
+                  { staticClass: "col-md-10 col-sm-10 col-xs-12" },
+                  [
+                    _vm._l(_vm.field.optionsValues.object, function(
+                      option,
+                      key
+                    ) {
+                      return !_vm.field.isTranslatable
+                        ? _c("div", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.customFieldValues[_vm.vModel],
+                                  expression: "customFieldValues[vModel]"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                id: _vm.vModel + _vm.index + key
+                              },
+                              domProps: {
+                                value: key,
+                                checked: Array.isArray(
+                                  _vm.customFieldValues[_vm.vModel]
+                                )
+                                  ? _vm._i(
+                                      _vm.customFieldValues[_vm.vModel],
+                                      key
+                                    ) > -1
+                                  : _vm.customFieldValues[_vm.vModel]
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.customFieldValues[_vm.vModel],
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = key,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        _vm.$set(
+                                          _vm.customFieldValues,
+                                          _vm.vModel,
+                                          $$a.concat([$$v])
+                                        )
+                                    } else {
+                                      $$i > -1 &&
+                                        _vm.$set(
+                                          _vm.customFieldValues,
+                                          _vm.vModel,
+                                          $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1))
+                                        )
+                                    }
+                                  } else {
+                                    _vm.$set(
+                                      _vm.customFieldValues,
+                                      _vm.vModel,
+                                      $$c
+                                    )
+                                  }
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              { attrs: { for: _vm.vModel + _vm.index + key } },
+                              [_vm._v(_vm._s(option))]
+                            )
+                          ])
+                        : _vm._l(_vm.field.optionsValues.object, function(
+                            option,
+                            key
+                          ) {
+                            return _c("div", [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value:
+                                      _vm.customFieldValues[_vm.vModel][
+                                        _vm.lang.slug
+                                      ],
+                                    expression:
+                                      "customFieldValues[vModel][lang.slug]"
+                                  }
+                                ],
+                                attrs: {
+                                  type: "checkbox",
+                                  id: _vm.vModel + _vm.index + key
+                                },
+                                domProps: {
+                                  value: key,
+                                  checked: Array.isArray(
+                                    _vm.customFieldValues[_vm.vModel][
+                                      _vm.lang.slug
+                                    ]
+                                  )
+                                    ? _vm._i(
+                                        _vm.customFieldValues[_vm.vModel][
+                                          _vm.lang.slug
+                                        ],
+                                        key
+                                      ) > -1
+                                    : _vm.customFieldValues[_vm.vModel][
+                                        _vm.lang.slug
+                                      ]
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$a =
+                                        _vm.customFieldValues[_vm.vModel][
+                                          _vm.lang.slug
+                                        ],
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = key,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          _vm.$set(
+                                            _vm.customFieldValues[_vm.vModel],
+                                            _vm.lang.slug,
+                                            $$a.concat([$$v])
+                                          )
+                                      } else {
+                                        $$i > -1 &&
+                                          _vm.$set(
+                                            _vm.customFieldValues[_vm.vModel],
+                                            _vm.lang.slug,
+                                            $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1))
+                                          )
+                                      }
+                                    } else {
+                                      _vm.$set(
+                                        _vm.customFieldValues[_vm.vModel],
+                                        _vm.lang.slug,
+                                        $$c
+                                      )
+                                    }
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  attrs: { for: _vm.vModel + _vm.index + key }
+                                },
+                                [_vm._v(_vm._s(option))]
+                              )
+                            ])
+                          })
+                    }),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isSubField
+              ? _c(
+                  "div",
+                  [
+                    _vm.isParentTranslatable
+                      ? _vm._l(_vm.field.optionsValues.object, function(
+                          option,
+                          key
+                        ) {
+                          return _c("div", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value:
+                                    _vm.customFieldValues[_vm.vModel][
+                                      _vm.lang.slug
+                                    ][_vm.subFieldGroupIndex][_vm.childKey],
+                                  expression:
+                                    "customFieldValues[vModel][lang.slug][subFieldGroupIndex][childKey]"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                id: _vm.childKey + _vm.subFieldGroupIndex + key
+                              },
+                              domProps: {
+                                value: key,
+                                checked: Array.isArray(
+                                  _vm.customFieldValues[_vm.vModel][
+                                    _vm.lang.slug
+                                  ][_vm.subFieldGroupIndex][_vm.childKey]
+                                )
+                                  ? _vm._i(
+                                      _vm.customFieldValues[_vm.vModel][
+                                        _vm.lang.slug
+                                      ][_vm.subFieldGroupIndex][_vm.childKey],
+                                      key
+                                    ) > -1
+                                  : _vm.customFieldValues[_vm.vModel][
+                                      _vm.lang.slug
+                                    ][_vm.subFieldGroupIndex][_vm.childKey]
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a =
+                                      _vm.customFieldValues[_vm.vModel][
+                                        _vm.lang.slug
+                                      ][_vm.subFieldGroupIndex][_vm.childKey],
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = key,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        _vm.$set(
+                                          _vm.customFieldValues[_vm.vModel][
+                                            _vm.lang.slug
+                                          ][_vm.subFieldGroupIndex],
+                                          _vm.childKey,
+                                          $$a.concat([$$v])
+                                        )
+                                    } else {
+                                      $$i > -1 &&
+                                        _vm.$set(
+                                          _vm.customFieldValues[_vm.vModel][
+                                            _vm.lang.slug
+                                          ][_vm.subFieldGroupIndex],
+                                          _vm.childKey,
+                                          $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1))
+                                        )
+                                    }
+                                  } else {
+                                    _vm.$set(
+                                      _vm.customFieldValues[_vm.vModel][
+                                        _vm.lang.slug
+                                      ][_vm.subFieldGroupIndex],
+                                      _vm.childKey,
+                                      $$c
+                                    )
+                                  }
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                attrs: {
+                                  for:
+                                    _vm.childKey + _vm.subFieldGroupIndex + key
+                                }
+                              },
+                              [_vm._v(_vm._s(option))]
+                            )
+                          ])
+                        })
+                      : _vm._l(_vm.field.optionsValues.object, function(
+                          option,
+                          key
+                        ) {
+                          return _c("div", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value:
+                                    _vm.customFieldValues[_vm.vModel][
+                                      _vm.subFieldGroupIndex
+                                    ][_vm.childKey],
+                                  expression:
+                                    "customFieldValues[vModel][subFieldGroupIndex][childKey]"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                id: _vm.childKey + _vm.subFieldGroupIndex + key
+                              },
+                              domProps: {
+                                value: key,
+                                checked: Array.isArray(
+                                  _vm.customFieldValues[_vm.vModel][
+                                    _vm.subFieldGroupIndex
+                                  ][_vm.childKey]
+                                )
+                                  ? _vm._i(
+                                      _vm.customFieldValues[_vm.vModel][
+                                        _vm.subFieldGroupIndex
+                                      ][_vm.childKey],
+                                      key
+                                    ) > -1
+                                  : _vm.customFieldValues[_vm.vModel][
+                                      _vm.subFieldGroupIndex
+                                    ][_vm.childKey]
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a =
+                                      _vm.customFieldValues[_vm.vModel][
+                                        _vm.subFieldGroupIndex
+                                      ][_vm.childKey],
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = key,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        _vm.$set(
+                                          _vm.customFieldValues[_vm.vModel][
+                                            _vm.subFieldGroupIndex
+                                          ],
+                                          _vm.childKey,
+                                          $$a.concat([$$v])
+                                        )
+                                    } else {
+                                      $$i > -1 &&
+                                        _vm.$set(
+                                          _vm.customFieldValues[_vm.vModel][
+                                            _vm.subFieldGroupIndex
+                                          ],
+                                          _vm.childKey,
+                                          $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1))
+                                        )
+                                    }
+                                  } else {
+                                    _vm.$set(
+                                      _vm.customFieldValues[_vm.vModel][
+                                        _vm.subFieldGroupIndex
+                                      ],
+                                      _vm.childKey,
+                                      $$c
+                                    )
+                                  }
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                attrs: {
+                                  for:
+                                    _vm.childKey + _vm.subFieldGroupIndex + key
+                                }
+                              },
+                              [_vm._v(_vm._s(option))]
+                            )
+                          ])
+                        }),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e()
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.field.type == "radio"
+        ? [
+            !_vm.isSubField
+              ? _c(
+                  "div",
+                  { staticClass: "col-md-10 col-sm-10 col-xs-12" },
+                  [
+                    _vm._l(_vm.field.optionsValues.object, function(
+                      option,
+                      key
+                    ) {
+                      return !_vm.field.isTranslatable
+                        ? _c("div", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.customFieldValues[_vm.vModel],
+                                  expression: "customFieldValues[vModel]"
+                                }
+                              ],
+                              attrs: {
+                                type: "radio",
+                                id: _vm.vModel + _vm.index + key,
+                                name: _vm.vModel
+                              },
+                              domProps: {
+                                value: key,
+                                checked: _vm._q(
+                                  _vm.customFieldValues[_vm.vModel],
+                                  key
+                                )
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.$set(
+                                    _vm.customFieldValues,
+                                    _vm.vModel,
+                                    key
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              { attrs: { for: _vm.vModel + _vm.index + key } },
+                              [_vm._v(_vm._s(option))]
+                            )
+                          ])
+                        : _vm._l(_vm.field.optionsValues.object, function(
+                            option,
+                            key
+                          ) {
+                            return _c("div", [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value:
+                                      _vm.customFieldValues[_vm.vModel][
+                                        _vm.lang.slug
+                                      ],
+                                    expression:
+                                      "customFieldValues[vModel][lang.slug]"
+                                  }
+                                ],
+                                attrs: {
+                                  type: "radio",
+                                  id: _vm.vModel + _vm.index + key,
+                                  name: _vm.vModel
+                                },
+                                domProps: {
+                                  value: key,
+                                  checked: _vm._q(
+                                    _vm.customFieldValues[_vm.vModel][
+                                      _vm.lang.slug
+                                    ],
+                                    key
+                                  )
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.$set(
+                                      _vm.customFieldValues[_vm.vModel],
+                                      _vm.lang.slug,
+                                      key
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  attrs: { for: _vm.vModel + _vm.index + key }
+                                },
+                                [_vm._v(_vm._s(option))]
+                              )
+                            ])
+                          })
+                    }),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isSubField
+              ? _c(
+                  "div",
+                  [
+                    _vm.isParentTranslatable
+                      ? _vm._l(_vm.field.optionsValues.object, function(
+                          option,
+                          key
+                        ) {
+                          return _c("div", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value:
+                                    _vm.customFieldValues[_vm.vModel][
+                                      _vm.lang.slug
+                                    ][_vm.subFieldGroupIndex][_vm.childKey],
+                                  expression:
+                                    "customFieldValues[vModel][lang.slug][subFieldGroupIndex][childKey]"
+                                }
+                              ],
+                              attrs: {
+                                type: "radio",
+                                id: _vm.childKey + _vm.subFieldGroupIndex + key,
+                                name:
+                                  _vm.childKey + "-" + _vm.subFieldGroupIndex
+                              },
+                              domProps: {
+                                value: key,
+                                checked: _vm._q(
+                                  _vm.customFieldValues[_vm.vModel][
+                                    _vm.lang.slug
+                                  ][_vm.subFieldGroupIndex][_vm.childKey],
+                                  key
+                                )
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.$set(
+                                    _vm.customFieldValues[_vm.vModel][
+                                      _vm.lang.slug
+                                    ][_vm.subFieldGroupIndex],
+                                    _vm.childKey,
+                                    key
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                attrs: {
+                                  for:
+                                    _vm.childKey + _vm.subFieldGroupIndex + key
+                                }
+                              },
+                              [_vm._v(_vm._s(option))]
+                            )
+                          ])
+                        })
+                      : _vm._l(_vm.field.optionsValues.object, function(
+                          option,
+                          key
+                        ) {
+                          return _c("div", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value:
+                                    _vm.customFieldValues[_vm.vModel][
+                                      _vm.subFieldGroupIndex
+                                    ][_vm.childKey],
+                                  expression:
+                                    "customFieldValues[vModel][subFieldGroupIndex][childKey]"
+                                }
+                              ],
+                              attrs: {
+                                type: "radio",
+                                id: _vm.childKey + _vm.subFieldGroupIndex + key,
+                                name:
+                                  _vm.childKey + "-" + _vm.subFieldGroupIndex
+                              },
+                              domProps: {
+                                value: key,
+                                checked: _vm._q(
+                                  _vm.customFieldValues[_vm.vModel][
+                                    _vm.subFieldGroupIndex
+                                  ][_vm.childKey],
+                                  key
+                                )
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.$set(
+                                    _vm.customFieldValues[_vm.vModel][
+                                      _vm.subFieldGroupIndex
+                                    ],
+                                    _vm.childKey,
+                                    key
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                attrs: {
+                                  for:
+                                    _vm.childKey + _vm.subFieldGroupIndex + key
+                                }
+                              },
+                              [_vm._v(_vm._s(option))]
+                            )
+                          ])
+                        }),
+                    _vm._v(" "),
+                    _vm._l(
+                      _vm.StoreResponse.errors[
+                        _vm.vModel + "_" + _vm.lang.slug
+                      ],
+                      function(error) {
+                        return _vm.StoreResponse.errors[
+                          _vm.vModel + "_" + _vm.lang.slug
+                        ]
+                          ? _c("div", { staticClass: "alert" }, [
+                              _vm._v(_vm._s(error))
+                            ])
+                          : _vm._e()
+                      }
+                    )
+                  ],
+                  2
+                )
+              : _vm._e()
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.field.type == "dropdown"
+        ? [
+            !_vm.isSubField
+              ? [
+                  !_vm.field.isMultiple
+                    ? _c(
+                        "div",
+                        { staticClass: "col-md-10 col-sm-10 col-xs-12" },
+                        [
+                          !_vm.field.isTranslatable
+                            ? _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.customFieldValues[_vm.vModel],
+                                      expression: "customFieldValues[vModel]"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    id: _vm.vModel,
+                                    placeholder:
+                                      _vm.field.placeholder[_vm.lang.slug]
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.customFieldValues,
+                                        _vm.vModel,
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.field.optionsValues.object, function(
+                                  option,
+                                  key
+                                ) {
+                                  return _c(
+                                    "option",
+                                    { domProps: { value: key } },
+                                    [_vm._v(_vm._s(option))]
+                                  )
+                                })
+                              )
+                            : _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value:
+                                        _vm.customFieldValues[_vm.vModel][
+                                          _vm.lang.slug
+                                        ],
+                                      expression:
+                                        "customFieldValues[vModel][lang.slug]"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    id: _vm.vModel,
+                                    placeholder:
+                                      _vm.field.placeholder[_vm.lang.slug]
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.customFieldValues[_vm.vModel],
+                                        _vm.lang.slug,
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.field.optionsValues.object, function(
+                                  option,
+                                  key
+                                ) {
+                                  return _c(
+                                    "option",
+                                    { domProps: { value: key } },
+                                    [_vm._v(_vm._s(option))]
+                                  )
+                                })
+                              ),
+                          _vm._v(" "),
+                          _vm._l(
+                            _vm.StoreResponse.errors[
+                              _vm.vModel + "_" + _vm.lang.slug
+                            ],
+                            function(error) {
+                              return _vm.StoreResponse.errors[
+                                _vm.vModel + "_" + _vm.lang.slug
+                              ]
+                                ? _c("div", { staticClass: "alert" }, [
+                                    _vm._v(_vm._s(error))
+                                  ])
+                                : _vm._e()
+                            }
+                          )
+                        ],
+                        2
+                      )
+                    : _c(
+                        "div",
+                        { staticClass: "col-md-10 col-sm-10 col-xs-12" },
+                        [
+                          _c("multiselect", {
+                            attrs: {
+                              options: _vm.dropdownOptions,
+                              multiple: _vm.field.isMultiple,
+                              "close-on-select": true,
+                              "hide-selected": true,
+                              label: "name",
+                              "track-by": "value"
+                            },
+                            on: {
+                              open: function($event) {
+                                _vm.getDropdownOptions(_vm.field)
+                              },
+                              input: _vm.setDropdownVModel
+                            },
+                            model: {
+                              value: _vm.dropdownValue,
+                              callback: function($$v) {
+                                _vm.dropdownValue = $$v
+                              },
+                              expression: "dropdownValue"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm._l(
+                            _vm.StoreResponse.errors[
+                              _vm.vModel + "_" + _vm.lang.slug
+                            ],
+                            function(error) {
+                              return _vm.StoreResponse.errors[
+                                _vm.vModel + "_" + _vm.lang.slug
+                              ]
+                                ? _c("div", { staticClass: "alert" }, [
+                                    _vm._v(_vm._s(error))
+                                  ])
+                                : _vm._e()
+                            }
+                          )
+                        ],
+                        2
+                      )
+                ]
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isSubField
+              ? [
+                  !_vm.field.isMultiple
+                    ? _c(
+                        "div",
+                        [
+                          _vm.isParentTranslatable
+                            ? _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value:
+                                        _vm.customFieldValues[_vm.vModel][
+                                          _vm.lang.slug
+                                        ][_vm.subFieldGroupIndex][_vm.childKey],
+                                      expression:
+                                        "customFieldValues[vModel][lang.slug][subFieldGroupIndex][childKey]"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    id: _vm.childKey,
+                                    placeholder:
+                                      _vm.field.placeholder[_vm.lang.slug]
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.customFieldValues[_vm.vModel][
+                                          _vm.lang.slug
+                                        ][_vm.subFieldGroupIndex],
+                                        _vm.childKey,
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.field.optionsValues.object, function(
+                                  option,
+                                  key
+                                ) {
+                                  return _c(
+                                    "option",
+                                    { domProps: { value: key } },
+                                    [_vm._v(_vm._s(option))]
+                                  )
+                                })
+                              )
+                            : _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value:
+                                        _vm.customFieldValues[_vm.vModel][
+                                          _vm.subFieldGroupIndex
+                                        ][_vm.childKey],
+                                      expression:
+                                        "customFieldValues[vModel][subFieldGroupIndex][childKey]"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    id: _vm.childKey,
+                                    placeholder:
+                                      _vm.field.placeholder[_vm.lang.slug]
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.customFieldValues[_vm.vModel][
+                                          _vm.subFieldGroupIndex
+                                        ],
+                                        _vm.childKey,
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.field.optionsValues.object, function(
+                                  option,
+                                  key
+                                ) {
+                                  return _c(
+                                    "option",
+                                    { domProps: { value: key } },
+                                    [_vm._v(_vm._s(option))]
+                                  )
+                                })
+                              ),
+                          _vm._v(" "),
+                          _vm._l(
+                            _vm.StoreResponse.errors[
+                              _vm.vModel + "_" + _vm.lang.slug
+                            ],
+                            function(error) {
+                              return _vm.StoreResponse.errors[
+                                _vm.vModel + "_" + _vm.lang.slug
+                              ]
+                                ? _c("div", { staticClass: "alert" }, [
+                                    _vm._v(_vm._s(error))
+                                  ])
+                                : _vm._e()
+                            }
+                          )
+                        ],
+                        2
+                      )
+                    : _c(
+                        "div",
+                        [
+                          _c("multiselect", {
+                            attrs: {
+                              options: _vm.dropdownOptions,
+                              multiple: _vm.field.isMultiple,
+                              "close-on-select": true,
+                              "hide-selected": true,
+                              label: "name",
+                              "track-by": "value"
+                            },
+                            on: {
+                              open: function($event) {
+                                _vm.getDropdownOptions(_vm.field)
+                              },
+                              input: _vm.setDropdownVModel
+                            },
+                            model: {
+                              value: _vm.dropdownValue,
+                              callback: function($$v) {
+                                _vm.dropdownValue = $$v
+                              },
+                              expression: "dropdownValue"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm._l(
+                            _vm.StoreResponse.errors[
+                              _vm.vModel + "_" + _vm.lang.slug
+                            ],
+                            function(error) {
+                              return _vm.StoreResponse.errors[
+                                _vm.vModel + "_" + _vm.lang.slug
+                              ]
+                                ? _c("div", { staticClass: "alert" }, [
+                                    _vm._v(_vm._s(error))
+                                  ])
+                                : _vm._e()
+                            }
+                          )
+                        ],
+                        2
+                      )
+                ]
+              : _vm._e()
+          ]
+        : _vm._e(),
+>>>>>>> 3141ce7012856c381633c1cc89aefad918a86e5f
       _vm._v(" "),
       _c("div", { staticClass: "clearfix" }),
       _vm._v(" "),
@@ -44892,7 +57120,132 @@ if(false) {
  module.hot.dispose(function() { update(); });
 }
 
+<<<<<<< HEAD
 /***/ }),
+=======
+var store = exports.store = new _vuex2.default.Store({
+    modules: {
+        Bootstrap: _bootstrapVuex2.default, media: _media2.default, users: _users2.default, tags: _tags2.default, posts: _posts2.default, post_type: _post_type2.default, permissions: _permissions2.default, menu: _menu2.default, language: _language2.default, custom_fields: _custom_fields2.default, category: _category2.default
+    },
+    state: {
+        id: '',
+        spinner: '',
+        maxPaginationNr: '',
+        list: '',
+        inputErrorsExist: false,
+        inputErrorsMsg: [],
+        postType: '',
+        actionReturnedData: {},
+        hasPermission: false,
+        translation: '',
+        route: {},
+        storeResponse: {
+            errors: []
+        },
+        froalaFullConfig: {
+            toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', 'align', '|', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertTable', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'help', 'html', '|', 'undo', 'redo', 'addImage', 'addVideo', 'insertLink', 'embedBtn'],
+            quickInsertButtons: ['addImage', 'addVideo', 'embedBtn', 'ul', 'ol'],
+            htmlRemoveTags: [],
+            htmlExecuteScripts: false
+        },
+
+        froalaCompactConfig: {
+            toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'paragraphFormat', 'align', '|', 'formatUL', 'formatOL', 'insertTable', '|', 'addImage', 'addVideo', 'embedBtn', '|', 'insertLink'],
+            quickInsertButtons: ['addImage', 'addVideo', 'embedBtn', 'ul', 'ol'],
+            htmlRemoveTags: [],
+            htmlExecuteScripts: false
+        },
+
+        froalaBasicConfig: {
+            toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', 'insertLink'],
+            quickInsertButtons: ['bold', 'underline', 'insertLink'],
+            htmlRemoveTags: [],
+            htmlExecuteScripts: false
+        }
+    },
+    getters: {
+        get_id: function get_id(state) {
+            return state.id;
+        },
+        get_spinner: function get_spinner(state) {
+            return state.spinner;
+        },
+        get_maxPaginationNr: function get_maxPaginationNr(state) {
+            return state.maxPaginationNr;
+        },
+        get_list: function get_list(state) {
+            return state.list;
+        },
+        get_post_type: function get_post_type(state) {
+            return state.postType;
+        },
+        get_action_returned_data: function get_action_returned_data(state) {
+            return state.actionReturnedData;
+        },
+        get_has_permission: function get_has_permission(state) {
+            return state.hasPermission;
+        },
+        get_froala_full_config: function get_froala_full_config(state) {
+            return state.froalaFullConfig;
+        },
+        get_froala_compact_config: function get_froala_compact_config(state) {
+            return state.froalaCompactConfig;
+        },
+        get_froala_basic_config: function get_froala_basic_config(state) {
+            return state.froalaBasicConfig;
+        },
+        get_store_response: function get_store_response(state) {
+            return state.storeResponse;
+        },
+        get_route: function get_route(state) {
+            return state.route;
+        }
+    },
+    mutations: {
+        setRoute: function setRoute(state, route) {
+            state.route = route;
+        },
+        setID: function setID(state, id) {
+            state.id = id;
+        },
+        setSpinner: function setSpinner(state, spinner) {
+            state.spinner = spinner;
+        },
+        setMaxPaginationNr: function setMaxPaginationNr(state, maxPaginationNr) {
+            state.maxPaginationNr = maxPaginationNr;
+        },
+        setList: function setList(state, list) {
+            state.list = list;
+        },
+        pushToList: function pushToList(state, obj) {
+            state.list.push(obj);
+        },
+        setPostType: function setPostType(state, postType) {
+            state.postType = postType;
+        },
+        setActionReturnedData: function setActionReturnedData(state, actionReturnedData) {
+            state.actionReturnedData = actionReturnedData;
+        },
+        setActionReturnedDataNested: function setActionReturnedDataNested(state, actionReturnedDataArr) {
+            state.actionReturnedData[actionReturnedDataArr[0]] = actionReturnedDataArr[1];
+        },
+        setHasPermission: function setHasPermission(state, hasPermission) {
+            state.hasPermission = hasPermission;
+        },
+        setStoreResponse: function setStoreResponse(state, storeResponse) {
+            state.storeResponse = storeResponse;
+        }
+    },
+    actions: {
+        /**
+         * Set list.
+         * @param context
+         * @param object
+         */
+        setList: function setList(context, responseBody) {
+            context.dispatch('filterTranslatedValues', responseBody);
+        },
+>>>>>>> 3141ce7012856c381633c1cc89aefad918a86e5f
 
 /***/ 67:
 /***/ (function(module, exports, __webpack_require__) {

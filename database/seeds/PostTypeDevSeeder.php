@@ -26,9 +26,13 @@ class PostTypeDevSeeder extends Seeder
                 PostType::createTable($createdPostType->slug);
                 $postTypeNames[] = $createdPostType->name;
             }
-            $this->command->info('Post Types created (' . implode(", ", $postTypeNames) . ')');
+            if(isset($this->command)){
+                $this->command->info('Post Types created (' . implode(", ", $postTypeNames) . ')');
+            }
         }else{
-            $this->command->error("Please give a total number of post type you would like to create!");
+            if(isset($this->command)){
+                $this->command->error("Please give a total number of post type you would like to create!");
+            }
         }
 
         return;

@@ -133,6 +133,8 @@ class CategoryTest extends DuskTestCase{
                     ->waitUntilMissing('@spinner')
                     ->click('#toggleListBtn' . $category->categoryID)
                     ->click('#deleteItemBtn' . $category->categoryID)
+                    ->waitFor('.modal-content')
+                    ->click('.modal-content .btn-danger')
                     ->waitFor('.noty_type__success')
                     ->assertVisible('.noty_type__success');
 
