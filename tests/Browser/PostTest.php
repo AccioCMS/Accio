@@ -9,15 +9,16 @@ use App\Models\Media;
 use App\Models\PostType;
 use Carbon\Carbon;
 use Faker\Factory;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Symfony\Component\Console\Input\InputInterface;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 
 class PostTest extends DuskTestCase{
 
     use UserTrait;
-
 
 
     /**
@@ -99,6 +100,9 @@ class PostTest extends DuskTestCase{
             $categorySeed = new \CategoryDevSeeder();
             $categorySeed->run(2, $postType->slug);
 
+            $tagSeed = new \TagDevSeeder();
+            $tagSeed->run(2, $postType->slug);
+
             $faker = Factory::create();
 
             $browser->loginAs($this->getAnAdmin()->userID, 'admin')
@@ -119,6 +123,7 @@ class PostTest extends DuskTestCase{
                             ->click('#form-group-categories_' . $language->slug . ' .multiselect__content-wrapper ul li:first-child');
                     }
 
+                $browser->pause(1000);
                 $browser->click('#form-group-tags_' . $language->slug . ' .multiselect__tags')
                     ->type('#form-group-tags_' . $language->slug . ' .multiselect__input', $faker->text(5))
                     ->keys('#form-group-tags_' . $language->slug . ' .multiselect__input', ['{enter}']);
@@ -203,6 +208,7 @@ class PostTest extends DuskTestCase{
                             ->click('#form-group-categories_' . $language->slug . ' .multiselect__content-wrapper ul li:first-child')
                             ->click('');
                     }
+                    $browser->pause(1000);
 
                     $browser->click('#form-group-tags_' . $language->slug . ' .multiselect__tags')
                         ->type('#form-group-tags_' . $language->slug . ' .multiselect__input', $faker->text(5))

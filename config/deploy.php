@@ -2,69 +2,6 @@
 
 return [
 
-
-    /*
-    |
-    | What should be shared between uploads?
-    |
-    */
-    'shared' => [
-        'from' => base_path('storage'),
-        'to' => base_path().'/../../shared',
-    ],
-
-    /*
-    |
-    | Fix Permissions on deploy
-    |
-    */
-    'permissions'=> [
-        'apache' => [
-            [
-                'path' => base_path().'/../../shared',
-                'group' => 'deploy',
-                'only_directories' => true,
-            ],
-
-            [
-                'path' => base_path('storage'),
-                'group' => 'deploy',
-                'only_directories' => true,
-            ],
-
-            [
-                'path' => base_path('bootstrap/cache'),
-                'group' => 'deploy',
-                'only_directories' => true,
-            ],
-
-            [
-                'path' => base_path('public/uploads'),
-                'group' => 'deploy',
-                'only_directories' => true,
-            ]
-        ],
-
-        'chmod' => [
-            [
-                'path' => base_path('storage'),
-                'permission' => 775,
-                'only_directories' => true,
-            ],
-
-            [
-                'path' => base_path('bootstrap/cache'),
-                'permission' => 775
-            ],
-
-            [
-                'path' => base_path('public/uploads'),
-                'permission' => 775,
-                'only_directories' => true,
-            ]
-        ],
-    ],
-
     /*
     |
     | Copy uploads on deploy
@@ -77,22 +14,11 @@ return [
 
 
     /*
+    |
     |--------------------------------------------------------------------------
-    | Clean directories
+    | Symlink
     |--------------------------------------------------------------------------
-    |
-    | It is usually used to empty cache directories
-    |
-    */
-    'clean_directories' => [
-        storage_path('framework/cache'),
-        storage_path('framework/views'),
-        base_path('bootstrap/cache')
-    ],
-
-    /*
-    |
-    | Specify what symlinks should be created after deploy
+    | Symlinks that should be created after deploy
     |
     */
     'symlinks' => [
@@ -100,18 +26,72 @@ return [
     ],
 
     /*
+    |
+    |--------------------------------------------------------------------------
+    | Cron Jobs
+    |--------------------------------------------------------------------------
+    | Cron jobs that should be created after a deploy is released
+    |
+    */
+    'cron' => [
+        '* * * * * php '.base_path().'/artisan schedule:run >> /dev/null 2>&1'
+    ],
+
+    /*
+    |
+    |--------------------------------------------------------------------------
+    | Custom Commands
+    |--------------------------------------------------------------------------
+    | List of commands that should be run on deploy
+    |
+    */
+    'commands' => [
+        /*
+        |
+        |--------------------------------------------------------------------------
+        | Activate New Release
+        |--------------------------------------------------------------------------
+        | Commands that should be when a release is activated
+        |
+        */
+        'activate_new_release' => [
+            'before' => [
+                'php artisan deploy:env',
+                'php artisan deploy:db',
+                'php artisan deploy:cron',
+            ],
+            'after' => [
+                'php artisan cache:clear',
+                'php artisan config:clear',
+                'php artisan view:clear',
+            ]
+        ],
+
+        /*
+        |
+        |--------------------------------------------------------------------------
+        | Purge Old Releases
+        |--------------------------------------------------------------------------
+        | Commands that should be run when old release is purged
+        |
+        */
+        'purge_old_releases' => [
+            'before' => [],
+            'after' => []
+        ],
+    ],
+
+    /*
     |--------------------------------------------------------------------------
     | Deploy database
     |--------------------------------------------------------------------------
     |
-    | Here you specify where we should look for sql files to be imported when
-    | take place
+    | Here you specify where we should look for sql files to be imported on deploy
     |
     */
 
     'database' => [
         'enabled' => true,
-
         'path' => database_path('deployments')
     ],
 ];

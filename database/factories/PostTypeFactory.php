@@ -17,13 +17,15 @@ $factory->define(App\Models\PostType::class, function (Faker $faker) {
         'name' => $name,
         'slug' => $slug,
         'createdByUserID' => 1,
-        'fields' => json_encode([]),
+        'fields' => [],
         'isVisible' => true,
         'hasCategories' => true,
         'hasTags' => true,
         'isCategoryRequired' => true,
         'isTagRequired' => true,
-        'hasFeaturedVideo' => true,
+        'hasFeaturedImage' => true,
         'isFeaturedImageRequired' => false,
+        'hasFeaturedVideo' => true,
+        'isFeaturedVideoRequired' => false,
     ];
 });

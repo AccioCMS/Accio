@@ -4,8 +4,11 @@ namespace Tests\Browser;
 
 use Accio\App\Traits\UserTrait;
 use App\Http\Controllers\Backend\BaseMenuController;
+use App\Models\Menu;
+use App\Models\MenuLink;
 use Faker\Factory;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
@@ -28,9 +31,6 @@ class MenuTest extends DuskTestCase{
      */
     public function testCreate(){
         URL::defaults(['lang' => App::getLocale()]);
-
-        $postTypeSeed = new \PostTypeDevSeeder();
-        $postTypeSeed->run(1);
 
         $categorySeed = new \CategoryDevSeeder();
         $categorySeed->run(1);
@@ -62,6 +62,7 @@ class MenuTest extends DuskTestCase{
 
             $browser->loginAs($this->getAnAdmin()->userID, 'admin')
                 ->visit('admin/en/menu/list/1')
+                ->waitUntilMissing('@spinner')
                 ->click('.createMenuBtn')
                 ->type('.menuNameInput', $faker->name(6));
 
@@ -75,7 +76,12 @@ class MenuTest extends DuskTestCase{
 
             $browser->click('#globalSaveBtn')
                 ->waitForReload()
+                ->waitUntilMissing('@spinner')
                 ->assertVisible('@menuComponent');
+
+            $menu = Menu::orderBy('created_at', 'desc')->first();
+            MenuLink::where('menuID', $menu->menuID)->delete();
+            $menu->delete();
         });
     }
 }
