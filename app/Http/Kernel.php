@@ -1,5 +1,10 @@
 <?php
 namespace App\Http;
+use App\Http\Middleware\Application;
+use App\Http\Middleware\Backend;
+use App\Http\Middleware\Frontend;
+use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\Translate;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
 {
@@ -51,11 +56,12 @@ class Kernel extends HttpKernel
       'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
       'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
       'can' => \Illuminate\Auth\Middleware\Authorize::class,
-      'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+      'guest' => RedirectIfAuthenticated::class,
       'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
       'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-      'frontend' => \App\Http\Middleware\Frontend::class,
-      'backend' => \App\Http\Middleware\Backend::class,
-      'translate' => \App\Http\Middleware\Translate::class,
+      'application' => Application::class,
+      'frontend' => Frontend::class,
+      'backend' => Backend::class,
+      'translate' => Translate::class,
     ];
 }

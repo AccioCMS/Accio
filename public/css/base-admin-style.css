@@ -778,3 +778,6 @@ i.fa.fa-minus-circle.fa-2x:hover {
 label:hover{
     cursor: pointer;
 }
+.main_container h2 {
+    font-size: 30px;
+}
