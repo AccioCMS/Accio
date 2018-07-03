@@ -7,6 +7,12 @@ use Spatie\ImageOptimizer\Optimizers\Pngquant;
 use Spatie\ImageOptimizer\Optimizers\Jpegoptim;
 
 return [
+
+    /**
+     * Default image quality.
+     */
+    'default_quality' => 90,
+
     /*
      * When calling `optimize` the package will automatically determine which optimizers
      * should run for the given image.
