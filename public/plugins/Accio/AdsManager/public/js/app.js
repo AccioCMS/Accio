@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 390);
+/******/ 	return __webpack_require__(__webpack_require__.s = 392);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -687,12 +687,13 @@ var globalMethods = exports.globalMethods = {
         redirect: function redirect(name) {
             var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
             var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
-            var query = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+            var query = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
             if (id === undefined || id == '') {
+
                 this.$router.push({ name: name, query: query });
             } else {
-                this.$router.push({ name: name, params: { id: id } });
+                this.$router.push({ name: name, params: { id: id }, query: query });
             }
         },
         isAdmin: function isAdmin() {
@@ -711,7 +712,7 @@ var globalMethods = exports.globalMethods = {
             } else if (redirectChoice == 'close') {
                 this.redirect(routeNamePrefix + 'list');
             } else if (redirectChoice == 'new') {
-                this.redirect(routeNamePrefix + 'create');
+                this.redirect(routeNamePrefix + 'create', '', '', this.$route.query);
             } else {
                 alert("Some error occurred");
             }
@@ -63389,14 +63390,16 @@ exports.push([module.i, "fieldset[disabled] .multiselect{pointer-events:none}.mu
 /* 387 */,
 /* 388 */,
 /* 389 */,
-/* 390 */
+/* 390 */,
+/* 391 */,
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(391);
+module.exports = __webpack_require__(393);
 
 
 /***/ }),
-/* 391 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63410,17 +63413,17 @@ var _vueRouter = __webpack_require__(16);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-var _store = __webpack_require__(392);
+var _store = __webpack_require__(394);
 
-var _Base = __webpack_require__(393);
+var _Base = __webpack_require__(395);
 
 var _Base2 = _interopRequireDefault(_Base);
 
-var _All = __webpack_require__(396);
+var _All = __webpack_require__(398);
 
 var _All2 = _interopRequireDefault(_All);
 
-var _Edit = __webpack_require__(401);
+var _Edit = __webpack_require__(403);
 
 var _Edit2 = _interopRequireDefault(_Edit);
 
@@ -63445,7 +63448,7 @@ var app = new _vue2.default({
 });
 
 /***/ }),
-/* 392 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63544,15 +63547,15 @@ var store = exports.store = new _vuex2.default.Store({
 });
 
 /***/ }),
-/* 393 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(394)
+var __vue_script__ = __webpack_require__(396)
 /* template */
-var __vue_template__ = __webpack_require__(395)
+var __vue_template__ = __webpack_require__(397)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -63591,7 +63594,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 394 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63609,7 +63612,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {};
 
 /***/ }),
-/* 395 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -63634,19 +63637,19 @@ if (false) {
 }
 
 /***/ }),
-/* 396 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(397)
+  __webpack_require__(399)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(399)
+var __vue_script__ = __webpack_require__(401)
 /* template */
-var __vue_template__ = __webpack_require__(400)
+var __vue_template__ = __webpack_require__(402)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -63685,13 +63688,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 397 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(398);
+var content = __webpack_require__(400);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -63711,7 +63714,7 @@ if(false) {
 }
 
 /***/ }),
-/* 398 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -63725,7 +63728,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 399 */
+/* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63915,7 +63918,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 400 */
+/* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -64117,15 +64120,15 @@ if (false) {
 }
 
 /***/ }),
-/* 401 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(402)
+var __vue_script__ = __webpack_require__(404)
 /* template */
-var __vue_template__ = __webpack_require__(403)
+var __vue_template__ = __webpack_require__(405)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -64164,7 +64167,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 402 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64613,7 +64616,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 403 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {

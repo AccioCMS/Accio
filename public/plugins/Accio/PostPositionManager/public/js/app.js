@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 409);
+/******/ 	return __webpack_require__(__webpack_require__.s = 411);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -40763,12 +40763,13 @@ var globalMethods = exports.globalMethods = {
         redirect: function redirect(name) {
             var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
             var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
-            var query = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+            var query = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
             if (id === undefined || id == '') {
+
                 this.$router.push({ name: name, query: query });
             } else {
-                this.$router.push({ name: name, params: { id: id } });
+                this.$router.push({ name: name, params: { id: id }, query: query });
             }
         },
         isAdmin: function isAdmin() {
@@ -40787,7 +40788,7 @@ var globalMethods = exports.globalMethods = {
             } else if (redirectChoice == 'close') {
                 this.redirect(routeNamePrefix + 'list');
             } else if (redirectChoice == 'new') {
-                this.redirect(routeNamePrefix + 'create');
+                this.redirect(routeNamePrefix + 'create', '', '', this.$route.query);
             } else {
                 alert("Some error occurred");
             }
@@ -41026,14 +41027,6 @@ if (false) {
 
 /***/ }),
 
-/***/ 409:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(410);
-
-
-/***/ }),
-
 /***/ 41:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -41082,7 +41075,15 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 410:
+/***/ 411:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(412);
+
+
+/***/ }),
+
+/***/ 412:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41096,9 +41097,9 @@ var _vueRouter = __webpack_require__(16);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-var _store = __webpack_require__(411);
+var _store = __webpack_require__(413);
 
-var _Base = __webpack_require__(412);
+var _Base = __webpack_require__(414);
 
 var _Base2 = _interopRequireDefault(_Base);
 
@@ -41125,7 +41126,7 @@ var app = new _vue2.default({
 
 /***/ }),
 
-/***/ 411:
+/***/ 413:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41163,15 +41164,15 @@ var store = exports.store = new _vuex2.default.Store({
 
 /***/ }),
 
-/***/ 412:
+/***/ 414:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(413)
+var __vue_script__ = __webpack_require__(415)
 /* template */
-var __vue_template__ = __webpack_require__(414)
+var __vue_template__ = __webpack_require__(416)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -41211,7 +41212,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 413:
+/***/ 415:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41247,7 +41248,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 414:
+/***/ 416:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {

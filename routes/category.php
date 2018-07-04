@@ -4,7 +4,6 @@
 /**
  * Category routes
  */
-
 Route::group(['as' => 'category.','middleware' =>[ 'translate'],'namespace' => \App\Models\Theme::controllersNameSpace()], function () {
     /**
      * GET
