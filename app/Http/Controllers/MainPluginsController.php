@@ -3,11 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\App;
 
 abstract class MainPluginsController extends Controller{
 
+    /**
+     * MainPluginsController constructor.
+     */
     public function __construct(){
-        $this->middleware('frontend');
+        if(App::routesAreCached()) {
+            $this->middleware('application');
+            if(isInAdmin()){
+                $this->middleware('backend');
+            }
+            else{
+                $this->middleware('frontend');
+            }
+        }
     }
 
 
