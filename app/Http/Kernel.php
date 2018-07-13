@@ -45,6 +45,7 @@ class Kernel extends HttpKernel
         'cors'
       ],
     ];
+    
     /**
      * The application's route middleware.
      *

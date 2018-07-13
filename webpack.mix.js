@@ -61,9 +61,9 @@ function mapPluginRoutes(pluginsList){
     });
 
     getData.then(response => {
-        if(fs.writeFile('./resources/assets/js/plugins-panels.js', response)){
-            return true;
-        }
+        fs.writeFile('./resources/assets/js/plugins-panels.js', response, function () {
+            return true
+        })
     });
 
     return false;
