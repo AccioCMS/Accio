@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 392);
+/******/ 	return __webpack_require__(__webpack_require__.s = 371);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -51746,19 +51746,11 @@ var froalaMixin = exports.froalaMixin = {
                 refreshAfterCallback: false,
                 // open media when this button is clicked
                 callback: function callback(e) {
+                    this.selection.save();
+                    var id = $(this.el.parentNode).parents(2).find('textarea').attr('id');
 
-                    $('button[data-cmd="addImage"]').click(function () {
-                        // get button click event to get the ID of the editor
-                        var isDisabled = $(this).attr('aria-disabled'); // get if btn is disabled
-                        if (isDisabled === undefined || isDisabled === 'false') {
-                            // if btn is disabled should not be clickable
-                            var id = $(this).parents('.froala-container').children('.froala').attr('id');
-                            global.$store.commit('setOpenMediaOptions', { format: 'image', inputName: id, langSlug: '' });
-                            global.$store.commit('setIsMediaOpen', true);
-                        }
-
-                        //this.selection.save();
-                    });
+                    global.$store.commit('setOpenMediaOptions', { format: 'image', inputName: id, langSlug: '', froalaInstance: this });
+                    global.$store.commit('setIsMediaOpen', true);
                 }
             });
 
@@ -51768,17 +51760,12 @@ var froalaMixin = exports.froalaMixin = {
                 title: 'Add image',
                 undo: true,
                 // Callback for the button.
-                callback: function callback() {
-                    $('a[data-cmd="addImage"]').click(function () {
-                        // get button click event to get the ID of the editor
-                        var isDisabled = $(this).attr('aria-disabled'); // get if btn is disabled
-                        if (isDisabled === undefined || isDisabled === 'false') {
-                            // if btn is disabled should not be clickable
-                            var id = $(this).parents('.froala-container').children('.froala').attr('id');
-                            global.$store.commit('setOpenMediaOptions', { format: 'image', inputName: id, langSlug: '' });
-                            global.$store.commit('setIsMediaOpen', true);
-                        }
-                    });
+                callback: function callback(e) {
+                    this.selection.save();
+                    var id = $(this.el.parentNode).parents(2).find('textarea').attr('id');
+
+                    global.$store.commit('setOpenMediaOptions', { format: 'image', inputName: id, langSlug: '', froalaInstance: this });
+                    global.$store.commit('setIsMediaOpen', true);
                 }
             });
         },
@@ -51799,17 +51786,11 @@ var froalaMixin = exports.froalaMixin = {
                 refreshAfterCallback: false,
                 // open media when this button is clicked
                 callback: function callback(e) {
-                    var editor = this;
-                    $('button[data-cmd="addVideo"]').click(function () {
-                        // get button click event to get the ID of the editor
-                        var isDisabled = $(this).attr('aria-disabled'); // get if btn is disabled
-                        if (isDisabled === undefined || isDisabled === 'false') {
-                            // if btn is disabled should not be clickable
-                            var id = $(this).parents('.froala-container').children('.froala').attr('id');
-                            global.$store.commit('setOpenMediaOptions', { format: 'video', inputName: id, langSlug: '' });
-                            global.$store.commit('setIsMediaOpen', true);
-                        }
-                    });
+                    this.selection.save();
+                    var id = $(this.el.parentNode).parents(2).find('textarea').attr('id');
+
+                    global.$store.commit('setOpenMediaOptions', { format: 'video', inputName: id, langSlug: '', this: froalaInstance });
+                    global.$store.commit('setIsMediaOpen', true);
                 }
             });
 
@@ -51820,17 +51801,12 @@ var froalaMixin = exports.froalaMixin = {
                 // Save changes to undo stack.
                 undo: true,
                 // Callback for the button.
-                callback: function callback() {
-                    $('button[data-cmd="addVideo"]').click(function () {
-                        // get button click event to get the ID of the editor
-                        var isDisabled = $(this).attr('aria-disabled'); // get if btn is disabled
-                        if (isDisabled === undefined || isDisabled === 'false') {
-                            // if btn is disabled should not be clickable
-                            var id = $(this).parents('.froala-container').children('.froala').attr('id');
-                            global.$store.commit('setOpenMediaOptions', { format: 'video', inputName: id, langSlug: '' });
-                            global.$store.commit('setIsMediaOpen', true);
-                        }
-                    });
+                callback: function callback(e) {
+                    this.selection.save();
+                    var id = $(this.el.parentNode).parents(2).find('textarea').attr('id');
+
+                    global.$store.commit('setOpenMediaOptions', { format: 'video', inputName: id, langSlug: '', froalaInstance: this });
+                    global.$store.commit('setIsMediaOpen', true);
                 }
             });
         },
@@ -63371,35 +63347,14 @@ exports.push([module.i, "fieldset[disabled] .multiselect{pointer-events:none}.mu
 /* 368 */,
 /* 369 */,
 /* 370 */,
-/* 371 */,
-/* 372 */,
-/* 373 */,
-/* 374 */,
-/* 375 */,
-/* 376 */,
-/* 377 */,
-/* 378 */,
-/* 379 */,
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
-/* 384 */,
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(393);
+module.exports = __webpack_require__(372);
 
 
 /***/ }),
-/* 393 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63413,17 +63368,17 @@ var _vueRouter = __webpack_require__(16);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-var _store = __webpack_require__(394);
+var _store = __webpack_require__(373);
 
-var _Base = __webpack_require__(395);
+var _Base = __webpack_require__(374);
 
 var _Base2 = _interopRequireDefault(_Base);
 
-var _All = __webpack_require__(398);
+var _All = __webpack_require__(377);
 
 var _All2 = _interopRequireDefault(_All);
 
-var _Edit = __webpack_require__(403);
+var _Edit = __webpack_require__(382);
 
 var _Edit2 = _interopRequireDefault(_Edit);
 
@@ -63448,7 +63403,7 @@ var app = new _vue2.default({
 });
 
 /***/ }),
-/* 394 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63547,15 +63502,15 @@ var store = exports.store = new _vuex2.default.Store({
 });
 
 /***/ }),
-/* 395 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(396)
+var __vue_script__ = __webpack_require__(375)
 /* template */
-var __vue_template__ = __webpack_require__(397)
+var __vue_template__ = __webpack_require__(376)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -63594,7 +63549,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 396 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63612,7 +63567,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {};
 
 /***/ }),
-/* 397 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -63637,19 +63592,19 @@ if (false) {
 }
 
 /***/ }),
-/* 398 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(399)
+  __webpack_require__(378)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(401)
+var __vue_script__ = __webpack_require__(380)
 /* template */
-var __vue_template__ = __webpack_require__(402)
+var __vue_template__ = __webpack_require__(381)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -63688,13 +63643,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 399 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(400);
+var content = __webpack_require__(379);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -63714,7 +63669,7 @@ if(false) {
 }
 
 /***/ }),
-/* 400 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -63728,7 +63683,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 401 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63918,7 +63873,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 402 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -64120,15 +64075,15 @@ if (false) {
 }
 
 /***/ }),
-/* 403 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(404)
+var __vue_script__ = __webpack_require__(383)
 /* template */
-var __vue_template__ = __webpack_require__(405)
+var __vue_template__ = __webpack_require__(384)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -64167,7 +64122,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 404 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64616,7 +64571,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 405 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {

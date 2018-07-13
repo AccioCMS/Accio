@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 411);
+/******/ 	return __webpack_require__(__webpack_require__.s = 391);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -40232,19 +40232,11 @@ var froalaMixin = exports.froalaMixin = {
                 refreshAfterCallback: false,
                 // open media when this button is clicked
                 callback: function callback(e) {
+                    this.selection.save();
+                    var id = $(this.el.parentNode).parents(2).find('textarea').attr('id');
 
-                    $('button[data-cmd="addImage"]').click(function () {
-                        // get button click event to get the ID of the editor
-                        var isDisabled = $(this).attr('aria-disabled'); // get if btn is disabled
-                        if (isDisabled === undefined || isDisabled === 'false') {
-                            // if btn is disabled should not be clickable
-                            var id = $(this).parents('.froala-container').children('.froala').attr('id');
-                            global.$store.commit('setOpenMediaOptions', { format: 'image', inputName: id, langSlug: '' });
-                            global.$store.commit('setIsMediaOpen', true);
-                        }
-
-                        //this.selection.save();
-                    });
+                    global.$store.commit('setOpenMediaOptions', { format: 'image', inputName: id, langSlug: '', froalaInstance: this });
+                    global.$store.commit('setIsMediaOpen', true);
                 }
             });
 
@@ -40254,17 +40246,12 @@ var froalaMixin = exports.froalaMixin = {
                 title: 'Add image',
                 undo: true,
                 // Callback for the button.
-                callback: function callback() {
-                    $('a[data-cmd="addImage"]').click(function () {
-                        // get button click event to get the ID of the editor
-                        var isDisabled = $(this).attr('aria-disabled'); // get if btn is disabled
-                        if (isDisabled === undefined || isDisabled === 'false') {
-                            // if btn is disabled should not be clickable
-                            var id = $(this).parents('.froala-container').children('.froala').attr('id');
-                            global.$store.commit('setOpenMediaOptions', { format: 'image', inputName: id, langSlug: '' });
-                            global.$store.commit('setIsMediaOpen', true);
-                        }
-                    });
+                callback: function callback(e) {
+                    this.selection.save();
+                    var id = $(this.el.parentNode).parents(2).find('textarea').attr('id');
+
+                    global.$store.commit('setOpenMediaOptions', { format: 'image', inputName: id, langSlug: '', froalaInstance: this });
+                    global.$store.commit('setIsMediaOpen', true);
                 }
             });
         },
@@ -40285,17 +40272,11 @@ var froalaMixin = exports.froalaMixin = {
                 refreshAfterCallback: false,
                 // open media when this button is clicked
                 callback: function callback(e) {
-                    var editor = this;
-                    $('button[data-cmd="addVideo"]').click(function () {
-                        // get button click event to get the ID of the editor
-                        var isDisabled = $(this).attr('aria-disabled'); // get if btn is disabled
-                        if (isDisabled === undefined || isDisabled === 'false') {
-                            // if btn is disabled should not be clickable
-                            var id = $(this).parents('.froala-container').children('.froala').attr('id');
-                            global.$store.commit('setOpenMediaOptions', { format: 'video', inputName: id, langSlug: '' });
-                            global.$store.commit('setIsMediaOpen', true);
-                        }
-                    });
+                    this.selection.save();
+                    var id = $(this.el.parentNode).parents(2).find('textarea').attr('id');
+
+                    global.$store.commit('setOpenMediaOptions', { format: 'video', inputName: id, langSlug: '', this: froalaInstance });
+                    global.$store.commit('setIsMediaOpen', true);
                 }
             });
 
@@ -40306,17 +40287,12 @@ var froalaMixin = exports.froalaMixin = {
                 // Save changes to undo stack.
                 undo: true,
                 // Callback for the button.
-                callback: function callback() {
-                    $('button[data-cmd="addVideo"]').click(function () {
-                        // get button click event to get the ID of the editor
-                        var isDisabled = $(this).attr('aria-disabled'); // get if btn is disabled
-                        if (isDisabled === undefined || isDisabled === 'false') {
-                            // if btn is disabled should not be clickable
-                            var id = $(this).parents('.froala-container').children('.froala').attr('id');
-                            global.$store.commit('setOpenMediaOptions', { format: 'video', inputName: id, langSlug: '' });
-                            global.$store.commit('setIsMediaOpen', true);
-                        }
-                    });
+                callback: function callback(e) {
+                    this.selection.save();
+                    var id = $(this.el.parentNode).parents(2).find('textarea').attr('id');
+
+                    global.$store.commit('setOpenMediaOptions', { format: 'video', inputName: id, langSlug: '', froalaInstance: this });
+                    global.$store.commit('setIsMediaOpen', true);
                 }
             });
         },
@@ -40738,6 +40714,211 @@ exports.default = {
 
 /***/ }),
 
+/***/ 391:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(392);
+
+
+/***/ }),
+
+/***/ 392:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _vue = __webpack_require__(8);
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _vueRouter = __webpack_require__(16);
+
+var _vueRouter2 = _interopRequireDefault(_vueRouter);
+
+var _store = __webpack_require__(393);
+
+var _Base = __webpack_require__(394);
+
+var _Base2 = _interopRequireDefault(_Base);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+__webpack_require__(24);
+__webpack_require__(32);
+__webpack_require__(87);
+
+_vue2.default.use(_vueRouter2.default);
+
+var routes = [{ path: globalProjectDirectory + '/:adminPrefix/:lang/plugins/accio/post-position-manager', component: _Base2.default }];
+
+var router = new _vueRouter2.default({
+    mode: 'history',
+    routes: routes
+});
+
+var app = new _vue2.default({
+    el: '#app',
+    router: router,
+    store: _store.store
+});
+
+/***/ }),
+
+/***/ 393:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.store = undefined;
+
+var _vuex = __webpack_require__(17);
+
+var _vuex2 = _interopRequireDefault(_vuex);
+
+var _vue = __webpack_require__(8);
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _bootstrapVuex = __webpack_require__(21);
+
+var _bootstrapVuex2 = _interopRequireDefault(_bootstrapVuex);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_vue2.default.use(_vuex2.default);
+
+var store = exports.store = new _vuex2.default.Store({
+    modules: {
+        Bootstrap: _bootstrapVuex2.default
+    },
+    state: {},
+    getters: {},
+    mutations: {}
+});
+
+/***/ }),
+
+/***/ 394:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(395)
+/* template */
+var __vue_template__ = __webpack_require__(396)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "plugins/Accio/PostPositionManager/resources/views/backend/Base.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7fbd2827", Component.options)
+  } else {
+    hotAPI.reload("data-v-7fbd2827", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 395:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    data: function data() {
+        return {};
+    },
+    created: function created() {},
+
+
+    methods: {},
+
+    computed: {
+        // get base path
+        basePath: function basePath() {
+            return this.$store.getters.get_base_path;
+        }
+    }
+};
+
+/***/ }),
+
+/***/ 396:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "right_col", attrs: { role: "main" } }, [
+      _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
+        _vm._v("\n        POST POSITION MANAGER\n    ")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7fbd2827", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -41072,211 +41253,6 @@ if (false) {(function () {
 
 module.exports = Component.exports
 
-
-/***/ }),
-
-/***/ 411:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(412);
-
-
-/***/ }),
-
-/***/ 412:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _vue = __webpack_require__(8);
-
-var _vue2 = _interopRequireDefault(_vue);
-
-var _vueRouter = __webpack_require__(16);
-
-var _vueRouter2 = _interopRequireDefault(_vueRouter);
-
-var _store = __webpack_require__(413);
-
-var _Base = __webpack_require__(414);
-
-var _Base2 = _interopRequireDefault(_Base);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-__webpack_require__(24);
-__webpack_require__(32);
-__webpack_require__(87);
-
-_vue2.default.use(_vueRouter2.default);
-
-var routes = [{ path: globalProjectDirectory + '/:adminPrefix/:lang/plugins/accio/post-position-manager', component: _Base2.default }];
-
-var router = new _vueRouter2.default({
-    mode: 'history',
-    routes: routes
-});
-
-var app = new _vue2.default({
-    el: '#app',
-    router: router,
-    store: _store.store
-});
-
-/***/ }),
-
-/***/ 413:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.store = undefined;
-
-var _vuex = __webpack_require__(17);
-
-var _vuex2 = _interopRequireDefault(_vuex);
-
-var _vue = __webpack_require__(8);
-
-var _vue2 = _interopRequireDefault(_vue);
-
-var _bootstrapVuex = __webpack_require__(21);
-
-var _bootstrapVuex2 = _interopRequireDefault(_bootstrapVuex);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_vue2.default.use(_vuex2.default);
-
-var store = exports.store = new _vuex2.default.Store({
-    modules: {
-        Bootstrap: _bootstrapVuex2.default
-    },
-    state: {},
-    getters: {},
-    mutations: {}
-});
-
-/***/ }),
-
-/***/ 414:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(415)
-/* template */
-var __vue_template__ = __webpack_require__(416)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "plugins/Accio/PostPositionManager/resources/views/backend/Base.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7fbd2827", Component.options)
-  } else {
-    hotAPI.reload("data-v-7fbd2827", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 415:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-    data: function data() {
-        return {};
-    },
-    created: function created() {},
-
-
-    methods: {},
-
-    computed: {
-        // get base path
-        basePath: function basePath() {
-            return this.$store.getters.get_base_path;
-        }
-    }
-};
-
-/***/ }),
-
-/***/ 416:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "right_col", attrs: { role: "main" } }, [
-      _c("div", { staticClass: "col-md-12 col-sm-12 col-xs-12" }, [
-        _vm._v("\n        POST POSITION MANAGER\n    ")
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7fbd2827", module.exports)
-  }
-}
 
 /***/ }),
 

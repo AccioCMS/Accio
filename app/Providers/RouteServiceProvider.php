@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Accio\Support\Facades\Routes;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -23,8 +24,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
     }
 
@@ -38,8 +37,6 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
-
-        //
     }
 
     /**
@@ -69,11 +66,12 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::group([
-            'middleware' => 'api',
+            'middleware' => ['application','frontend', 'api'],
             'namespace' => $this->namespace,
             'prefix' => 'api',
         ], function ($router) {
             require base_path('routes/api.php');
         });
     }
+
 }
