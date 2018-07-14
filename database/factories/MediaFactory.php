@@ -9,7 +9,7 @@ $factory->define(App\Models\Media::class, function (Faker $faker) {
     $destinationPath = uploadsPath($datePath);
     $fileDirectory = 'public'.explode('public', $destinationPath)[1];
     $fileDirectory = str_replace('\\','/', $fileDirectory);
-    $users = \App\Models\User::all();
+    $users = \App\Models\User::select('userID')->inRandomOrder()->first();
 
     $fileFullPathOriginal = base_path($fileDirectory.'/original');
     if(!File::exists($fileFullPathOriginal)){
@@ -35,6 +35,7 @@ $factory->define(App\Models\Media::class, function (Faker $faker) {
     list($width, $height) = @getimagesize($fullPath);
 
     return [
+        'createdByUserID' => ($users ? $users->userID : null),
         'title' => $faker->text(50),
         'description' => $faker->text(100),
         'credit' => $faker->firstName.' '.$faker->lastName,
@@ -45,6 +46,5 @@ $factory->define(App\Models\Media::class, function (Faker $faker) {
         'fileDirectory' => $fileDirectory,
         'fileSize' => bcdiv(filesize($fullPath), 1048576, 2),
         'dimensions' => $width.'x'.$height,
-        'createdByUserID' => $users->random()->userID
     ];
 });

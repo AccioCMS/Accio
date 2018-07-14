@@ -19,11 +19,5 @@ $factory->define(App\Models\Tag::class, function (Faker $faker) {
 
     ];
 
-    foreach (Language::cache()->getItems() as $language){
-        $data['title'][$language->slug] = $faker->text(10);
-        $data['description'][$language->slug] = $faker->paragraphs(2, true);
-        $data['slug'][$language->slug] = $faker->slug;
-    }
-
     return $data;
 });
