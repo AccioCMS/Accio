@@ -23,7 +23,7 @@ class CreateMediaTable extends Migration{
             $table->string('fileDirectory', 55);
             $table->float('filesize');
             $table->string('dimensions', 11)->nullable();
-            $table->integer('createdByUserID')->unsigned();
+            $table->integer('createdByUserID')->unsigned()->nullable();
             $table->timestamps();
         });
     }

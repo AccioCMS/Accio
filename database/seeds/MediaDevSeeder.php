@@ -18,10 +18,13 @@ class MediaDevSeeder extends Seeder
             for ($i = 1; $i <= $totalMedia; $i++) {
                 $this->createImage();
             }
-
-            $this->command->info("Media created (" . $totalMedia . ")");
+            if(isset($this->command)) {
+                $this->command->info("Media created (" . $totalMedia . ")");
+            }
         }elsE{
-            $this->command->error("Please give a total number of media you would like to create!");
+            if(isset($this->command)) {
+                $this->command->error("Please give a total number of media you would like to create!");
+            }
         }
 
         return $output;

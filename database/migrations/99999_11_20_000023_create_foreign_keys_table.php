@@ -95,6 +95,7 @@ class CreateForeignKeysTable extends Migration
         // Users
         Schema::table('users', function(Blueprint $table) {
             $table->foreign('profileImageID')->references('mediaID')->on('media');
+            $table->foreign('createdByUserID')->references('userID')->on('users');
         });
     }
 
