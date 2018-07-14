@@ -41,6 +41,10 @@ class CreateForeignKeysTable extends Migration
         });
 
         // Media relations
+        Schema::table('media', function (Blueprint $table){
+            $table->foreign('createdByUserID')->references('userID')->on('users');
+        });
+
         Schema::table('media_relations', function (Blueprint $table){
             $table->foreign('mediaID')->references('mediaID')->on('media');
         });

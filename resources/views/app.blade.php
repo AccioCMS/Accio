@@ -62,17 +62,31 @@
 
 <!-- VUE JS SCRIPT -->
 <?php
-    // if we are in a plugin route
-    if(\Request::is('*/plugins/*/*')){
-        // get plugin author and plugin name
-        $link = explode("plugins/", \Request::url());
-        $pluginParams = explode("/",$link[1]);
+// if we are in a plugin route
+$pluginData = null;
+if(\Request::is('*/plugins/*/*')){
+    // get plugin author and plugin name
+    $link = explode("plugins/", \Request::url());
+    $pluginParams = explode("/",$link[1]);
+
+    foreach(\App\Models\Plugin::configs() as $plugin){
+        if($plugin->baseURL == $link[1]){
+            $pluginData = $plugin;
+            break;
+        }
+    }
+}
+
+if($pluginData){
 ?>
 <!-- VUE JS SCRIPT -->
-<script src="{{ URL::asset('public/plugins/'.$pluginParams[0].'/'.camel_case($pluginParams[1]).'/public/js/app.js') }}"></script>
-<?php }else{ ?>
-<script src="{{ URL::asset('public/js/app.js?'.time()) }}"></script>
-<?php } ?>
+<script src="{{ URL::asset('public/plugins/'.$pluginData->namespace.'/public/js/app.js?'.session()->getId()) }}"></script>
+<?php
+}else{ ?>
+<script src="{{ URL::asset('public/js/app.js?'.session()->getId()) }}"></script>
+<?php
+}
+?>
 
 {{-- sortable plugin --}}
 <script src="{{ URL::asset('public/backend/sortable.js') }}"></script>
@@ -101,7 +115,7 @@
 <!-- jQuery autocomplete -->
 <script src="{{ URL::asset('public/backend/admin-theme-modules/devbridge-autocomplete/dist/jquery.autocomplete.min.js') }}"></script>
 
-<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 
 <!-- CROP -->
 <script src="{{ URL::asset('public/backend/crop/jquery.selectareas.js') }}" type="text/javascript"></script>

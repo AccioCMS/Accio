@@ -13,8 +13,8 @@ class CreateSettingsTable extends Migration{
     public function up(){
         Schema::create('settings', function (Blueprint $table) {
             $table->increments('settingsID');
-            $table->string('settingsKey',55);
-            $table->string('value',255);
+            $table->string('settingsKey',55)->unique();
+            $table->string('value',255)->nullable();
             $table->timestamps();
         });
     }

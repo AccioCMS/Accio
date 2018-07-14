@@ -7,6 +7,7 @@ $factory->define(App\Models\Post::class, function (Faker $faker) {
     $users = \App\Models\User::all();
     $languages = Language::all();
 
+
     // Create featured image
     $featuredImage = factory(App\Models\Media::class)->create()->makeThumb(200, 200);
 
@@ -19,7 +20,6 @@ $factory->define(App\Models\Post::class, function (Faker $faker) {
         'published_at' => $faker->dateTimeBetween(),
         'customFields' => [],
     ];
-
 
     // Translatable default fields
     foreach($languages as $language){
@@ -43,7 +43,7 @@ $factory->define(App\Models\Post::class, function (Faker $faker) {
 
         // Image
         $content .= "<figure>";
-        $content .= "<img alt='".$featuredImage->title."' src='".base_path($featuredImage->url)."' />";
+        $content .= "<img alt='".$featuredImage->title."' src='".url($featuredImage->url)."' />";
         $content .= "<figcaption>".$featuredImage->description." <cite>© ".$featuredImage->credit."</cite></figcaption>";
         $content .= "</figure>";
 
@@ -74,7 +74,7 @@ $factory->define(App\Models\Post::class, function (Faker $faker) {
     $postType = \App\Models\PostType::where('slug',$postClass->getTable())->first();
 
     if($postType->fields){
-        foreach(json_decode($postType->fields) as $field){
+        foreach($postType->fields as $field){
             switch ($field->type->inputType){
                 case 'text';
                     if($field->translatable){

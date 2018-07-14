@@ -1,7 +1,4 @@
 <?php
-
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +10,6 @@ use Illuminate\Http\Request;
 |
 */
 
-//Route::get('/user', function (Request $request) {
-//    return $request->user();
-//})->middleware('auth:api');
+Route::group(['middleware' => 'cors', 'namespace' => 'Accio\App\Http\Controllers\Api'], function(){
+    Route::get('api/posts/related/{postId}', 'Post@related');
+});

@@ -133,6 +133,8 @@ class CategoryTest extends DuskTestCase{
                     ->waitUntilMissing('@spinner')
                     ->click('#toggleListBtn' . $category->categoryID)
                     ->click('#deleteItemBtn' . $category->categoryID)
+                    ->waitFor('.modal-content')
+                    ->click('.modal-content .btn-danger')
                     ->waitFor('.noty_type__success')
                     ->assertVisible('.noty_type__success');
 
@@ -167,7 +169,7 @@ class CategoryTest extends DuskTestCase{
                 ->click('@chooseMedia')
                 ->waitUntilMissing('@popupContentLibrary');
 
-            foreach(Language::getFromCache() as $lang){
+            foreach(Language::cache()->getItems() as $lang){
                 $browser->click('#tabBtn-'.$lang->slug)
                     ->type('#form-group-title_'.$lang->slug.' input', $faker->name(10))
                     ->pause(3000)
@@ -228,7 +230,7 @@ class CategoryTest extends DuskTestCase{
                     ->click('@chooseMedia')
                     ->waitUntilMissing('@popupContentLibrary');
 
-                foreach(Language::getFromCache() as $lang){
+                foreach(Language::cache()->getItems() as $lang){
                     $browser->click('#tabBtn-'.$lang->slug)
                         ->type('#form-group-title_'.$lang->slug.' input', $faker->name(10))
                         ->pause(3000)

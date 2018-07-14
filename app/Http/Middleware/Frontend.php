@@ -9,9 +9,10 @@ class Frontend extends \Accio\App\Http\Middleware\Frontend
     /**
      * Handle frontend incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * @param $request
+     * @param Closure $next
+     * @return \Illuminate\Http\Response|mixed
+     * @throws \Exception
      */
     public function handle($request, Closure $next){
         return parent::handle($request, $next);
