@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('slug',200);
             $table->string('gravatar',255)->nullable();
             $table->string('phone',25)->nullable();
-            $table->json('about');
+            $table->json('about')->nullable();;
             $table->string('street',155)->nullable();
             $table->string('country',55)->nullable();
             $table->tinyInteger('isActive');

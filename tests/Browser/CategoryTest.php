@@ -169,7 +169,7 @@ class CategoryTest extends DuskTestCase{
                 ->click('@chooseMedia')
                 ->waitUntilMissing('@popupContentLibrary');
 
-            foreach(Language::cache()->getItems() as $lang){
+            foreach(Language::cache()->collect() as $lang){
                 $browser->click('#tabBtn-'.$lang->slug)
                     ->type('#form-group-title_'.$lang->slug.' input', $faker->name(10))
                     ->pause(3000)
@@ -230,7 +230,7 @@ class CategoryTest extends DuskTestCase{
                     ->click('@chooseMedia')
                     ->waitUntilMissing('@popupContentLibrary');
 
-                foreach(Language::cache()->getItems() as $lang){
+                foreach(Language::cache()->collect() as $lang){
                     $browser->click('#tabBtn-'.$lang->slug)
                         ->type('#form-group-title_'.$lang->slug.' input', $faker->name(10))
                         ->pause(3000)
