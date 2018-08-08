@@ -7,7 +7,6 @@
     "require": {
     "php": ">=7.1.3",
     "acciocms/core": "dev-development",
-    "barryvdh/laravel-cors": "^0.11.0",
     "chumper/zipper": "1.0.x",
     "doctrine/dbal": "^2.5",
     "fideloper/proxy": "^4.0",
@@ -17,6 +16,7 @@
     "laravel/passport": "^6.0",
     "laravel/tinker": "~1.0",
     "laravelcollective/html": "^5.2.0",
+    "manaferra/laravel-var-cache": "dev-master",
     "riverskies/laravel-mobile-detect": "^1.2",
     "spatie/laravel-activitylog": "^2.5",
     "spatie/laravel-artisan-dd": "^2.0",
@@ -71,6 +71,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/fatonsopa/image-optimizer"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/manaferra/laravel-var-cache"
     }
   ],
   "scripts": {

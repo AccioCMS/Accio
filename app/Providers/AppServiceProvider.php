@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
+use Manaferra\VarCache;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,7 +14,6 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot(){
-        
     }
 
     /**

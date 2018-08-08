@@ -49,7 +49,12 @@ return [
             'path' => storage_path('framework/cache'),
         ],
 
-        'memcached' => [
+        'var' => [
+            'driver' => 'var',
+            'path' => storage_path('framework/varcache'),
+        ],
+
+      'memcached' => [
             'driver' => 'memcached',
             'persistent_id' => env('MEMCACHED_PERSISTENT_ID'),
             'sasl' => [

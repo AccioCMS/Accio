@@ -315,3 +315,4 @@
 [19-Jul-2018 22:23:45 Europe/Paris] PHP  79. Composer\Autoload\ClassLoader->loadClass() /Users/sopa/Sites/accio/app/Models/UserGroup.php:7
 [19-Jul-2018 22:23:45 Europe/Paris] PHP  80. Composer\Autoload\includeFile() /Users/sopa/Sites/accio/vendor/composer/ClassLoader.php:322
 [19-Jul-2018 22:23:45 Europe/Paris] PHP  81. include() /Users/sopa/Sites/accio/vendor/composer/ClassLoader.php:444
+[08-Aug-2018 15:44:56 Europe/Paris] PHP Parse error:  syntax error, unexpected ';', expecting ',' or ')' in /Users/sopa/Sites/accio/vendor/laravel/framework/src/Illuminate/Support/helpers.php on line 473

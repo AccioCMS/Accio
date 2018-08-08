@@ -6,6 +6,7 @@ use Accio\App\Http\Controllers\Frontend\BaseMainController;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Routing\Controller as BaseController;
 
 class MainController extends BaseMainController{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;

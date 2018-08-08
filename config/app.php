@@ -176,6 +176,7 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
 
         //Accio Package Service Provider
+        \Manaferra\VarCache\CacheServiceProvider::class,
         \Accio\PackageServiceProvider::class
     ],
 
