@@ -17,8 +17,8 @@ class CreatePermalinksTable extends Migration
             $table->string('belongsTo',55);
             $table->string('name',55);
             $table->string('custom_url',255)->nullable();
-            $table->string('default_url',255);
-            $table->string('acceptedParameters',255);
+            $table->string('default_url',255)->nullable();
+            $table->string('acceptedParameters',255)->nullable();
             $table->timestamps();
         });
     }
