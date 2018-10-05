@@ -687,7 +687,7 @@ var globalMethods = exports.globalMethods = {
             var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
             var query = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-            if (id === undefined || id == '') {
+            if (id === undefined || id === '') {
                 this.$router.push({ name: name, query: query });
             } else {
                 this.$router.push({ name: name, params: { id: id }, query: query });
@@ -12321,57 +12321,7 @@ module.exports = Component.exports
 !function(t,e){ true?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.VueMultiselect=e():t.VueMultiselect=e()}(this,function(){return function(t){function e(i){if(n[i])return n[i].exports;var r=n[i]={i:i,l:!1,exports:{}};return t[i].call(r.exports,r,r.exports,e),r.l=!0,r.exports}var n={};return e.m=t,e.c=n,e.i=function(t){return t},e.d=function(t,n,i){e.o(t,n)||Object.defineProperty(t,n,{configurable:!1,enumerable:!0,get:i})},e.n=function(t){var n=t&&t.__esModule?function(){return t.default}:function(){return t};return e.d(n,"a",n),n},e.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},e.p="/",e(e.s=66)}([function(t,e){var n=t.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=n)},function(t,e,n){t.exports=!n(12)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(t,e){var n={}.hasOwnProperty;t.exports=function(t,e){return n.call(t,e)}},function(t,e,n){var i=n(10),r=n(43),o=n(31),s=Object.defineProperty;e.f=n(1)?Object.defineProperty:function(t,e,n){if(i(t),e=o(e,!0),i(n),r)try{return s(t,e,n)}catch(t){}if("get"in n||"set"in n)throw TypeError("Accessors not supported!");return"value"in n&&(t[e]=n.value),t}},function(t,e,n){var i=n(77),r=n(21);t.exports=function(t){return i(r(t))}},function(t,e,n){var i=n(9),r=n(52),o=n(18),s=n(55),u=n(53),a=function(t,e,n){var l,c,f,p,h=t&a.F,d=t&a.G,v=t&a.S,y=t&a.P,g=t&a.B,b=d?i:v?i[e]||(i[e]={}):(i[e]||{}).prototype,m=d?r:r[e]||(r[e]={}),_=m.prototype||(m.prototype={});d&&(n=e);for(l in n)c=!h&&b&&void 0!==b[l],f=(c?b:n)[l],p=g&&c?u(f,i):y&&"function"==typeof f?u(Function.call,f):f,b&&s(b,l,f,t&a.U),m[l]!=f&&o(m,l,p),y&&_[l]!=f&&(_[l]=f)};i.core=r,a.F=1,a.G=2,a.S=4,a.P=8,a.B=16,a.W=32,a.U=64,a.R=128,t.exports=a},function(t,e,n){var i=n(3),r=n(15);t.exports=n(1)?function(t,e,n){return i.f(t,e,r(1,n))}:function(t,e,n){return t[e]=n,t}},function(t,e,n){var i=n(29)("wks"),r=n(16),o=n(0).Symbol,s="function"==typeof o;(t.exports=function(t){return i[t]||(i[t]=s&&o[t]||(s?o:r)("Symbol."+t))}).store=i},function(t,e){t.exports=function(t){try{return!!t()}catch(t){return!0}}},function(t,e){var n=t.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=n)},function(t,e,n){var i=n(13);t.exports=function(t){if(!i(t))throw TypeError(t+" is not an object!");return t}},function(t,e){var n=t.exports={version:"2.4.0"};"number"==typeof __e&&(__e=n)},function(t,e){t.exports=function(t){try{return!!t()}catch(t){return!0}}},function(t,e){t.exports=function(t){return"object"==typeof t?null!==t:"function"==typeof t}},function(t,e,n){var i=n(48),r=n(22);t.exports=Object.keys||function(t){return i(t,r)}},function(t,e){t.exports=function(t,e){return{enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:e}}},function(t,e){var n=0,i=Math.random();t.exports=function(t){return"Symbol(".concat(void 0===t?"":t,")_",(++n+i).toString(36))}},function(t,e){t.exports=function(t){if(void 0==t)throw TypeError("Can't call method on  "+t);return t}},function(t,e,n){var i=n(109),r=n(110);t.exports=n(35)?function(t,e,n){return i.f(t,e,r(1,n))}:function(t,e,n){return t[e]=n,t}},function(t,e){t.exports=function(t){return"object"==typeof t?null!==t:"function"==typeof t}},function(t,e,n){var i=n(8);t.exports=function(t,e){return!!t&&i(function(){e?t.call(null,function(){},1):t.call(null)})}},function(t,e){t.exports=function(t){if(void 0==t)throw TypeError("Can't call method on  "+t);return t}},function(t,e){t.exports="constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",")},function(t,e,n){var i=n(0),r=n(11),o=n(74),s=n(6),u=function(t,e,n){var a,l,c,f=t&u.F,p=t&u.G,h=t&u.S,d=t&u.P,v=t&u.B,y=t&u.W,g=p?r:r[e]||(r[e]={}),b=g.prototype,m=p?i:h?i[e]:(i[e]||{}).prototype;p&&(n=e);for(a in n)(l=!f&&m&&void 0!==m[a])&&a in g||(c=l?m[a]:n[a],g[a]=p&&"function"!=typeof m[a]?n[a]:v&&l?o(c,i):y&&m[a]==c?function(t){var e=function(e,n,i){if(this instanceof t){switch(arguments.length){case 0:return new t;case 1:return new t(e);case 2:return new t(e,n)}return new t(e,n,i)}return t.apply(this,arguments)};return e.prototype=t.prototype,e}(c):d&&"function"==typeof c?o(Function.call,c):c,d&&((g.virtual||(g.virtual={}))[a]=c,t&u.R&&b&&!b[a]&&s(b,a,c)))};u.F=1,u.G=2,u.S=4,u.P=8,u.B=16,u.W=32,u.U=64,u.R=128,t.exports=u},function(t,e){t.exports={}},function(t,e){t.exports=!0},function(t,e){e.f={}.propertyIsEnumerable},function(t,e,n){var i=n(3).f,r=n(2),o=n(7)("toStringTag");t.exports=function(t,e,n){t&&!r(t=n?t:t.prototype,o)&&i(t,o,{configurable:!0,value:e})}},function(t,e,n){var i=n(29)("keys"),r=n(16);t.exports=function(t){return i[t]||(i[t]=r(t))}},function(t,e,n){var i=n(0),r=i["__core-js_shared__"]||(i["__core-js_shared__"]={});t.exports=function(t){return r[t]||(r[t]={})}},function(t,e){var n=Math.ceil,i=Math.floor;t.exports=function(t){return isNaN(t=+t)?0:(t>0?i:n)(t)}},function(t,e,n){var i=n(13);t.exports=function(t,e){if(!i(t))return t;var n,r;if(e&&"function"==typeof(n=t.toString)&&!i(r=n.call(t)))return r;if("function"==typeof(n=t.valueOf)&&!i(r=n.call(t)))return r;if(!e&&"function"==typeof(n=t.toString)&&!i(r=n.call(t)))return r;throw TypeError("Can't convert object to primitive value")}},function(t,e,n){var i=n(0),r=n(11),o=n(25),s=n(33),u=n(3).f;t.exports=function(t){var e=r.Symbol||(r.Symbol=o?{}:i.Symbol||{});"_"==t.charAt(0)||t in e||u(e,t,{value:s.f(t)})}},function(t,e,n){e.f=n(7)},function(t,e,n){var i=n(53),r=n(36),o=n(57),s=n(37),u=n(104);t.exports=function(t,e){var n=1==t,a=2==t,l=3==t,c=4==t,f=6==t,p=5==t||f,h=e||u;return function(e,u,d){for(var v,y,g=o(e),b=r(g),m=i(u,d,3),_=s(b.length),x=0,w=n?h(e,_):a?h(e,0):void 0;_>x;x++)if((p||x in b)&&(v=b[x],y=m(v,x,g),t))if(n)w[x]=y;else if(y)switch(t){case 3:return!0;case 5:return v;case 6:return x;case 2:w.push(v)}else if(c)return!1;return f?-1:l||c?c:w}}},function(t,e,n){t.exports=!n(8)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(t,e,n){var i=n(51);t.exports=Object("z").propertyIsEnumerable(0)?Object:function(t){return"String"==i(t)?t.split(""):Object(t)}},function(t,e,n){var i=n(56),r=Math.min;t.exports=function(t){return t>0?r(i(t),9007199254740991):0}},function(t,e,n){var i=n(111)("wks"),r=n(58),o=n(9).Symbol,s="function"==typeof o;(t.exports=function(t){return i[t]||(i[t]=s&&o[t]||(s?o:r)("Symbol."+t))}).store=i},function(t,e,n){"use strict";function i(t){return 0!==t&&(!(!Array.isArray(t)||0!==t.length)||!t)}function r(t){return function(){return!t.apply(void 0,arguments)}}function o(t,e){return void 0===t&&(t="undefined"),null===t&&(t="null"),!1===t&&(t="false"),-1!==t.toString().toLowerCase().indexOf(e.trim())}function s(t,e,n,i){return t.filter(function(t){return o(i(t,n),e)})}function u(t){return t.filter(function(t){return!t.$isLabel})}function a(t,e){return function(n){return n.reduce(function(n,i){return i[t]&&i[t].length?(n.push({$groupLabel:i[e],$isLabel:!0}),n.concat(i[t])):n},[])}}function l(t,e,n,i,r){return function(o){return o.map(function(o){var u;if(!o[n])return console.warn("Options passed to vue-multiselect do not contain groups, despite the config."),[];var a=s(o[n],t,e,r);return a.length?(u={},v()(u,i,o[i]),v()(u,n,a),u):[]})}}var c=n(65),f=n.n(c),p=n(59),h=(n.n(p),n(122)),d=(n.n(h),n(64)),v=n.n(d),y=n(120),g=(n.n(y),n(121)),b=(n.n(g),n(117)),m=(n.n(b),n(123)),_=(n.n(m),n(118)),x=(n.n(_),n(119)),w=(n.n(x),function(){for(var t=arguments.length,e=new Array(t),n=0;n<t;n++)e[n]=arguments[n];return function(t){return e.reduce(function(t,e){return e(t)},t)}});e.a={data:function(){return{search:"",isOpen:!1,prefferedOpenDirection:"below",optimizedHeight:this.maxHeight}},props:{internalSearch:{type:Boolean,default:!0},options:{type:Array,required:!0},multiple:{type:Boolean,default:!1},value:{type:null,default:function(){return[]}},trackBy:{type:String},label:{type:String},searchable:{type:Boolean,default:!0},clearOnSelect:{type:Boolean,default:!0},hideSelected:{type:Boolean,default:!1},placeholder:{type:String,default:"Select option"},allowEmpty:{type:Boolean,default:!0},resetAfter:{type:Boolean,default:!1},closeOnSelect:{type:Boolean,default:!0},customLabel:{type:Function,default:function(t,e){return i(t)?"":e?t[e]:t}},taggable:{type:Boolean,default:!1},tagPlaceholder:{type:String,default:"Press enter to create a tag"},tagPosition:{type:String,default:"top"},max:{type:[Number,Boolean],default:!1},id:{default:null},optionsLimit:{type:Number,default:1e3},groupValues:{type:String},groupLabel:{type:String},groupSelect:{type:Boolean,default:!1},blockKeys:{type:Array,default:function(){return[]}},preserveSearch:{type:Boolean,default:!1},preselectFirst:{type:Boolean,default:!1}},mounted:function(){this.multiple||this.clearOnSelect||console.warn("[Vue-Multiselect warn]: ClearOnSelect and Multiple props can’t be both set to false."),!this.multiple&&this.max&&console.warn("[Vue-Multiselect warn]: Max prop should not be used when prop Multiple equals false."),this.preselectFirst&&!this.internalValue.length&&this.options.length&&this.select(this.filteredOptions[0])},computed:{internalValue:function(){return this.value||0===this.value?Array.isArray(this.value)?this.value:[this.value]:[]},filteredOptions:function(){var t=this.search||"",e=t.toLowerCase().trim(),n=this.options.concat();return n=this.internalSearch?this.groupValues?this.filterAndFlat(n,e,this.label):s(n,e,this.label,this.customLabel):this.groupValues?a(this.groupValues,this.groupLabel)(n):n,n=this.hideSelected?n.filter(r(this.isSelected)):n,this.taggable&&e.length&&!this.isExistingOption(e)&&("bottom"===this.tagPosition?n.push({isTag:!0,label:t}):n.unshift({isTag:!0,label:t})),n.slice(0,this.optionsLimit)},valueKeys:function(){var t=this;return this.trackBy?this.internalValue.map(function(e){return e[t.trackBy]}):this.internalValue},optionKeys:function(){var t=this;return(this.groupValues?this.flatAndStrip(this.options):this.options).map(function(e){return t.customLabel(e,t.label).toString().toLowerCase()})},currentOptionLabel:function(){return this.multiple?this.searchable?"":this.placeholder:this.internalValue.length?this.getOptionLabel(this.internalValue[0]):this.searchable?"":this.placeholder}},watch:{internalValue:function(){this.resetAfter&&this.internalValue.length&&(this.search="",this.$emit("input",this.multiple?[]:null))},search:function(){this.$emit("search-change",this.search,this.id)}},methods:{getValue:function(){return this.multiple?this.internalValue:0===this.internalValue.length?null:this.internalValue[0]},filterAndFlat:function(t,e,n){return w(l(e,n,this.groupValues,this.groupLabel,this.customLabel),a(this.groupValues,this.groupLabel))(t)},flatAndStrip:function(t){return w(a(this.groupValues,this.groupLabel),u)(t)},updateSearch:function(t){this.search=t},isExistingOption:function(t){return!!this.options&&this.optionKeys.indexOf(t)>-1},isSelected:function(t){var e=this.trackBy?t[this.trackBy]:t;return this.valueKeys.indexOf(e)>-1},getOptionLabel:function(t){if(i(t))return"";if(t.isTag)return t.label;if(t.$isLabel)return t.$groupLabel;var e=this.customLabel(t,this.label);return i(e)?"":e},select:function(t,e){if(t.$isLabel&&this.groupSelect)return void this.selectGroup(t);if(!(-1!==this.blockKeys.indexOf(e)||this.disabled||t.$isDisabled||t.$isLabel)&&(!this.max||!this.multiple||this.internalValue.length!==this.max)&&("Tab"!==e||this.pointerDirty)){if(t.isTag)this.$emit("tag",t.label,this.id),this.search="",this.closeOnSelect&&!this.multiple&&this.deactivate();else{if(this.isSelected(t))return void("Tab"!==e&&this.removeElement(t));this.$emit("select",t,this.id),this.multiple?this.$emit("input",this.internalValue.concat([t]),this.id):this.$emit("input",t,this.id),this.clearOnSelect&&(this.search="")}this.closeOnSelect&&this.deactivate()}},selectGroup:function(t){var e=this,n=this.options.find(function(n){return n[e.groupLabel]===t.$groupLabel});if(n)if(this.wholeGroupSelected(n)){this.$emit("remove",n[this.groupValues],this.id);var i=this.internalValue.filter(function(t){return-1===n[e.groupValues].indexOf(t)});this.$emit("input",i,this.id)}else{var o=n[this.groupValues].filter(r(this.isSelected));this.$emit("select",o,this.id),this.$emit("input",this.internalValue.concat(o),this.id)}},wholeGroupSelected:function(t){return t[this.groupValues].every(this.isSelected)},removeElement:function(t){var e=!(arguments.length>1&&void 0!==arguments[1])||arguments[1];if(!this.disabled){if(!this.allowEmpty&&this.internalValue.length<=1)return void this.deactivate();var n="object"===f()(t)?this.valueKeys.indexOf(t[this.trackBy]):this.valueKeys.indexOf(t);if(this.$emit("remove",t,this.id),this.multiple){var i=this.internalValue.slice(0,n).concat(this.internalValue.slice(n+1));this.$emit("input",i,this.id)}else this.$emit("input",null,this.id);this.closeOnSelect&&e&&this.deactivate()}},removeLastElement:function(){-1===this.blockKeys.indexOf("Delete")&&0===this.search.length&&Array.isArray(this.internalValue)&&this.removeElement(this.internalValue[this.internalValue.length-1],!1)},activate:function(){var t=this;this.isOpen||this.disabled||(this.adjustPosition(),this.groupValues&&0===this.pointer&&this.filteredOptions.length&&(this.pointer=1),this.isOpen=!0,this.searchable?(this.preserveSearch||(this.search=""),this.$nextTick(function(){return t.$refs.search.focus()})):this.$el.focus(),this.$emit("open",this.id))},deactivate:function(){this.isOpen&&(this.isOpen=!1,this.searchable?this.$refs.search.blur():this.$el.blur(),this.preserveSearch||(this.search=""),this.$emit("close",this.getValue(),this.id))},toggle:function(){this.isOpen?this.deactivate():this.activate()},adjustPosition:function(){if("undefined"!=typeof window){var t=this.$el.getBoundingClientRect().top,e=window.innerHeight-this.$el.getBoundingClientRect().bottom;e>this.maxHeight||e>t||"below"===this.openDirection||"bottom"===this.openDirection?(this.prefferedOpenDirection="below",this.optimizedHeight=Math.min(e-40,this.maxHeight)):(this.prefferedOpenDirection="above",this.optimizedHeight=Math.min(t-40,this.maxHeight))}}}}},function(t,e,n){"use strict";var i=n(59);n.n(i);e.a={data:function(){return{pointer:0,pointerDirty:!1}},props:{showPointer:{type:Boolean,default:!0},optionHeight:{type:Number,default:40}},computed:{pointerPosition:function(){return this.pointer*this.optionHeight},visibleElements:function(){return this.optimizedHeight/this.optionHeight}},watch:{filteredOptions:function(){this.pointerAdjust()},isOpen:function(){this.pointerDirty=!1}},methods:{optionHighlight:function(t,e){return{"multiselect__option--highlight":t===this.pointer&&this.showPointer,"multiselect__option--selected":this.isSelected(e)}},groupHighlight:function(t,e){var n=this;if(!this.groupSelect)return["multiselect__option--disabled"];var i=this.options.find(function(t){return t[n.groupLabel]===e.$groupLabel});return[this.groupSelect?"multiselect__option--group":"multiselect__option--disabled",{"multiselect__option--highlight":t===this.pointer&&this.showPointer},{"multiselect__option--group-selected":this.wholeGroupSelected(i)}]},addPointerElement:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"Enter",e=t.key;this.filteredOptions.length>0&&this.select(this.filteredOptions[this.pointer],e),this.pointerReset()},pointerForward:function(){this.pointer<this.filteredOptions.length-1&&(this.pointer++,this.$refs.list.scrollTop<=this.pointerPosition-(this.visibleElements-1)*this.optionHeight&&(this.$refs.list.scrollTop=this.pointerPosition-(this.visibleElements-1)*this.optionHeight),this.filteredOptions[this.pointer]&&this.filteredOptions[this.pointer].$isLabel&&!this.groupSelect&&this.pointerForward()),this.pointerDirty=!0},pointerBackward:function(){this.pointer>0?(this.pointer--,this.$refs.list.scrollTop>=this.pointerPosition&&(this.$refs.list.scrollTop=this.pointerPosition),this.filteredOptions[this.pointer]&&this.filteredOptions[this.pointer].$isLabel&&!this.groupSelect&&this.pointerBackward()):this.filteredOptions[this.pointer]&&this.filteredOptions[0].$isLabel&&!this.groupSelect&&this.pointerForward(),this.pointerDirty=!0},pointerReset:function(){this.closeOnSelect&&(this.pointer=0,this.$refs.list&&(this.$refs.list.scrollTop=0))},pointerAdjust:function(){this.pointer>=this.filteredOptions.length-1&&(this.pointer=this.filteredOptions.length?this.filteredOptions.length-1:0),this.filteredOptions.length>0&&this.filteredOptions[this.pointer].$isLabel&&!this.groupSelect&&this.pointerForward()},pointerSet:function(t){this.pointer=t,this.pointerDirty=!0}}}},function(t,e){var n={}.toString;t.exports=function(t){return n.call(t).slice(8,-1)}},function(t,e,n){var i=n(13),r=n(0).document,o=i(r)&&i(r.createElement);t.exports=function(t){return o?r.createElement(t):{}}},function(t,e,n){t.exports=!n(1)&&!n(12)(function(){return 7!=Object.defineProperty(n(42)("div"),"a",{get:function(){return 7}}).a})},function(t,e,n){"use strict";var i=n(25),r=n(23),o=n(49),s=n(6),u=n(2),a=n(24),l=n(79),c=n(27),f=n(86),p=n(7)("iterator"),h=!([].keys&&"next"in[].keys()),d=function(){return this};t.exports=function(t,e,n,v,y,g,b){l(n,e,v);var m,_,x,w=function(t){if(!h&&t in P)return P[t];switch(t){case"keys":case"values":return function(){return new n(this,t)}}return function(){return new n(this,t)}},S=e+" Iterator",O="values"==y,L=!1,P=t.prototype,k=P[p]||P["@@iterator"]||y&&P[y],E=k||w(y),j=y?O?w("entries"):E:void 0,V="Array"==e?P.entries||k:k;if(V&&(x=f(V.call(new t)))!==Object.prototype&&(c(x,S,!0),i||u(x,p)||s(x,p,d)),O&&k&&"values"!==k.name&&(L=!0,E=function(){return k.call(this)}),i&&!b||!h&&!L&&P[p]||s(P,p,E),a[e]=E,a[S]=d,y)if(m={values:O?E:w("values"),keys:g?E:w("keys"),entries:j},b)for(_ in m)_ in P||o(P,_,m[_]);else r(r.P+r.F*(h||L),e,m);return m}},function(t,e,n){var i=n(10),r=n(83),o=n(22),s=n(28)("IE_PROTO"),u=function(){},a=function(){var t,e=n(42)("iframe"),i=o.length;for(e.style.display="none",n(76).appendChild(e),e.src="javascript:",t=e.contentWindow.document,t.open(),t.write("<script>document.F=Object<\/script>"),t.close(),a=t.F;i--;)delete a.prototype[o[i]];return a()};t.exports=Object.create||function(t,e){var n;return null!==t?(u.prototype=i(t),n=new u,u.prototype=null,n[s]=t):n=a(),void 0===e?n:r(n,e)}},function(t,e,n){var i=n(48),r=n(22).concat("length","prototype");e.f=Object.getOwnPropertyNames||function(t){return i(t,r)}},function(t,e){e.f=Object.getOwnPropertySymbols},function(t,e,n){var i=n(2),r=n(4),o=n(73)(!1),s=n(28)("IE_PROTO");t.exports=function(t,e){var n,u=r(t),a=0,l=[];for(n in u)n!=s&&i(u,n)&&l.push(n);for(;e.length>a;)i(u,n=e[a++])&&(~o(l,n)||l.push(n));return l}},function(t,e,n){t.exports=n(6)},function(t,e){t.exports=function(t){if("function"!=typeof t)throw TypeError(t+" is not a function!");return t}},function(t,e){var n={}.toString;t.exports=function(t){return n.call(t).slice(8,-1)}},function(t,e){var n=t.exports={version:"2.4.0"};"number"==typeof __e&&(__e=n)},function(t,e,n){var i=n(50);t.exports=function(t,e,n){if(i(t),void 0===e)return t;switch(n){case 1:return function(n){return t.call(e,n)};case 2:return function(n,i){return t.call(e,n,i)};case 3:return function(n,i,r){return t.call(e,n,i,r)}}return function(){return t.apply(e,arguments)}}},function(t,e,n){var i=n(51);t.exports=Array.isArray||function(t){return"Array"==i(t)}},function(t,e,n){var i=n(9),r=n(18),o=n(107),s=n(58)("src"),u=Function.toString,a=(""+u).split("toString");n(52).inspectSource=function(t){return u.call(t)},(t.exports=function(t,e,n,u){var l="function"==typeof n;l&&(o(n,"name")||r(n,"name",e)),t[e]!==n&&(l&&(o(n,s)||r(n,s,t[e]?""+t[e]:a.join(String(e)))),t===i?t[e]=n:u?t[e]?t[e]=n:r(t,e,n):(delete t[e],r(t,e,n)))})(Function.prototype,"toString",function(){return"function"==typeof this&&this[s]||u.call(this)})},function(t,e){var n=Math.ceil,i=Math.floor;t.exports=function(t){return isNaN(t=+t)?0:(t>0?i:n)(t)}},function(t,e,n){var i=n(17);t.exports=function(t){return Object(i(t))}},function(t,e){var n=0,i=Math.random();t.exports=function(t){return"Symbol(".concat(void 0===t?"":t,")_",(++n+i).toString(36))}},function(t,e,n){"use strict";var i=n(5),r=n(34)(5),o=!0;"find"in[]&&Array(1).find(function(){o=!1}),i(i.P+i.F*o,"Array",{find:function(t){return r(this,t,arguments.length>1?arguments[1]:void 0)}}),n(99)("find")},function(t,e,n){"use strict";function i(t){n(124)}var r=n(67),o=n(126),s=n(125),u=i,a=s(r.a,o.a,!1,u,null,null);e.a=a.exports},function(t,e,n){t.exports=n(68)},function(t,e,n){t.exports=n(69)},function(t,e,n){t.exports=n(70)},function(t,e,n){function i(t,e,n){return e in t?r(t,e,{value:n,enumerable:!0,configurable:!0,writable:!0}):t[e]=n,t}var r=n(61);t.exports=i},function(t,e,n){function i(t){return(i="function"==typeof s&&"symbol"==typeof o?function(t){return typeof t}:function(t){return t&&"function"==typeof s&&t.constructor===s&&t!==s.prototype?"symbol":typeof t})(t)}function r(e){return"function"==typeof s&&"symbol"===i(o)?t.exports=r=function(t){return i(t)}:t.exports=r=function(t){return t&&"function"==typeof s&&t.constructor===s&&t!==s.prototype?"symbol":i(t)},r(e)}var o=n(63),s=n(62);t.exports=r},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var i=n(60),r=n(39),o=n(40);n.d(e,"Multiselect",function(){return i.a}),n.d(e,"multiselectMixin",function(){return r.a}),n.d(e,"pointerMixin",function(){return o.a}),e.default=i.a},function(t,e,n){"use strict";var i=n(39),r=n(40);e.a={name:"vue-multiselect",mixins:[i.a,r.a],props:{name:{type:String,default:""},selectLabel:{type:String,default:"Press enter to select"},selectGroupLabel:{type:String,default:"Press enter to select group"},selectedLabel:{type:String,default:"Selected"},deselectLabel:{type:String,default:"Press enter to remove"},deselectGroupLabel:{type:String,default:"Press enter to deselect group"},showLabels:{type:Boolean,default:!0},limit:{type:Number,default:99999},maxHeight:{type:Number,default:300},limitText:{type:Function,default:function(t){return"and ".concat(t," more")}},loading:{type:Boolean,default:!1},disabled:{type:Boolean,default:!1},openDirection:{type:String,default:""},showNoResults:{type:Boolean,default:!0},tabindex:{type:Number,default:0}},computed:{isSingleLabelVisible:function(){return this.singleValue&&(!this.isOpen||!this.searchable)&&!this.visibleValues.length},isPlaceholderVisible:function(){return!(this.internalValue.length||this.searchable&&this.isOpen)},visibleValues:function(){return this.multiple?this.internalValue.slice(0,this.limit):[]},singleValue:function(){return this.internalValue[0]},deselectLabelText:function(){return this.showLabels?this.deselectLabel:""},deselectGroupLabelText:function(){return this.showLabels?this.deselectGroupLabel:""},selectLabelText:function(){return this.showLabels?this.selectLabel:""},selectGroupLabelText:function(){return this.showLabels?this.selectGroupLabel:""},selectedLabelText:function(){return this.showLabels?this.selectedLabel:""},inputStyle:function(){if(this.multiple&&this.value&&this.value.length)return this.isOpen?{width:"auto"}:{width:"0",position:"absolute",padding:"0"}},contentStyle:function(){return this.options.length?{display:"inline-block"}:{display:"block"}},isAbove:function(){return"above"===this.openDirection||"top"===this.openDirection||"below"!==this.openDirection&&"bottom"!==this.openDirection&&"above"===this.prefferedOpenDirection},showSearchInput:function(){return this.searchable&&(!this.hasSingleSelectedSlot||!this.visibleSingleValue&&0!==this.visibleSingleValue||this.isOpen)}}}},function(t,e,n){n(92);var i=n(11).Object;t.exports=function(t,e,n){return i.defineProperty(t,e,n)}},function(t,e,n){n(95),n(93),n(96),n(97),t.exports=n(11).Symbol},function(t,e,n){n(94),n(98),t.exports=n(33).f("iterator")},function(t,e){t.exports=function(t){if("function"!=typeof t)throw TypeError(t+" is not a function!");return t}},function(t,e){t.exports=function(){}},function(t,e,n){var i=n(4),r=n(89),o=n(88);t.exports=function(t){return function(e,n,s){var u,a=i(e),l=r(a.length),c=o(s,l);if(t&&n!=n){for(;l>c;)if((u=a[c++])!=u)return!0}else for(;l>c;c++)if((t||c in a)&&a[c]===n)return t||c||0;return!t&&-1}}},function(t,e,n){var i=n(71);t.exports=function(t,e,n){if(i(t),void 0===e)return t;switch(n){case 1:return function(n){return t.call(e,n)};case 2:return function(n,i){return t.call(e,n,i)};case 3:return function(n,i,r){return t.call(e,n,i,r)}}return function(){return t.apply(e,arguments)}}},function(t,e,n){var i=n(14),r=n(47),o=n(26);t.exports=function(t){var e=i(t),n=r.f;if(n)for(var s,u=n(t),a=o.f,l=0;u.length>l;)a.call(t,s=u[l++])&&e.push(s);return e}},function(t,e,n){t.exports=n(0).document&&document.documentElement},function(t,e,n){var i=n(41);t.exports=Object("z").propertyIsEnumerable(0)?Object:function(t){return"String"==i(t)?t.split(""):Object(t)}},function(t,e,n){var i=n(41);t.exports=Array.isArray||function(t){return"Array"==i(t)}},function(t,e,n){"use strict";var i=n(45),r=n(15),o=n(27),s={};n(6)(s,n(7)("iterator"),function(){return this}),t.exports=function(t,e,n){t.prototype=i(s,{next:r(1,n)}),o(t,e+" Iterator")}},function(t,e){t.exports=function(t,e){return{value:e,done:!!t}}},function(t,e,n){var i=n(14),r=n(4);t.exports=function(t,e){for(var n,o=r(t),s=i(o),u=s.length,a=0;u>a;)if(o[n=s[a++]]===e)return n}},function(t,e,n){var i=n(16)("meta"),r=n(13),o=n(2),s=n(3).f,u=0,a=Object.isExtensible||function(){return!0},l=!n(12)(function(){return a(Object.preventExtensions({}))}),c=function(t){s(t,i,{value:{i:"O"+ ++u,w:{}}})},f=function(t,e){if(!r(t))return"symbol"==typeof t?t:("string"==typeof t?"S":"P")+t;if(!o(t,i)){if(!a(t))return"F";if(!e)return"E";c(t)}return t[i].i},p=function(t,e){if(!o(t,i)){if(!a(t))return!0;if(!e)return!1;c(t)}return t[i].w},h=function(t){return l&&d.NEED&&a(t)&&!o(t,i)&&c(t),t},d=t.exports={KEY:i,NEED:!1,fastKey:f,getWeak:p,onFreeze:h}},function(t,e,n){var i=n(3),r=n(10),o=n(14);t.exports=n(1)?Object.defineProperties:function(t,e){r(t);for(var n,s=o(e),u=s.length,a=0;u>a;)i.f(t,n=s[a++],e[n]);return t}},function(t,e,n){var i=n(26),r=n(15),o=n(4),s=n(31),u=n(2),a=n(43),l=Object.getOwnPropertyDescriptor;e.f=n(1)?l:function(t,e){if(t=o(t),e=s(e,!0),a)try{return l(t,e)}catch(t){}if(u(t,e))return r(!i.f.call(t,e),t[e])}},function(t,e,n){var i=n(4),r=n(46).f,o={}.toString,s="object"==typeof window&&window&&Object.getOwnPropertyNames?Object.getOwnPropertyNames(window):[],u=function(t){try{return r(t)}catch(t){return s.slice()}};t.exports.f=function(t){return s&&"[object Window]"==o.call(t)?u(t):r(i(t))}},function(t,e,n){var i=n(2),r=n(90),o=n(28)("IE_PROTO"),s=Object.prototype;t.exports=Object.getPrototypeOf||function(t){return t=r(t),i(t,o)?t[o]:"function"==typeof t.constructor&&t instanceof t.constructor?t.constructor.prototype:t instanceof Object?s:null}},function(t,e,n){var i=n(30),r=n(21);t.exports=function(t){return function(e,n){var o,s,u=String(r(e)),a=i(n),l=u.length;return a<0||a>=l?t?"":void 0:(o=u.charCodeAt(a),o<55296||o>56319||a+1===l||(s=u.charCodeAt(a+1))<56320||s>57343?t?u.charAt(a):o:t?u.slice(a,a+2):s-56320+(o-55296<<10)+65536)}}},function(t,e,n){var i=n(30),r=Math.max,o=Math.min;t.exports=function(t,e){return t=i(t),t<0?r(t+e,0):o(t,e)}},function(t,e,n){var i=n(30),r=Math.min;t.exports=function(t){return t>0?r(i(t),9007199254740991):0}},function(t,e,n){var i=n(21);t.exports=function(t){return Object(i(t))}},function(t,e,n){"use strict";var i=n(72),r=n(80),o=n(24),s=n(4);t.exports=n(44)(Array,"Array",function(t,e){this._t=s(t),this._i=0,this._k=e},function(){var t=this._t,e=this._k,n=this._i++;return!t||n>=t.length?(this._t=void 0,r(1)):"keys"==e?r(0,n):"values"==e?r(0,t[n]):r(0,[n,t[n]])},"values"),o.Arguments=o.Array,i("keys"),i("values"),i("entries")},function(t,e,n){var i=n(23);i(i.S+i.F*!n(1),"Object",{defineProperty:n(3).f})},function(t,e){},function(t,e,n){"use strict";var i=n(87)(!0);n(44)(String,"String",function(t){this._t=String(t),this._i=0},function(){var t,e=this._t,n=this._i;return n>=e.length?{value:void 0,done:!0}:(t=i(e,n),this._i+=t.length,{value:t,done:!1})})},function(t,e,n){"use strict";var i=n(0),r=n(2),o=n(1),s=n(23),u=n(49),a=n(82).KEY,l=n(12),c=n(29),f=n(27),p=n(16),h=n(7),d=n(33),v=n(32),y=n(81),g=n(75),b=n(78),m=n(10),_=n(4),x=n(31),w=n(15),S=n(45),O=n(85),L=n(84),P=n(3),k=n(14),E=L.f,j=P.f,V=O.f,C=i.Symbol,T=i.JSON,A=T&&T.stringify,$=h("_hidden"),D=h("toPrimitive"),F={}.propertyIsEnumerable,M=c("symbol-registry"),B=c("symbols"),N=c("op-symbols"),R=Object.prototype,H="function"==typeof C,G=i.QObject,I=!G||!G.prototype||!G.prototype.findChild,K=o&&l(function(){return 7!=S(j({},"a",{get:function(){return j(this,"a",{value:7}).a}})).a})?function(t,e,n){var i=E(R,e);i&&delete R[e],j(t,e,n),i&&t!==R&&j(R,e,i)}:j,z=function(t){var e=B[t]=S(C.prototype);return e._k=t,e},U=H&&"symbol"==typeof C.iterator?function(t){return"symbol"==typeof t}:function(t){return t instanceof C},W=function(t,e,n){return t===R&&W(N,e,n),m(t),e=x(e,!0),m(n),r(B,e)?(n.enumerable?(r(t,$)&&t[$][e]&&(t[$][e]=!1),n=S(n,{enumerable:w(0,!1)})):(r(t,$)||j(t,$,w(1,{})),t[$][e]=!0),K(t,e,n)):j(t,e,n)},J=function(t,e){m(t);for(var n,i=g(e=_(e)),r=0,o=i.length;o>r;)W(t,n=i[r++],e[n]);return t},q=function(t,e){return void 0===e?S(t):J(S(t),e)},X=function(t){var e=F.call(this,t=x(t,!0));return!(this===R&&r(B,t)&&!r(N,t))&&(!(e||!r(this,t)||!r(B,t)||r(this,$)&&this[$][t])||e)},Y=function(t,e){if(t=_(t),e=x(e,!0),t!==R||!r(B,e)||r(N,e)){var n=E(t,e);return!n||!r(B,e)||r(t,$)&&t[$][e]||(n.enumerable=!0),n}},Q=function(t){for(var e,n=V(_(t)),i=[],o=0;n.length>o;)r(B,e=n[o++])||e==$||e==a||i.push(e);return i},Z=function(t){for(var e,n=t===R,i=V(n?N:_(t)),o=[],s=0;i.length>s;)!r(B,e=i[s++])||n&&!r(R,e)||o.push(B[e]);return o};H||(C=function(){if(this instanceof C)throw TypeError("Symbol is not a constructor!");var t=p(arguments.length>0?arguments[0]:void 0),e=function(n){this===R&&e.call(N,n),r(this,$)&&r(this[$],t)&&(this[$][t]=!1),K(this,t,w(1,n))};return o&&I&&K(R,t,{configurable:!0,set:e}),z(t)},u(C.prototype,"toString",function(){return this._k}),L.f=Y,P.f=W,n(46).f=O.f=Q,n(26).f=X,n(47).f=Z,o&&!n(25)&&u(R,"propertyIsEnumerable",X,!0),d.f=function(t){return z(h(t))}),s(s.G+s.W+s.F*!H,{Symbol:C});for(var tt="hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables".split(","),et=0;tt.length>et;)h(tt[et++]);for(var tt=k(h.store),et=0;tt.length>et;)v(tt[et++]);s(s.S+s.F*!H,"Symbol",{for:function(t){return r(M,t+="")?M[t]:M[t]=C(t)},keyFor:function(t){if(U(t))return y(M,t);throw TypeError(t+" is not a symbol!")},useSetter:function(){I=!0},useSimple:function(){I=!1}}),s(s.S+s.F*!H,"Object",{create:q,defineProperty:W,defineProperties:J,getOwnPropertyDescriptor:Y,getOwnPropertyNames:Q,getOwnPropertySymbols:Z}),T&&s(s.S+s.F*(!H||l(function(){var t=C();return"[null]"!=A([t])||"{}"!=A({a:t})||"{}"!=A(Object(t))})),"JSON",{stringify:function(t){if(void 0!==t&&!U(t)){for(var e,n,i=[t],r=1;arguments.length>r;)i.push(arguments[r++]);return e=i[1],"function"==typeof e&&(n=e),!n&&b(e)||(e=function(t,e){if(n&&(e=n.call(this,t,e)),!U(e))return e}),i[1]=e,A.apply(T,i)}}}),C.prototype[D]||n(6)(C.prototype,D,C.prototype.valueOf),f(C,"Symbol"),f(Math,"Math",!0),f(i.JSON,"JSON",!0)},function(t,e,n){n(32)("asyncIterator")},function(t,e,n){n(32)("observable")},function(t,e,n){n(91);for(var i=n(0),r=n(6),o=n(24),s=n(7)("toStringTag"),u=["NodeList","DOMTokenList","MediaList","StyleSheetList","CSSRuleList"],a=0;a<5;a++){var l=u[a],c=i[l],f=c&&c.prototype;f&&!f[s]&&r(f,s,l),o[l]=o.Array}},function(t,e,n){var i=n(38)("unscopables"),r=Array.prototype;void 0==r[i]&&n(18)(r,i,{}),t.exports=function(t){r[i][t]=!0}},function(t,e,n){var i=n(19);t.exports=function(t){if(!i(t))throw TypeError(t+" is not an object!");return t}},function(t,e,n){var i=n(115),r=n(37),o=n(114);t.exports=function(t){return function(e,n,s){var u,a=i(e),l=r(a.length),c=o(s,l);if(t&&n!=n){for(;l>c;)if((u=a[c++])!=u)return!0}else for(;l>c;c++)if((t||c in a)&&a[c]===n)return t||c||0;return!t&&-1}}},function(t,e,n){var i=n(50),r=n(57),o=n(36),s=n(37);t.exports=function(t,e,n,u,a){i(e);var l=r(t),c=o(l),f=s(l.length),p=a?f-1:0,h=a?-1:1;if(n<2)for(;;){if(p in c){u=c[p],p+=h;break}if(p+=h,a?p<0:f<=p)throw TypeError("Reduce of empty array with no initial value")}for(;a?p>=0:f>p;p+=h)p in c&&(u=e(u,c[p],p,l));return u}},function(t,e,n){var i=n(19),r=n(54),o=n(38)("species");t.exports=function(t){var e;return r(t)&&(e=t.constructor,"function"!=typeof e||e!==Array&&!r(e.prototype)||(e=void 0),i(e)&&null===(e=e[o])&&(e=void 0)),void 0===e?Array:e}},function(t,e,n){var i=n(103);t.exports=function(t,e){return new(i(t))(e)}},function(t,e,n){var i=n(19),r=n(9).document,o=i(r)&&i(r.createElement);t.exports=function(t){return o?r.createElement(t):{}}},function(t,e,n){"use strict";var i=n(18),r=n(55),o=n(8),s=n(17),u=n(38);t.exports=function(t,e,n){var a=u(t),l=n(s,a,""[t]),c=l[0],f=l[1];o(function(){var e={};return e[a]=function(){return 7},7!=""[t](e)})&&(r(String.prototype,t,c),i(RegExp.prototype,a,2==e?function(t,e){return f.call(t,this,e)}:function(t){return f.call(t,this)}))}},function(t,e){var n={}.hasOwnProperty;t.exports=function(t,e){return n.call(t,e)}},function(t,e,n){t.exports=!n(35)&&!n(8)(function(){return 7!=Object.defineProperty(n(105)("div"),"a",{get:function(){return 7}}).a})},function(t,e,n){var i=n(100),r=n(108),o=n(116),s=Object.defineProperty;e.f=n(35)?Object.defineProperty:function(t,e,n){if(i(t),e=o(e,!0),i(n),r)try{return s(t,e,n)}catch(t){}if("get"in n||"set"in n)throw TypeError("Accessors not supported!");return"value"in n&&(t[e]=n.value),t}},function(t,e){t.exports=function(t,e){return{enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:e}}},function(t,e,n){var i=n(9),r=i["__core-js_shared__"]||(i["__core-js_shared__"]={});t.exports=function(t){return r[t]||(r[t]={})}},function(t,e,n){var i=n(5),r=n(17),o=n(8),s=n(113),u="["+s+"]",a="​",l=RegExp("^"+u+u+"*"),c=RegExp(u+u+"*$"),f=function(t,e,n){var r={},u=o(function(){return!!s[t]()||a[t]()!=a}),l=r[t]=u?e(p):s[t];n&&(r[n]=l),i(i.P+i.F*u,"String",r)},p=f.trim=function(t,e){return t=String(r(t)),1&e&&(t=t.replace(l,"")),2&e&&(t=t.replace(c,"")),t};t.exports=f},function(t,e){t.exports="\t\n\v\f\r   ᠎             　\u2028\u2029\ufeff"},function(t,e,n){var i=n(56),r=Math.max,o=Math.min;t.exports=function(t,e){return t=i(t),t<0?r(t+e,0):o(t,e)}},function(t,e,n){var i=n(36),r=n(17);t.exports=function(t){return i(r(t))}},function(t,e,n){var i=n(19);t.exports=function(t,e){if(!i(t))return t;var n,r;if(e&&"function"==typeof(n=t.toString)&&!i(r=n.call(t)))return r;if("function"==typeof(n=t.valueOf)&&!i(r=n.call(t)))return r;if(!e&&"function"==typeof(n=t.toString)&&!i(r=n.call(t)))return r;throw TypeError("Can't convert object to primitive value")}},function(t,e,n){"use strict";var i=n(5),r=n(34)(2);i(i.P+i.F*!n(20)([].filter,!0),"Array",{filter:function(t){return r(this,t,arguments[1])}})},function(t,e,n){"use strict";var i=n(5),r=n(101)(!1),o=[].indexOf,s=!!o&&1/[1].indexOf(1,-0)<0;i(i.P+i.F*(s||!n(20)(o)),"Array",{indexOf:function(t){return s?o.apply(this,arguments)||0:r(this,t,arguments[1])}})},function(t,e,n){var i=n(5);i(i.S,"Array",{isArray:n(54)})},function(t,e,n){"use strict";var i=n(5),r=n(34)(1);i(i.P+i.F*!n(20)([].map,!0),"Array",{map:function(t){return r(this,t,arguments[1])}})},function(t,e,n){"use strict";var i=n(5),r=n(102);i(i.P+i.F*!n(20)([].reduce,!0),"Array",{reduce:function(t){return r(this,t,arguments.length,arguments[1],!1)}})},function(t,e,n){n(106)("search",1,function(t,e,n){return[function(n){"use strict";var i=t(this),r=void 0==n?void 0:n[e];return void 0!==r?r.call(n,i):new RegExp(n)[e](String(i))},n]})},function(t,e,n){"use strict";n(112)("trim",function(t){return function(){return t(this,3)}})},function(t,e){},function(t,e){t.exports=function(t,e,n,i,r,o){var s,u=t=t||{},a=typeof t.default;"object"!==a&&"function"!==a||(s=t,u=t.default);var l="function"==typeof u?u.options:u;e&&(l.render=e.render,l.staticRenderFns=e.staticRenderFns,l._compiled=!0),n&&(l.functional=!0),r&&(l._scopeId=r);var c;if(o?(c=function(t){t=t||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext,t||"undefined"==typeof __VUE_SSR_CONTEXT__||(t=__VUE_SSR_CONTEXT__),i&&i.call(this,t),t&&t._registeredComponents&&t._registeredComponents.add(o)},l._ssrRegister=c):i&&(c=i),c){var f=l.functional,p=f?l.render:l.beforeCreate;f?(l._injectStyles=c,l.render=function(t,e){return c.call(e),p(t,e)}):l.beforeCreate=p?[].concat(p,c):[c]}return{esModule:s,exports:u,options:l}}},function(t,e,n){"use strict";var i=function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",{staticClass:"multiselect",class:{"multiselect--active":t.isOpen,"multiselect--disabled":t.disabled,"multiselect--above":t.isAbove},attrs:{tabindex:t.searchable?-1:t.tabindex},on:{focus:function(e){t.activate()},blur:function(e){!t.searchable&&t.deactivate()},keydown:[function(e){return"button"in e||!t._k(e.keyCode,"down",40,e.key,"ArrowDown")?e.target!==e.currentTarget?null:(e.preventDefault(),void t.pointerForward()):null},function(e){return"button"in e||!t._k(e.keyCode,"up",38,e.key,"ArrowUp")?e.target!==e.currentTarget?null:(e.preventDefault(),void t.pointerBackward()):null},function(e){return"button"in e||!t._k(e.keyCode,"enter",13,e.key,"Enter")||!t._k(e.keyCode,"tab",9,e.key,"Tab")?(e.stopPropagation(),e.target!==e.currentTarget?null:void t.addPointerElement(e)):null}],keyup:function(e){if(!("button"in e)&&t._k(e.keyCode,"esc",27,e.key,"Escape"))return null;t.deactivate()}}},[t._t("caret",[n("div",{staticClass:"multiselect__select",on:{mousedown:function(e){e.preventDefault(),e.stopPropagation(),t.toggle()}}})],{toggle:t.toggle}),t._v(" "),t._t("clear",null,{search:t.search}),t._v(" "),n("div",{ref:"tags",staticClass:"multiselect__tags"},[n("div",{directives:[{name:"show",rawName:"v-show",value:t.visibleValues.length>0,expression:"visibleValues.length > 0"}],staticClass:"multiselect__tags-wrap"},[t._l(t.visibleValues,function(e){return[t._t("tag",[n("span",{staticClass:"multiselect__tag"},[n("span",{domProps:{textContent:t._s(t.getOptionLabel(e))}}),t._v(" "),n("i",{staticClass:"multiselect__tag-icon",attrs:{"aria-hidden":"true",tabindex:"1"},on:{keydown:function(n){if(!("button"in n)&&t._k(n.keyCode,"enter",13,n.key,"Enter"))return null;n.preventDefault(),t.removeElement(e)},mousedown:function(n){n.preventDefault(),t.removeElement(e)}}})])],{option:e,search:t.search,remove:t.removeElement})]})],2),t._v(" "),t.internalValue&&t.internalValue.length>t.limit?[t._t("limit",[n("strong",{staticClass:"multiselect__strong",domProps:{textContent:t._s(t.limitText(t.internalValue.length-t.limit))}})])]:t._e(),t._v(" "),n("transition",{attrs:{name:"multiselect__loading"}},[t._t("loading",[n("div",{directives:[{name:"show",rawName:"v-show",value:t.loading,expression:"loading"}],staticClass:"multiselect__spinner"})])],2),t._v(" "),n("input",{directives:[{name:"show",rawName:"v-show",value:t.isOpen&&t.searchable,expression:"isOpen && searchable"}],ref:"search",staticClass:"multiselect__input",style:t.inputStyle,attrs:{name:t.name,id:t.id,type:"text",autocomplete:"off",placeholder:t.placeholder,disabled:t.disabled,tabindex:t.tabindex},domProps:{value:t.search},on:{input:function(e){t.updateSearch(e.target.value)},focus:function(e){e.preventDefault(),t.activate()},blur:function(e){e.preventDefault(),t.deactivate()},keyup:function(e){if(!("button"in e)&&t._k(e.keyCode,"esc",27,e.key,"Escape"))return null;t.deactivate()},keydown:[function(e){if(!("button"in e)&&t._k(e.keyCode,"down",40,e.key,"ArrowDown"))return null;e.preventDefault(),t.pointerForward()},function(e){if(!("button"in e)&&t._k(e.keyCode,"up",38,e.key,"ArrowUp"))return null;e.preventDefault(),t.pointerBackward()},function(e){return"button"in e||!t._k(e.keyCode,"enter",13,e.key,"Enter")?(e.preventDefault(),e.stopPropagation(),e.target!==e.currentTarget?null:void t.addPointerElement(e)):null},function(e){if(!("button"in e)&&t._k(e.keyCode,"delete",[8,46],e.key,["Backspace","Delete"]))return null;e.stopPropagation(),t.removeLastElement()}]}}),t._v(" "),t.isSingleLabelVisible?n("span",{staticClass:"multiselect__single",on:{mousedown:function(e){return e.preventDefault(),t.toggle(e)}}},[t._t("singleLabel",[[t._v(t._s(t.currentOptionLabel))]],{option:t.singleValue})],2):t._e(),t._v(" "),t.isPlaceholderVisible?n("span",{on:{mousedown:function(e){return e.preventDefault(),t.toggle(e)}}},[t._t("placeholder",[n("span",{staticClass:"multiselect__single"},[t._v("\n            "+t._s(t.placeholder)+"\n          ")])])],2):t._e()],2),t._v(" "),n("transition",{attrs:{name:"multiselect"}},[n("div",{directives:[{name:"show",rawName:"v-show",value:t.isOpen,expression:"isOpen"}],ref:"list",staticClass:"multiselect__content-wrapper",style:{maxHeight:t.optimizedHeight+"px"},on:{focus:t.activate,mousedown:function(t){t.preventDefault()}}},[n("ul",{staticClass:"multiselect__content",style:t.contentStyle},[t._t("beforeList"),t._v(" "),t.multiple&&t.max===t.internalValue.length?n("li",[n("span",{staticClass:"multiselect__option"},[t._t("maxElements",[t._v("Maximum of "+t._s(t.max)+" options selected. First remove a selected option to select another.")])],2)]):t._e(),t._v(" "),!t.max||t.internalValue.length<t.max?t._l(t.filteredOptions,function(e,i){return n("li",{key:i,staticClass:"multiselect__element"},[e&&(e.$isLabel||e.$isDisabled)?t._e():n("span",{staticClass:"multiselect__option",class:t.optionHighlight(i,e),attrs:{"data-select":e&&e.isTag?t.tagPlaceholder:t.selectLabelText,"data-selected":t.selectedLabelText,"data-deselect":t.deselectLabelText},on:{click:function(n){n.stopPropagation(),t.select(e)},mouseenter:function(e){if(e.target!==e.currentTarget)return null;t.pointerSet(i)}}},[t._t("option",[n("span",[t._v(t._s(t.getOptionLabel(e)))])],{option:e,search:t.search})],2),t._v(" "),e&&(e.$isLabel||e.$isDisabled)?n("span",{staticClass:"multiselect__option",class:t.groupHighlight(i,e),attrs:{"data-select":t.groupSelect&&t.selectGroupLabelText,"data-deselect":t.groupSelect&&t.deselectGroupLabelText},on:{mouseenter:function(e){if(e.target!==e.currentTarget)return null;t.groupSelect&&t.pointerSet(i)},mousedown:function(n){n.preventDefault(),t.selectGroup(e)}}},[t._t("option",[n("span",[t._v(t._s(t.getOptionLabel(e)))])],{option:e,search:t.search})],2):t._e()])}):t._e(),t._v(" "),n("li",{directives:[{name:"show",rawName:"v-show",value:t.showNoResults&&0===t.filteredOptions.length&&t.search&&!t.loading,expression:"showNoResults && (filteredOptions.length === 0 && search && !loading)"}]},[n("span",{staticClass:"multiselect__option"},[t._t("noResult",[t._v("No elements found. Consider changing the search query.")])],2)]),t._v(" "),t._t("afterList")],2)])])],2)},r=[],o={render:i,staticRenderFns:r};e.a=o}])});
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(30)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(32)
-/* template */
-var __vue_template__ = __webpack_require__(38)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-cf210494"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "vendor/acciocms/core/src/resources/views/components/media/Albums.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-cf210494", Component.options)
-  } else {
-    hotAPI.reload("data-v-cf210494", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
+/* 16 */,
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27087,10 +27037,6 @@ exports.default = {
                 }
             }, 100);
 
-            // append in form data the album id and the formAlbum boolean variable that tells if we are making the upload from the album
-            form.append('albumID', this.getAlbumID);
-            form.append('fromAlbum', this.getLibrarySavedState.upload.fromAlbum);
-
             var result = [];
             this.$http.post(this.basePath + '/' + this.getAdminPrefix + '/media/json/store', form).then(function (resp) {
                 result = resp.body;
@@ -27111,15 +27057,10 @@ exports.default = {
                     _this.countUploadedImages++;
                 }
 
-                // change view to library or album
+                // change view to library
                 setTimeout(function (e) {
                     if (!global.hasUploadErrors) {
-                        if (global.getLibrarySavedState.upload.fromAlbum) {
-                            global.$store.commit('setPopUpActiveMediaView', 'albums');
-                            global.$store.commit('setLibrarySavedStateForUpload', { fromAlbum: false });
-                        } else {
-                            global.$store.commit('setPopUpActiveMediaView', 'library');
-                        }
+                        global.$store.commit('setPopUpActiveMediaView', 'library');
                     }
                 }, 1000);
             }, function (response) {
@@ -27152,9 +27093,6 @@ exports.default = {
         }
     },
     computed: {
-        getAlbumID: function getAlbumID() {
-            return this.$store.getters.get_selected_album_ID;
-        },
         getLibrarySavedState: function getLibrarySavedState() {
             return this.$store.getters.get_library_saved_state;
         }
@@ -27605,1260 +27543,15 @@ if (false) {
 }
 
 /***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(31);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("0b020448", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-cf210494\",\"scoped\":true,\"hasInlineConfig\":true}!./style.css", function() {
-     var newContent = require("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-cf210494\",\"scoped\":true,\"hasInlineConfig\":true}!./style.css");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.mediaPopupWrapper[data-v-cf210494]{\n    position: fixed;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    background: rgba(0,0,0,0.5);\n    z-index: 9999;\n    padding: 50px;\n}\n.mediaPopupContainer[data-v-cf210494]{\n    position: fixed;\n    top: 10px;\n    left: 10px;\n    right: 10px;\n    bottom: 10px;\n    background-color: #FFFFFF;\n    -webkit-box-shadow: -1px 0px 20px 1px #333;\n            box-shadow: -1px 0px 20px 1px #333;\n    z-index: 9999;\n    overflow: hidden;\n}\n#popupContent[data-v-cf210494]{\n    width: 100%;\n    height: 100%;\n    text-align: center;\n    vertical-align: middle;\n    background-color: #fff;\n}\n#closePopupBtn[data-v-cf210494], #closeCropBtn[data-v-cf210494]{\n    margin-top: 5px;\n    position: absolute;\n    right: 10px;\n    color: #34495e;\n    cursor: pointer;\n}\n#closeCropBtn[data-v-cf210494]{\n    z-index: 1;\n}\n#filesMediaPopup[data-v-cf210494]{\n    height: calc(100% - 150px);\n}\n.text-container[data-v-cf210494]{\n    width: 100%;\n    height: 100%;\n    vertical-align: middle;\n}\n#popupContent p[data-v-cf210494]{\n    font-size: 18px;\n    color: #b8b8b8;\n    text-align: center;\n}\n#popupContent button[data-v-cf210494]{\n    width: 90px;\n    height: 40px;\n}\n#popupButtons[data-v-cf210494]{\n    bottom: 10px;\n    position: fixed;\n    left: 10px;\n    right: 10px;\n    display: block;\n    width: auto;\n    height: auto;\n}\n.popupContentLibrary #popupButtons[data-v-cf210494]{\n    padding-top: 10px;\n    border-top: 1px solid #EAEAEA;\n    margin-top: 2px;\n}\n#popupButtons hr[data-v-cf210494]{\n    margin: 0;\n    padding: 0;\n    border: 0;\n    border-top: 1px solid #EAEAEA;\n}\n.modal-open-test[data-v-cf210494]{\n    overflow: hidden !important;\n}\n#tabs[data-v-cf210494]{\n\n    width: 100%;\n    height: 50px;\n}\n#tabs .tabs-container[data-v-cf210494]{\n    height: 50px;\n}\n#tabs button[data-v-cf210494]{\n    height: 49px;\n    width: 100px;\n    border: none;\n    border-right: 1px solid #EAEAEA;\n    border-radius: 0;\n    margin: 0 !important;\n    float: left;\n}\n#tabs hr[data-v-cf210494]{\n    margin: 0;\n    padding: 0;\n    border: 0;\n    border-bottom: 1px solid #EAEAEA;\n    vertical-align: bottom;\n}\n#selectedFiles[data-v-cf210494]{\n    visibility: hidden;\n    position: absolute;\n}\n#popupButtons .btn-container[data-v-cf210494]{\n    float: right;\n    margin-right: 30px;\n    margin-top: -5px;\n}\n.slide-fade-enter-active[data-v-cf210494] {\n    -webkit-transition: all .4s ease;\n    transition: all .4s ease;\n}\n.slide-fade-leave-active[data-v-cf210494] {\n    -webkit-transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n    transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter[data-v-cf210494], .slide-fade-leave-to[data-v-cf210494]\n    /* .slide-fade-leave-active for <2.1.8 */ {\n    -webkit-transform: translateX(10px);\n            transform: translateX(10px);\n    opacity: 0;\n}\n.active[data-v-cf210494]{\n    color: #333;\n}\n.progress[data-v-cf210494]{\n    margin-bottom: 0;\n}\n.errorMsg[data-v-cf210494]{\n    font-size: 12px !important;\n    color: #800 !important;\n}\n.progressedImage[data-v-cf210494]{\n    width: 150px;\n    margin: 15px auto;\n}\n.complete[data-v-cf210494]{\n    background-color: #13b860;\n}\n.failed[data-v-cf210494]{\n    background-color: #b82c07;\n    width: 100%;\n}\n.complete .completedMsg[data-v-cf210494]{\n    display: none;\n    color: #fff !important;\n    font-size: 12px !important;\n}\n.failedMsg[data-v-cf210494]{\n    display: none;\n    color: #fff !important;\n    font-size: 12px !important;\n}\n.dropzone[data-v-cf210494] {\n    min-height: 300px;\n    border: 1px solid #e5e5e5;\n\n    width: 100%;\n    height: 100%;\n    vertical-align: middle;\n}\n\n/* Library extras */\n.popupContentLibrary[data-v-cf210494]{\n}\n.imageWrapperPopupMedia[data-v-cf210494]{\n\n    width: 100%;\n    height: 100%;\n}\n.imageContainerPopupMedia[data-v-cf210494]{\n    position: relative;\n    margin: 0;\n    padding: 0;\n    height: 100%;\n}\n#albumsContainer[data-v-cf210494]{\n    padding: 15px;\n    overflow: auto;\n    padding-bottom:50px;\n    height: 100%;\n}\n#filesMediaPopup2[data-v-cf210494], #albumsContainer[data-v-cf210494]{\n    padding: 15px;\n    overflow: auto;\n    padding-bottom:50px;\n    max-height: 668px;\n}\n#filterSidebarMediaPopup[data-v-cf210494]{\n    height: 50px;\n    border-bottom: 1px solid #EAEAEA;\n    padding: 5px;\n}\n.imageWrapper[data-v-cf210494]{\n    width: 149px;\n    height: auto;\n    border: 3px solid transparent;\n    display: inline-block;\n    padding: 5px;\n    margin: 0px;\n    text-align: center;\n    vertical-align: top;\n}\n.imageWrapper.active[data-v-cf210494]{\n    border: 3px solid #00a4e8;\n}\n.imageWrapper p[data-v-cf210494]{\n    color: #666 !important;\n    font-size: 12px !important;\n    margin-top: 5px;\n    word-break: break-all;\n}\n.singleImgContainer[data-v-cf210494]{\n    width: 100%;\n    height: 133px;\n}\n.singleImgContainer.selected[data-v-cf210494]{\n    border: 2px solid #1aafea;\n}\n.singleImgContainer img[data-v-cf210494]{\n    width: 100%;\n    height: 100%;\n}\n.searchBtnContainer button[data-v-cf210494]{\n    float: left;\n    height: 34px !important;\n}\n#editPanel[data-v-cf210494]{\n    background-color: #e4e4e4;\n    overflow-y: scroll;\n    padding-bottom: 50px;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    height: calc(100% - 150px);\n}\n#editPanel h5[data-v-cf210494]{\n    display: block;\n    text-align: left;\n    margin-left: 10px;\n}\n#editPanel .mediaDescriptions span[data-v-cf210494]{\n    text-align: left;\n    clear: both;\n    display: block;\n    margin-top: 5px;\n    font-size: 12px;\n    word-break: break-all;\n}\n#editPanel hr[data-v-cf210494]{\n    margin-top: 30px;\n}\n#editPanel span#filename[data-v-cf210494]{\n    color: #333;\n}\n#editPanel img#detailsUrl[data-v-cf210494]{\n    width: 100%;\n}\n#editPanel #editImage[data-v-cf210494]{\n    color: #0096dc;\n    display: block;\n    text-align: left;\n    margin-top: 5px;\n    cursor: pointer;\n}\n#editPanel #deleteImage[data-v-cf210494]{\n    color: #df0000;\n    display: block;\n    text-align: left;\n    margin-top: 5px;\n    cursor: pointer;\n}\n#editPanel #deleteImageMulti[data-v-cf210494]{\n    margin-top: 10px;\n}\n#editPanel #assignWatermarkBtn[data-v-cf210494]{\n    color: #14cf95;\n    display: block;\n    text-align: left;\n    margin-top: 5px;\n    cursor: pointer;\n}\n#editPanel #assignWatermarkBtnMulti[data-v-cf210494]{\n    margin-top: 10px;\n}\n#detailsImage[data-v-cf210494]{\n    width: 100%;\n}\n.mainBaseMedia #editPanel[data-v-cf210494]{\n    background-color: #e4e4e4;\n    top: 0;\n}\n.mainBaseMedia #editPanel h5[data-v-cf210494]{\n    display: block;\n    text-align: left;\n    margin-left: 10px;\n}\n.mainBaseMedia #editPanel .mediaDescriptions span[data-v-cf210494]{\n    text-align: left;\n    clear: both;\n    display: block;\n    margin-top: 5px;\n    font-size: 12px;\n    word-break: break-all;\n}\n.mainBaseMedia #editPanel hr[data-v-cf210494]{\n    margin-top: 30px;\n}\n.mainBaseMedia #editPanel span#filename[data-v-cf210494]{\n    color: #333;\n}\n.mainBaseMedia #editPanel img#detailsUrl[data-v-cf210494]{\n    width: 100%;\n}\n.mainBaseMedia #editPanel #editImage[data-v-cf210494]{\n    color: #0096dc;\n    display: block;\n    text-align: left;\n    margin-top: 5px;\n    cursor: pointer;\n}\n.mainBaseMedia #editPanel #deleteImage[data-v-cf210494]{\n    color: #df0000;\n    display: block;\n    text-align: left;\n    margin-top: 5px;\n    cursor: pointer;\n}\n.mainBaseMedia #editPanel #deleteImageMulti[data-v-cf210494]{\n    margin-top: 10px;\n}\n.mainBaseMedia #editPanel #assignWatermarkBtn[data-v-cf210494]{\n    color: #14cf95;\n    display: block;\n    text-align: left;\n    margin-top: 5px;\n    cursor: pointer;\n}\n.mainBaseMedia #editPanel #assignWatermarkBtnMulti[data-v-cf210494]{\n    margin-top: 10px;\n}\n.detailsFromContainer .form-group[data-v-cf210494]{\n    margin-top: 15px;\n}\n.modal[data-v-cf210494]{\n    background:rgba(0,0,0,0.7);\n}\n.modal-dialog[data-v-cf210494]{\n    margin-top: 15%;\n}\n.modal .modal-title[data-v-cf210494]{\n    text-align: left;\n}\n.modal .close[data-v-cf210494]{\n    width: auto !important;\n    height: auto !important;\n}\n\n/* Crop component */\n.cropImageWrapper[data-v-cf210494]{\n    position: fixed;\n    height: 100%;\n    width: 100%;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    background: rgba(0,0,0,0.5);\n    z-index: 9999;\n    padding: 50px;\n    overflow: auto;\n}\n.cropImageContainer[data-v-cf210494]{\n    height: 100%;\n    width: 100%;\n    background-color: #FFFFFF;\n    border: 1px solid #999;\n    -webkit-box-shadow: -1px 0px 20px 1px #333;\n            box-shadow: -1px 0px 20px 1px #333;\n    padding: 0;\n}\n#cropImageBtns[data-v-cf210494]{\n    clear: both;\n}\n#cropImageBtns hr[data-v-cf210494]{\n    margin: 0;\n    margin-bottom: 5px;\n}\n#cropImageBtns .btn-container[data-v-cf210494]{\n    text-align: right;\n}\n\n/******************************************/\ndiv.image-decorator[data-v-cf210494] {\n    /*display : inline-block !important;*/\n    margin: 0 auto;\n    padding : 5px 5px 5px 5px !important;\n    position: relative !important;\n    margin-bottom: 10px !important;\n}\n.select-areas-background-area[data-v-cf210494]{\n    background-image: url(/images/example.jpg) ;\n}\n#imageToBeCropped[data-v-cf210494]{\n    left:0;\n}\n#thumbPanel[data-v-cf210494]{\n    height: calc(100% - (20px + 30px));\n    padding: 0;\n    background-color: #e4e4e4;\n}\n#cropImgPanel[data-v-cf210494]{\n    height: 100%;\n    display: table;\n}\n#cropImgPanel .cropTitle[data-v-cf210494], #cropImgPanel .image-decorator[data-v-cf210494], #cropImgPanel #popupButtons[data-v-cf210494]{\n    display: table-row;\n}\n.cropImageContainer #popupButtons[data-v-cf210494]{\n    display: inline-table;\n}\n#cropImgPanel .cropTitle[data-v-cf210494]{\n    height: 50px;\n}\n.cropImageContainer .cropTitle h1[data-v-cf210494]{\n    font-size: 18px;\n}\n.image-decorator div[data-v-cf210494]:first-child{\n    margin: 0 auto;\n}\n#imagePrev[data-v-cf210494]{\n    width: 90%;\n    height: 150px;\n    margin-top: 40px;\n    background-repeat: no-repeat;\n}\n\n/* Original view not the popup */\n.mediaContainer[data-v-cf210494]{\n    height: 100%;\n    width: 100%;\n    background-color: #FFFFFF;\n    display: table;\n    border: 1px solid #EAEAEA;\n}\n.mediaContainer .text-container[data-v-cf210494], .mediaContainer .dropzone[data-v-cf210494]{\n    height: 300px !important;\n}\n.albumPanel[data-v-cf210494]{\n    margin:0;\n    padding:0;\n    height: 100%;\n}\n.albumTitle[data-v-cf210494]{\n    margin:0;\n}\n.albumTitle h2[data-v-cf210494]{\n    margin: 14px 10px 6px;\n}\n.albumTitle button[data-v-cf210494]{\n    margin: 5px 5px;\n}\n.addAlbumBtn[data-v-cf210494]{\n    margin-left:20px;\n}\n.albumPanelContent[data-v-cf210494]{\n    margin:0;\n    padding:0;\n    height: calc(100% - 150px);\n}\n.albumWrapper[data-v-cf210494]{\n    margin-top: 30px;\n    cursor: pointer;\n}\n.albumWrapper .albumContainer[data-v-cf210494]{\n    border: 1px solid #EAEAEA;\n    height: 370px;\n}\n.albumWrapper .albumContainer .imagesContainer[data-v-cf210494]{\n    overflow: hidden;\n    height: 300px;\n}\n.albumWrapper .albumContainer .imagesContainer .image[data-v-cf210494]{\n    overflow: hidden;\n    height: 150px;\n    padding:0;\n}\n.albumWrapper .albumContainer .imagesContainer .image img[data-v-cf210494]{\n    width: 100%;\n}\n.albumWrapper .albumContainer .titleContainer[data-v-cf210494]{\n    height: 30px;\n    width:100%;\n}\n.albumWrapper .albumContainer .titleContainer h4[data-v-cf210494]{\n    text-align: center;\n    font-size: 14px;\n    margin:0;\n    padding-top:10px;\n}\n.albumWrapper .albumContainer .btnContainer[data-v-cf210494]{\n    height: 35px;\n    width: 100%;\n    text-align: center;\n}\n.albumsHeader h2[data-v-cf210494],.albumsHeader button[data-v-cf210494] {\n    float: left;\n}\n.albumsHeader h2[data-v-cf210494]{\n    margin-left: 20px;\n}\nlabel.btn.btn-default.active[data-v-cf210494] {\n    color: #333 !important;\n}\n@media only screen and (max-width: 1600px) {\n#filesMediaPopup[data-v-cf210494], #albumsContainer[data-v-cf210494] {\n        top: 0;\n        left: 0;\n        right: 300px;\n        bottom: 0;\n        overflow: auto;\n        outline: 0;\n}\n#filesMediaPopup2[data-v-cf210494], #albumsContainer[data-v-cf210494]{\n        position: relative;\n        overflow: auto;\n        outline: 0;\n}\n}\n@media only screen and (min-width: 1601px) {\n#filesMediaPopup[data-v-cf210494], #albumsContainer[data-v-cf210494] {\n        left: 0;\n        right: 300px;\n        bottom: 0;\n        overflow: auto;\n        outline: 0;\n}\n#filesMediaPopup2[data-v-cf210494], #albumsContainer[data-v-cf210494]{\n        position: relative;\n        overflow: auto;\n        outline: 0;\n}\n#editPanel[data-v-cf210494] {\n        overflow-y: scroll;\n        padding-bottom: 50px;\n        position: absolute;\n        top: 50px;\n        right: 0;\n        bottom: 0;\n}\n.mainBaseMedia #editPanel[data-v-cf210494] {\n        overflow-y: scroll;\n        padding-bottom: 50px;\n        position: relative;\n}\n}", ""]);
-
-// exports
-
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _globalComputed = __webpack_require__(3);
-
-var _globalMethods = __webpack_require__(4);
-
-var _globalData = __webpack_require__(5);
-
-var _globalUpdated = __webpack_require__(6);
-
-var _EditAlbum = __webpack_require__(33);
-
-var _EditAlbum2 = _interopRequireDefault(_EditAlbum);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-    mixins: [_globalComputed.globalComputed, _globalMethods.globalMethods, _globalData.globalData, _globalUpdated.globalUpdated],
-    mounted: function mounted() {
-        var _this = this;
-
-        var url = this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/album/get-all/' + 1;
-        if (this.$route.query.menu_link_id !== undefined) {
-            url += '?menu_link_id=' + this.$route.query.menu_link_id;
-        }
-
-        var global = this;
-        // get all albums with the related images
-        this.$http.get(url).then(function (resp) {
-            _this.$store.dispatch('setList', resp.body);
-        }).then(function (resp) {
-            _this.isLoading = false;
-        });
-
-        $('#albumsContainer').bind('scroll', function () {
-            if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
-                global.page = global.page + 1;
-                global.loadMore();
-            }
-        });
-
-        // translations
-        this.trans = {
-            __addBtn: this.__('base.addBtn'),
-            __editBtn: this.__('base.editBtn'),
-            __albums: this.__('media.albums'),
-            __noResults: this.__('base.noResults')
-        };
-    },
-    data: function data() {
-        return {
-            is_active: false,
-            page: 1,
-            isLoading: true
-        };
-    },
-
-    components: {
-        'edit': _EditAlbum2.default
-    },
-    methods: {
-        // use translation method of vuex
-        __: function __(key) {
-            this.$store.dispatch('__', key);
-            return this.getTranslation;
-        },
-
-        // open and sent album_id to edit component
-        editComponent: function editComponent(id, type) {
-            this.is_active = true;
-            this.$refs.edit.watchAlbumID(id);
-        },
-        openAlbum: function openAlbum(id) {
-            this.$store.commit('setSelectedAlbumID', id);
-        },
-        loadMore: function loadMore() {
-            var _this2 = this;
-
-            var url = this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/album/get-all/' + this.page;
-            if (this.$route.query.menu_link_id !== undefined) {
-                url += '?menu_link_id=' + this.$route.query.menu_link_id;
-            }
-            // load more albums
-            this.$http.get(url).then(function (resp) {
-                var count = _this2.getList.data.length;
-                var newList = resp.body.data;
-                for (var k in newList) {
-                    _this2.$store.commit('pushToList', newList[k]);
-                }
-            });
-        }
-    }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(34)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(36)
-/* template */
-var __vue_template__ = __webpack_require__(37)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "vendor/acciocms/core/src/resources/views/components/media/EditAlbum.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1a686f23", Component.options)
-  } else {
-    hotAPI.reload("data-v-1a686f23", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(35);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("22ecccc7", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1a686f23\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EditAlbum.vue", function() {
-     var newContent = require("!!../../../../../../../../node_modules/css-loader/index.js!../../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1a686f23\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EditAlbum.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.albumLangTabs button{\n    margin: 10px 2px;\n    height: 30px;\n    width: 70px;\n    border: 1px solid #dad6d6;\n    background-color: #f3f0f0;\n}\n.albumLangTabs button.active{\n    background-color: #fdfafa !important;\n}\n.formContainer{\n    margin-top: 20px;\n}\n.tabContent{\n    display: none;\n}\n.tabContent.active{\n    display: block;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _globalComputed = __webpack_require__(3);
-
-var _globalMethods = __webpack_require__(4);
-
-var _globalData = __webpack_require__(5);
-
-var _globalUpdated = __webpack_require__(6);
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-    mixins: [_globalComputed.globalComputed, _globalMethods.globalMethods, _globalData.globalData, _globalUpdated.globalUpdated],
-    mounted: function mounted() {
-        // translations
-        this.trans = {
-            __editAlbumTitle: this.__('media.editAlbumTitle'),
-            __title: this.__('base.title'),
-            __description: this.__('base.description'),
-            __true: this.__('base.booleans.true'),
-            __false: this.__('base.booleans.false'),
-            __saveBtn: this.__('base.saveBtn'),
-            __cancelBtn: this.__('base.cancelBtn'),
-            __deleteBtn: this.__('base.deleteBtn'),
-            __confirmBtn: this.__('base.confirmBtn'),
-            __closeBtn: this.__('base.closeBtn'),
-            __deleteAlbumWarning: this.__('media.deleteAlbumWarning')
-        };
-    },
-    data: function data() {
-        return {
-            trans: {},
-            album: "",
-            albumID: "",
-            isLoading: true
-        };
-    },
-
-    updated: function updated() {
-        $(".tabBtn").click(function (e) {
-            var index = $(this).attr('data-index');
-            $(".tabBtn").removeClass('active');
-            $(this).addClass('active');
-            $('.tabContent').hide();
-            $('#tabContent-' + index).show();
-        });
-    },
-    props: ['is_active', 'menu_link_id', 'albumListPagination'],
-    methods: {
-        // use translation method of vuex
-        __: function __(key) {
-            this.$store.dispatch('__', key);
-            return this.getTranslation;
-        },
-
-        watchAlbumID: function watchAlbumID(id) {
-            var _this = this;
-
-            this.isLoading = true;
-            // get the album info if we are updating
-            this.$http.get(this.basePath + '/' + this.getAdminPrefix + '/' + this.getCurrentLang + '/json/album/details/' + id).then(function (resp) {
-                _this.album = resp.body.album;
-                _this.albumID = id;
-            }).then(function (resp) {
-                _this.isLoading = false;
-            });
-        },
-        // this function checks if user has permissions to a specific language
-        hasPermissionForLang: function hasPermissionForLang(langID) {
-            // if is admin return true
-            if (this.getGlobalPermissions.global !== undefined && this.getGlobalPermissions.global.admin !== undefined) {
-                return true;
-            }
-            // check language permission if user is not admin
-            if (this.getGlobalPermissions.Language !== undefined && this.getGlobalPermissions.Language.id) {
-                var allowedLanguageIDs = this.getGlobalPermissions.Language.id;
-                if (allowedLanguageIDs.indexOf(langID) === -1) {
-                    return false;
-                }
-            }
-            return true;
-        },
-
-        // makes the first language tab active
-        isActive: function isActive(index) {
-            if (index == 0) {
-                return 'active';
-            }
-            return '';
-        },
-        changeVisibility: function changeVisibility(option, lang) {
-            this.album[lang].isVisible = option;
-        },
-        store: function store(e) {
-            var _this2 = this;
-
-            var menu_link_id = '';
-            if (this.menu_link_id !== undefined) {
-                menu_link_id = this.menu_link_id;
-            }
-            var request = {
-                album: this.album,
-                albumID: this.albumID,
-                menu_link_id: menu_link_id
-            };
-
-            this.$store.dispatch('store', { data: request, url: this.basePath + '/' + this.getAdminPrefix + "/json/album/store", error: "Album could not be stored. Please try again later." }).then(function (resp) {
-                _this2.refreshList(); // refresh the list of albums
-                _this2.$emit('closeEditPanel');
-                _this2.resetForm();
-            });
-        },
-
-        // this function is used to refresh the list of albums
-        refreshList: function refreshList() {
-            var _this3 = this;
-
-            var url = this.basePath + '/' + this.getAdminPrefix + '/' + this.getCurrentLang + '/json/album/get-all/1';
-            if (this.menu_link_id !== undefined) {
-                url += '?menu_link_id=' + this.menu_link_id;
-            }
-
-            // get all albums with the related images
-            this.$http.get(url).then(function (resp) {
-                _this3.$store.dispatch('setList', resp.body);
-            });
-        },
-
-        // reset form
-        resetForm: function resetForm() {
-            for (var k in this.album) {
-                this.album[k].title = '';
-                this.album[k].isVisible = true;
-                this.album[k].description = '';
-            }
-        },
-
-        // open confirmation modal
-        openModal: function openModal(e) {
-            $(".modal").css("opacity", 1);
-            $(".modal").show();
-        },
-        closeModal: function closeModal(e) {
-            $(".modal").hide();
-        },
-        confirmSelected: function confirmSelected() {
-            var _this4 = this;
-
-            // get the album info if we are updating
-            this.$http.get(this.basePath + '/' + this.getAdminPrefix + '/' + this.getCurrentLang + '/json/album/delete/' + this.albumID).then(function (resp) {
-                $(".modal").hide();
-                var response = resp.body;
-                _this4.$store.dispatch('handleErrors', { response: response });
-                _this4.$emit('closeEditPanel');
-                _this4.resetForm();
-                _this4.refreshList(); // refresh the list of albums
-            });
-        }
-    },
-    computed: {
-        getGlobalPermissions: function getGlobalPermissions() {
-            // return user permissions
-            return this.$store.getters.get_global_data.permissions;
-        }
-    }
-};
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm.is_active
-    ? _c(
-        "div",
-        { staticClass: "albumsEditFormWrapper" },
-        [
-          _c("div", { staticClass: "albumTitle" }, [
-            _c("h2", [_vm._v(_vm._s(_vm.trans.__editAlbumTitle))])
-          ]),
-          _vm._v(" "),
-          _vm.isLoading
-            ? _c("spinner", {
-                attrs: { width: "30px", height: "30px", border: "5px" }
-              })
-            : _vm._e(),
-          _vm._v(" "),
-          !_vm.isLoading
-            ? [
-                _c(
-                  "div",
-                  { staticClass: "albumLangTabs" },
-                  _vm._l(_vm.album, function(language, key, index) {
-                    return _c(
-                      "button",
-                      {
-                        class: "tabBtn " + _vm.isActive(index),
-                        attrs: {
-                          type: "button",
-                          id: "tab-" + index,
-                          "data-index": index
-                        }
-                      },
-                      [_vm._v(_vm._s(language.langName))]
-                    )
-                  })
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "formContainer" }, [
-                  _c(
-                    "form",
-                    [
-                      _vm._l(_vm.album, function(album, key, index) {
-                        return _c(
-                          "div",
-                          {
-                            class: "tabContent " + _vm.isActive(index),
-                            attrs: { id: "tabContent-" + index }
-                          },
-                          [
-                            _c(
-                              "div",
-                              {
-                                staticClass: "form-group clearfix",
-                                attrs: { id: "form-group-title_" + key }
-                              },
-                              [
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass:
-                                      "control-label col-md-12 col-sm-12 col-xs-12"
-                                  },
-                                  [_vm._v(_vm._s(_vm.trans.__title))]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "col-md-12 col-sm-12 col-xs-12"
-                                  },
-                                  [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: album.title,
-                                          expression: "album.title"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: { type: "text" },
-                                      domProps: { value: album.title },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            album,
-                                            "title",
-                                            $event.target.value
-                                          )
-                                        }
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _vm._l(
-                                      _vm.StoreResponse.errors["title_" + key],
-                                      function(error) {
-                                        return _vm.StoreResponse.errors[
-                                          "title_" + key
-                                        ]
-                                          ? _c(
-                                              "div",
-                                              { staticClass: "alert" },
-                                              [_vm._v(_vm._s(error))]
-                                            )
-                                          : _vm._e()
-                                      }
-                                    )
-                                  ],
-                                  2
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass: "form-group clearfix",
-                                attrs: { id: "form-group-description_" + key }
-                              },
-                              [
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass:
-                                      "control-label col-md-12 col-sm-12 col-xs-12"
-                                  },
-                                  [_vm._v(_vm._s(_vm.trans.__description))]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "col-md-12 col-sm-12 col-xs-12"
-                                  },
-                                  [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: album.description,
-                                          expression: "album.description"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: { type: "text" },
-                                      domProps: { value: album.description },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
-                                          }
-                                          _vm.$set(
-                                            album,
-                                            "description",
-                                            $event.target.value
-                                          )
-                                        }
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _vm._l(
-                                      _vm.StoreResponse.errors[
-                                        "description_" + key
-                                      ],
-                                      function(error) {
-                                        return _vm.StoreResponse.errors[
-                                          "description_" + key
-                                        ]
-                                          ? _c(
-                                              "div",
-                                              { staticClass: "alert" },
-                                              [_vm._v(_vm._s(error))]
-                                            )
-                                          : _vm._e()
-                                      }
-                                    )
-                                  ],
-                                  2
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass: "form-group clearfix",
-                                attrs: { id: "form-group-isVisible" }
-                              },
-                              [
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass:
-                                      "control-label col-md-3 col-sm-3 col-xs-12"
-                                  },
-                                  [_vm._v(_vm._s(_vm.trans.__visible))]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "col-md-12 col-sm-12 col-xs-12"
-                                  },
-                                  [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "btn-group",
-                                        attrs: {
-                                          id: "isVisible",
-                                          "data-toggle": "buttons"
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "label",
-                                          {
-                                            class: {
-                                              active: album.isVisible,
-                                              "btn btn-default": true
-                                            },
-                                            attrs: {
-                                              "data-toggle-class":
-                                                "btn-primary",
-                                              "data-toggle-passive-class":
-                                                "btn-default"
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.changeVisibility(true, key)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("input", {
-                                              attrs: {
-                                                type: "radio",
-                                                name: "isVisible",
-                                                value: "true"
-                                              }
-                                            }),
-                                            _vm._v(
-                                              "   " +
-                                                _vm._s(_vm.trans.__true) +
-                                                "  \n                                "
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "label",
-                                          {
-                                            class: {
-                                              active: !album.isVisible,
-                                              "btn btn-primary": true
-                                            },
-                                            attrs: {
-                                              "data-toggle-class":
-                                                "btn-primary",
-                                              "data-toggle-passive-class":
-                                                "btn-default"
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.changeVisibility(false, key)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("input", {
-                                              attrs: {
-                                                type: "radio",
-                                                name: "isVisible",
-                                                value: "false"
-                                              }
-                                            }),
-                                            _vm._v(
-                                              " " +
-                                                _vm._s(_vm.trans.__false) +
-                                                "\n                                "
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _vm._l(
-                                          _vm.StoreResponse.errors.isVisible,
-                                          function(error) {
-                                            return _vm.StoreResponse.errors
-                                              .isVisible
-                                              ? _c(
-                                                  "div",
-                                                  { staticClass: "alert" },
-                                                  [_vm._v(_vm._s(error))]
-                                                )
-                                              : _vm._e()
-                                          }
-                                        )
-                                      ],
-                                      2
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          ]
-                        )
-                      }),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group clearfix" }, [
-                        _c(
-                          "div",
-                          { staticClass: "col-md-12 col-sm-12 col-xs-12" },
-                          [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-primary",
-                                attrs: { type: "button" },
-                                on: { click: _vm.store }
-                              },
-                              [_vm._v(_vm._s(_vm.trans.__saveBtn))]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-info",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.$emit("closeEditPanel")
-                                  }
-                                }
-                              },
-                              [_vm._v(_vm._s(_vm.trans.__cancelBtn))]
-                            ),
-                            _vm._v(" "),
-                            _vm.albumID
-                              ? _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-danger",
-                                    attrs: { type: "button" },
-                                    on: { click: _vm.openModal }
-                                  },
-                                  [_vm._v(_vm._s(_vm.trans.__deleteBtn))]
-                                )
-                              : _vm._e()
-                          ]
-                        )
-                      ])
-                    ],
-                    2
-                  )
-                ])
-              ]
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "modal fade bs-example-modal-sm",
-              attrs: { tabindex: "-1", role: "dialog", "aria-hidden": "true" }
-            },
-            [
-              _c("div", { staticClass: "modal-dialog modal-sm" }, [
-                _c("div", { staticClass: "modal-content" }, [
-                  _c("div", { staticClass: "modal-header" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "close",
-                        attrs: { type: "button" },
-                        on: { click: _vm.closeModal }
-                      },
-                      [
-                        _c("span", { attrs: { "aria-hidden": "true" } }, [
-                          _vm._v("X")
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "h4",
-                      {
-                        staticClass: "modal-title",
-                        attrs: { id: "myModalLabel2" }
-                      },
-                      [_vm._v(_vm._s(_vm.trans.__confirmBtn))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "modal-body" }, [
-                    _c("h4", [_vm._v(_vm._s(_vm.trans.__deleteAlbumWarning))])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "modal-footer" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-default",
-                        attrs: { type: "button", "data-dismiss": "modal" },
-                        on: { click: _vm.closeModal }
-                      },
-                      [_vm._v(_vm._s(_vm.trans.__closeBtn))]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "button" },
-                        on: { click: _vm.confirmSelected }
-                      },
-                      [_vm._v(_vm._s(_vm.trans.__confirmBtn))]
-                    )
-                  ])
-                ])
-              ])
-            ]
-          )
-        ],
-        2
-      )
-    : _vm._e()
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1a686f23", module.exports)
-  }
-}
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "popupContentLibrary",
-      attrs: { id: "popupContent", dusk: "popupContentLibrary" }
-    },
-    [
-      _c(
-        "div",
-        { staticClass: "imageWrapperPopupMedia", attrs: { id: "dropzone" } },
-        [
-          _c("div", { staticClass: "imageContainerPopupMedia" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "col-lg-12 col-md-12 col-sm-12 col-xs-12 albumsHeader",
-                attrs: { id: "filterSidebarMediaPopup" }
-              },
-              [
-                _c("h2", [_vm._v(_vm._s(_vm.trans.__albums))]),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary addAlbumBtn",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        _vm.editComponent(0, "create")
-                      }
-                    }
-                  },
-                  [_vm._v(_vm._s(_vm.trans.__addBtn))]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "clearfix" })
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "col-lg-9 col-md-7 col-sm-4 col-xs-12",
-                attrs: { id: "filesMediaPopup" }
-              },
-              [
-                !_vm.isLoading && !Object.keys(_vm.getList).length
-                  ? _c("div", [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.trans.__noResults) +
-                          "\n                "
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.isLoading
-                  ? _c("spinner", {
-                      attrs: { width: "30px", height: "30px", border: "5px" }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm._l(_vm.getList, function(album, index) {
-                  return !_vm.isLoading && Object.keys(_vm.getList).length
-                    ? _c(
-                        "article",
-                        {
-                          staticClass:
-                            "col-lg-3 col-md-4 col-sm-6 col-xs-12 albumWrapper"
-                        },
-                        [
-                          _c("div", { staticClass: "albumContainer" }, [
-                            _c(
-                              "div",
-                              {
-                                staticClass: "imagesContainer",
-                                on: {
-                                  click: function($event) {
-                                    _vm.openAlbum(album.albumID)
-                                  }
-                                }
-                              },
-                              [
-                                _vm._l(album.mediaList, function(
-                                  image,
-                                  imageIndex
-                                ) {
-                                  return imageIndex < 4
-                                    ? _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "image col-lg-6 col-md-6 col-sm-6"
-                                        },
-                                        [
-                                          _c("img", {
-                                            attrs: {
-                                              src: _vm.generateUrl(
-                                                "/" +
-                                                  image.fileDirectory +
-                                                  "/200x200/" +
-                                                  image.filename
-                                              )
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    : _vm._e()
-                                }),
-                                _vm._v(" "),
-                                album.mediaList !== undefined &&
-                                4 - album.mediaList.length > 0
-                                  ? _c(
-                                      "div",
-                                      _vm._l(
-                                        4 - album.mediaList.length,
-                                        function(imageIndex) {
-                                          return album.mediaList.length < 4
-                                            ? _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "image col-lg-6 col-md-6 col-sm-6"
-                                                },
-                                                [
-                                                  _c("img", {
-                                                    attrs: {
-                                                      src: _vm.resourcesUrl(
-                                                        "/images/photo-placeholder.png"
-                                                      )
-                                                    }
-                                                  })
-                                                ]
-                                              )
-                                            : _vm._e()
-                                        }
-                                      )
-                                    )
-                                  : _vm._e()
-                              ],
-                              2
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass: "titleContainer",
-                                on: {
-                                  click: function($event) {
-                                    _vm.openAlbum(album.albumID)
-                                  }
-                                }
-                              },
-                              [_c("h4", [_vm._v(_vm._s(album.title))])]
-                            ),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "btnContainer" }, [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-primary",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.editComponent(album.albumID, "edit")
-                                    }
-                                  }
-                                },
-                                [_vm._v(_vm._s(_vm.trans.__editBtn))]
-                              )
-                            ])
-                          ])
-                        ]
-                      )
-                    : _vm._e()
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.is_active,
-                    expression: "is_active"
-                  }
-                ],
-                staticClass: "col-lg-3 col-md-5 col-sm-8 col-xs-12",
-                attrs: { id: "editPanel" }
-              },
-              [
-                _c("edit", {
-                  ref: "edit",
-                  attrs: {
-                    is_active: _vm.is_active,
-                    menu_link_id: _vm.$route.query.menu_link_id,
-                    albumListPagination: _vm.page
-                  },
-                  on: {
-                    closeEditPanel: function($event) {
-                      _vm.is_active = false
-                    }
-                  }
-                })
-              ],
-              1
-            )
-          ])
-        ]
-      )
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-cf210494", module.exports)
-  }
-}
-
-/***/ }),
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
 /* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -55609,10 +54302,6 @@ var _PopupLibrary = __webpack_require__(80);
 
 var _PopupLibrary2 = _interopRequireDefault(_PopupLibrary);
 
-var _Albums = __webpack_require__(16);
-
-var _Albums2 = _interopRequireDefault(_Albums);
-
 var _globalComputed = __webpack_require__(3);
 
 var _globalMethods = __webpack_require__(4);
@@ -55623,6 +54312,28 @@ var _globalUpdated = __webpack_require__(6);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 exports.default = {
     mixins: [_globalComputed.globalComputed, _globalMethods.globalMethods, _globalData.globalData, _globalUpdated.globalUpdated],
     mounted: function mounted() {
@@ -55631,16 +54342,14 @@ exports.default = {
         this.trans = {
             __title: this.__('media.title'),
             __library: this.__('media.library'),
-            __upload: this.__('media.upload'),
-            __albums: this.__('media.albums')
+            __upload: this.__('media.upload')
         };
     },
 
     props: [],
     components: {
         'popup-upload': _PopupUpload2.default,
-        'popup-library': _PopupLibrary2.default,
-        'albums': _Albums2.default
+        'popup-library': _PopupLibrary2.default
     },
     data: function data() {
         return {};
@@ -55652,10 +54361,8 @@ exports.default = {
             this.$store.commit('setIsMediaOpen', false);
         },
         redirect: function redirect(to) {
-            if (this.getAlbumID == 0 && this.activeView == "library") {
+            if (this.activeView == "library") {
                 this.$refs.library.registerSavedState();
-            } else if (this.getAlbumID !== 0 && this.activeView == "albums") {
-                this.$refs.album.registerSavedState();
             }
             this.$store.commit('setPopUpActiveMediaView', to);
         }
@@ -55664,41 +54371,11 @@ exports.default = {
         activeView: function activeView() {
             return this.$store.getters.get_popup_active_media_view;
         },
-        getAlbumID: function getAlbumID() {
-            return this.$store.getters.get_selected_album_ID;
-        },
         getLibrarySavedState: function getLibrarySavedState() {
             return this.$store.getters.get_library_saved_state;
         }
     }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ }),
 /* 80 */
@@ -55942,30 +54619,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
     mixins: [_globalComputed.globalComputed, _globalMethods.globalMethods, _globalData.globalData, _globalUpdated.globalUpdated],
@@ -55973,7 +54626,6 @@ exports.default = {
         Datepicker: _vuejsDatepicker2.default,
         'crop-image': _CropImage2.default
     },
-    props: ['isAlbum'],
     mounted: function mounted() {
         var _this = this;
 
@@ -55983,69 +54635,29 @@ exports.default = {
         this.hasUpdatePermission = this.hasPermission('Media', 'update');
         this.hasDeletePermission = this.hasPermission('Media', 'delete');
 
-        // if the album ID is set
-        if (this.getAlbumID !== 0 && this.isAlbum) {
-            // instances from the saved state
-            this.searchTerm = this.getLibrarySavedState.album.searchTerm;
-            this.type = this.getLibrarySavedState.album.type;
-            this.from = this.getLibrarySavedState.album.from;
-            this.to = this.getLibrarySavedState.album.to;
-            this.selectedFiles = this.getLibrarySavedState.album.selectedFiles;
+        // Get the first 100 results
+        this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/media/json/get-list/' + 1).then(function (resp) {
+            _this.$store.commit('setMediaList', resp.body.list);
+            _this.$store.state.pagination = parseInt(resp.body.pagination);
+            _this.$store.state.imagesExtensions = resp.body.imagesExtensions;
+            _this.$store.state.videoExtensions = resp.body.videoExtensions;
+            _this.$store.state.audioExtensions = resp.body.audioExtensions;
+            _this.$store.state.documentExtensions = resp.body.documentExtensions;
+            _this.videoIconUrl = resp.body.videoIconUrl;
+            _this.audioIconUrl = resp.body.audioIconUrl;
+            _this.documentIconUrl = resp.body.documentIconUrl;
+            _this.$store.dispatch('closeLoading');
+        });
 
-            // get media IDs that have relation with this album ID
-            // get the album info if we are updating
-            this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/album/get-media-ids-of-album/' + this.getAlbumID).then(function (resp) {
-                _this.albumRelatedMediaIDs = resp.body;
-            });
-
-            /* Album Data */
-            this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/album/details/' + this.getAlbumID).then(function (resp) {
-                _this.albumDetails = resp.body.album[_this.$route.params.lang];
-                _this.$store.commit('setMediaList', resp.body.images);
-
-                _this.$store.state.pagination = 1;
-                _this.$store.state.imagesExtensions = resp.body.imagesExtensions;
-                _this.$store.state.videoExtensions = resp.body.videoExtensions;
-                _this.$store.state.audioExtensions = resp.body.audioExtensions;
-                _this.$store.state.documentExtensions = resp.body.documentExtensions;
-
-                _this.videoIconUrl = resp.body.videoIconUrl;
-                _this.audioIconUrl = resp.body.audioIconUrl;
-                _this.documentIconUrl = resp.body.documentIconUrl;
-
-                _this.$store.dispatch('closeLoading');
-            });
-            // if search has been made
-            if (this.getLibrarySavedState.album.filtered !== undefined && this.getLibrarySavedState.album.filtered) {
-                this.makeSearch();
-            }
-        } else {
-            // normal library -- all files
-
-            // Get the first 100 results
-            this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/media/json/get-list/' + 1).then(function (resp) {
-                _this.$store.commit('setMediaList', resp.body.list);
-                _this.$store.state.pagination = parseInt(resp.body.pagination);
-                _this.$store.state.imagesExtensions = resp.body.imagesExtensions;
-                _this.$store.state.videoExtensions = resp.body.videoExtensions;
-                _this.$store.state.audioExtensions = resp.body.audioExtensions;
-                _this.$store.state.documentExtensions = resp.body.documentExtensions;
-                _this.videoIconUrl = resp.body.videoIconUrl;
-                _this.audioIconUrl = resp.body.audioIconUrl;
-                _this.documentIconUrl = resp.body.documentIconUrl;
-                _this.$store.dispatch('closeLoading');
-            });
-
-            // instances from the saved state
-            this.searchTerm = this.getLibrarySavedState.library.searchTerm;
-            this.type = this.getLibrarySavedState.library.type;
-            this.from = this.getLibrarySavedState.library.from;
-            this.to = this.getLibrarySavedState.library.to;
-            this.selectedFiles = this.getLibrarySavedState.library.selectedFiles;
-            // if search has been made
-            if (this.getLibrarySavedState.library.filtered !== undefined && this.getLibrarySavedState.library.filtered) {
-                this.makeSearch();
-            }
+        // instances from the saved state
+        this.searchTerm = this.getLibrarySavedState.library.searchTerm;
+        this.type = this.getLibrarySavedState.library.type;
+        this.from = this.getLibrarySavedState.library.from;
+        this.to = this.getLibrarySavedState.library.to;
+        this.selectedFiles = this.getLibrarySavedState.library.selectedFiles;
+        // if search has been made
+        if (this.getLibrarySavedState.library.filtered !== undefined && this.getLibrarySavedState.library.filtered) {
+            this.makeSearch();
         }
 
         // if there are any selected files from saved state
@@ -56062,18 +54674,10 @@ exports.default = {
             }
         }
 
-        // get all albums with the related images
-        this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/album/get-all/0').then(function (resp) {
-            _this.albums = resp.body.data;
-        });
-
         var dropzone = document.getElementById('dropzone');
         var global = this;
         dropzone.ondragover = function () {
             this.className = 'dropzone dragover';
-            if (global.getAlbumID !== 0 && global.isAlbum) {
-                global.$store.commit('setLibrarySavedStateForUpload', { fromAlbum: true });
-            }
             global.$store.commit('setPopUpActiveMediaView', 'upload');
             return false;
         };
@@ -56086,7 +54690,6 @@ exports.default = {
 
         // translations
         this.trans = {
-            __backToAlbums: this.__('media.backToAlbums'),
             __term: this.__('media.form.term'),
             __type: this.__('media.form.type'),
             __search: this.__('base.search'),
@@ -56113,7 +54716,6 @@ exports.default = {
             __watermarkBtn: this.__('media.form.watermarkBtn'),
             __editBtn: this.__('media.form.editBtn'),
             __title: this.__('media.form.title'),
-            __album: this.__('media.form.album'),
             __credit: this.__('media.form.credit')
         };
         $('body').css('overflow', 'hidden');
@@ -56130,20 +54732,16 @@ exports.default = {
             type: 'false',
             from: '',
             to: '',
-            albums: [],
             format: 'd MMMM yyyy',
             noResults: false,
             selectedFiles: [],
             selectedFileChangedTitle: '',
             selectedFileChangedCredit: '',
             selectedFileChangedDescription: '',
-            selectedFileAlbums: [],
             selectedOptionForModal: "",
             hasUpdatePermission: true,
             hasDeletePermission: false,
             multiselect: false,
-            albumRelatedMediaIDs: [],
-            albumDetails: '',
             selectedMediaFilesFromSavedState: [],
             pageNumber: 1,
             mediaCount: 0
@@ -56230,11 +54828,7 @@ exports.default = {
                 selectedFiles: this.selectedFiles,
                 filtered: true
             };
-            if (this.isAlbum) {
-                this.$store.commit('setLibrarySavedStateForAlbum', obj);
-            } else {
-                this.$store.commit('setLibrarySavedStateForLibrary', obj);
-            }
+            this.$store.commit('setLibrarySavedStateForLibrary', obj);
 
             var request = {
                 term: this.searchTerm,
@@ -56320,13 +54914,10 @@ exports.default = {
             $("#detailsImage").attr('src', src + "?" + rand);
         },
         selectFile: function selectFile(event) {
-            var _this5 = this;
-
             var currentClicked = '';
             var selectedIndex = '';
             var removedSelectedIndex = '';
             var multiFilesSelectedIndexes = []; // when selecting multiple images with shift
-            this.selectedFileAlbums = [];
 
             var path = event.path || event.composedPath && event.composedPath();
 
@@ -56415,11 +55006,6 @@ exports.default = {
             // if only one file is selected open edit panel
             if (this.selectedFiles.length == 1) {
                 this.populateEditPanel();
-
-                // get related albums
-                this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/album/get-album-relation/' + this.selectedFiles[0].mediaID).then(function (resp) {
-                    _this5.selectedFileAlbums = resp.body;
-                });
             } else if (this.selectedFiles.length > 1) {
                 this.multiselect = true;
             } else {
@@ -56439,7 +55025,7 @@ exports.default = {
 
         // submit the edit -- edit a media file
         editMedia: function editMedia() {
-            var _this6 = this;
+            var _this5 = this;
 
             // open loading
             this.$store.dispatch('openLoading');
@@ -56447,19 +55033,18 @@ exports.default = {
             this.selectedFiles[0].title = this.selectedFileChangedTitle;
             this.selectedFiles[0].credit = this.selectedFileChangedCredit;
             this.selectedFiles[0].description = this.selectedFileChangedDescription;
-            this.selectedFiles[0].selectedFileAlbums = this.selectedFileAlbums;
             this.$http.post(this.basePath + '/' + this.$route.params.adminPrefix + '/media/json/edit', this.selectedFiles[0]).then(function (resp) {
                 var resultMsg = "";
                 var type = "success";
                 if (resp.body == "OK") {
-                    resultMsg = _this6.trans.__editedSuccessfully;
-                    _this6.reset(false);
+                    resultMsg = _this5.trans.__editedSuccessfully;
+                    _this5.reset(false);
                 } else {
                     type = "error";
-                    resultMsg = _this6.trans.__editedFailed;
+                    resultMsg = _this5.trans.__editedFailed;
                 }
                 // close loading
-                _this6.$store.dispatch('closeLoading');
+                _this5.$store.dispatch('closeLoading');
 
                 new Noty({
                     type: type,
@@ -56495,7 +55080,7 @@ exports.default = {
 
         // delete the selected media file
         deleteSelected: function deleteSelected() {
-            var _this7 = this;
+            var _this6 = this;
 
             // open loading
             this.$store.dispatch('openLoading');
@@ -56506,7 +55091,7 @@ exports.default = {
             var global = this;
             this.$http.post(this.basePath + '/' + this.$route.params.adminPrefix + '/media/json/delete', selectedFiles).then(function (resp) {
                 if (resp.body == "OK") {
-                    _this7.reset(false);
+                    _this6.reset(false);
                     $(".modal").hide();
                     $(".imageWrapper.active").removeClass("active");
                     $("#editPanel .row").hide(50);
@@ -56529,13 +55114,13 @@ exports.default = {
                     }).show();
                 }
                 // close loading
-                _this7.$store.dispatch('closeLoading');
+                _this6.$store.dispatch('closeLoading');
                 $("#editPanel .row").hide(50);
-                _this7.multiselect = false;
+                _this6.multiselect = false;
             });
         },
         setWatermark: function setWatermark() {
-            var _this8 = this;
+            var _this7 = this;
 
             // open loading
             this.$store.dispatch('openLoading');
@@ -56569,10 +55154,10 @@ exports.default = {
                     }).show();
                 }
                 // close loading
-                _this8.$store.dispatch('closeLoading');
+                _this7.$store.dispatch('closeLoading');
                 // remove edit panel
                 $("#editPanel .row").hide(50);
-                _this8.multiselect = false;
+                _this7.multiselect = false;
             });
         },
         closeModal: function closeModal() {
@@ -56589,7 +55174,6 @@ exports.default = {
         cancel: function cancel(event) {
             event.preventDefault();
             this.deleteSavedState();
-            this.$store.commit('setSelectedAlbumID', 0);
             this.$store.commit('setIsMediaOpen', false);
         },
         deleteSavedState: function deleteSavedState() {
@@ -56601,17 +55185,6 @@ exports.default = {
                     to: '',
                     filtered: false,
                     selectedFiles: []
-                },
-                album: {
-                    searchTerm: '',
-                    type: 'false',
-                    from: '',
-                    to: '',
-                    filtered: false,
-                    selectedFiles: []
-                },
-                upload: {
-                    fromAlbum: false
                 }
             });
         },
@@ -56673,7 +55246,6 @@ exports.default = {
                     // Insert images into editor
                     this.mediaOptions.froalaInstance.html.insert(html, false);
 
-                    this.$store.commit('setSelectedAlbumID', 0);
                     this.deleteSavedState();
                     this.$store.commit('setIsMediaOpen', false);
                     return;
@@ -56699,7 +55271,6 @@ exports.default = {
                 } else {
                     this.$store.commit('setMediaSelectedFiles', this.selectedFiles);
                 }
-                this.$store.commit('setSelectedAlbumID', 0);
                 this.deleteSavedState();
                 this.$store.commit('setIsMediaOpen', false);
             } else {
@@ -56713,12 +55284,10 @@ exports.default = {
                             var filesArr = [this.mediaOptions.inputName, this.selectedFiles];
                         }
                         this.$store.commit('setMediaSelectedFilesNested', filesArr);
-                        this.$store.commit('setSelectedAlbumID', 0);
                         this.deleteSavedState();
                         this.$store.commit('setIsMediaOpen', false);
                     } else {
                         this.$store.commit('setMediaSelectedFiles', this.selectedFiles);
-                        this.$store.commit('setSelectedAlbumID', 0);
                         this.deleteSavedState();
                         this.$store.commit('setIsMediaOpen', false);
                     }
@@ -56763,12 +55332,6 @@ exports.default = {
         },
         shouldHide: function shouldHide(type, id) {
             // this function hides files if they format is not required
-            if (this.getAlbumID !== 0 && this.isAlbum) {
-                if (this.albumRelatedMediaIDs.indexOf(id) == -1) {
-                    return false;
-                }
-            }
-
             if (this.mediaOptions.format == '') {
                 this.addMediaCount;
                 return true;
@@ -56778,24 +55341,6 @@ exports.default = {
 
             this.addMediaCount;
             return true;
-        },
-
-        // return view to album
-        backToAlbumList: function backToAlbumList() {
-            var obj = {
-                searchTerm: "",
-                type: "",
-                from: "",
-                to: "",
-                selectedFiles: [],
-                filtered: false
-            };
-            if (this.isAlbum) {
-                this.$store.commit('setLibrarySavedStateForAlbum', obj);
-            } else {
-                this.$store.commit('setLibrarySavedStateForLibrary', obj);
-            }
-            this.$store.commit('setSelectedAlbumID', 0);
         },
 
         // register the saved state of this component
@@ -56808,11 +55353,8 @@ exports.default = {
                 selectedFiles: this.selectedFiles,
                 filtered: this.getLibrarySavedState.library.filtered
             };
-            if (this.isAlbum) {
-                this.$store.commit('setLibrarySavedStateForAlbum', obj);
-            } else {
-                this.$store.commit('setLibrarySavedStateForLibrary', obj);
-            }
+
+            this.$store.commit('setLibrarySavedStateForLibrary', obj);
         },
         isFileSelected: function isFileSelected(mediaID) {
             if (this.selectedFiles.length > 0 && this.selectedMediaFilesFromSavedState.indexOf(mediaID) !== -1) {
@@ -56825,9 +55367,6 @@ exports.default = {
     computed: {
         getMediaSelectedFiles: function getMediaSelectedFiles() {
             return this.$store.getters.get_media_selected_files;
-        },
-        getAlbumID: function getAlbumID() {
-            return this.$store.getters.get_selected_album_ID;
         },
         getLibrarySavedState: function getLibrarySavedState() {
             return this.$store.getters.get_library_saved_state;
@@ -57066,41 +55605,6 @@ var render = function() {
                 attrs: { id: "filesMediaPopup" }
               },
               [
-                _vm.isAlbum
-                  ? _c("div", { staticClass: "x_title albumTitle" }, [
-                      _c("h2", { staticStyle: { margin: "0" } }, [
-                        _vm._v(_vm._s(_vm.albumDetails.title))
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "clearfix" }),
-                      _vm._v(" "),
-                      _c(
-                        "h4",
-                        {
-                          staticStyle: {
-                            cursor: "pointer",
-                            "text-align": "start",
-                            "font-size": "14px"
-                          },
-                          on: {
-                            click: function($event) {
-                              _vm.backToAlbumList()
-                            }
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-arrow-left backBtn",
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v(" " + _vm._s(_vm.trans.__backToAlbums))
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "clearfix" })
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
                 _vm.noResults || _vm.mediaCount == 0
                   ? _c("div", [
                       _vm._v(
@@ -57482,50 +55986,6 @@ var render = function() {
                                 { staticClass: "form-group clearfix" },
                                 [
                                   _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "control-label col-md-3 col-sm-3 col-xs-12"
-                                    },
-                                    [_vm._v(_vm._s(_vm.trans.__album))]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass: "col-md-9 col-sm-9 col-xs-12"
-                                    },
-                                    [
-                                      _c("multiselect", {
-                                        attrs: {
-                                          options: _vm.albums,
-                                          multiple: true,
-                                          "close-on-select": false,
-                                          "clear-on-select": false,
-                                          "hide-selected": true,
-                                          placeholder: _vm.trans.__pickSome,
-                                          label: "title",
-                                          "track-by": "title"
-                                        },
-                                        model: {
-                                          value: _vm.selectedFileAlbums,
-                                          callback: function($$v) {
-                                            _vm.selectedFileAlbums = $$v
-                                          },
-                                          expression: "selectedFileAlbums"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "form-group clearfix" },
-                                [
-                                  _c(
                                     "div",
                                     {
                                       staticClass:
@@ -57764,21 +56224,6 @@ var render = function() {
                 }
               },
               [_vm._v(_vm._s(_vm.trans.__library))]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-default",
-                class: { active: _vm.activeView == "albums" },
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    _vm.redirect("albums")
-                  }
-                }
-              },
-              [_vm._v(_vm._s(_vm.trans.__albums))]
             )
           ]),
           _vm._v(" "),
@@ -57788,27 +56233,10 @@ var render = function() {
         _vm.activeView == "upload" ? _c("popup-upload") : _vm._e(),
         _vm._v(" "),
         _vm.activeView == "library"
-          ? _c("popup-library", { ref: "library", attrs: { isAlbum: false } })
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.activeView == "albums"
-          ? [
-              _vm.getAlbumID != 0
-                ? _c("popup-library", {
-                    ref: "album",
-                    attrs: { isAlbum: true }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.getAlbumID == 0
-                ? _c("albums", {
-                    attrs: { menu_link_id: _vm.$route.query.menu_link_id }
-                  })
-                : _vm._e()
-            ]
+          ? _c("popup-library", { ref: "library" })
           : _vm._e()
       ],
-      2
+      1
     )
   ])
 }
@@ -67785,6 +66213,7 @@ var store = exports.store = new _vuex2.default.Store({
 
             //check author
             if (permissions.global !== undefined && permissions.global.author !== undefined) {
+
                 if (!appPermission && !hasSinglePermission) {
                     context.commit('setHasPermission', false);
                     return false;
@@ -67795,7 +66224,7 @@ var store = exports.store = new _vuex2.default.Store({
                     context.commit('setHasPermission', true);
                     return true;
                 }
-            } else if (permissions.global.author !== undefined && permissions.global.editor !== undefined) {
+            } else if (permissions.global !== undefined && permissions.global.author !== undefined && permissions.global.editor !== undefined) {
                 //check editor
                 if (appPermission || hasSinglePermission) {
                     context.commit('setHasPermission', true);
@@ -67837,8 +66266,7 @@ exports.default = {
         popUpActiveMediaView: '',
         openMediaOptions: { format: '', inputName: '', langSlug: '' },
         mediaSelectedFiles: {},
-        selectedAlbumID: 0,
-        // saved state for the library of all media files and files of a album
+        // saved state for the library of all media files
         librarySavedState: {
             library: {
                 searchTerm: '',
@@ -67847,17 +66275,6 @@ exports.default = {
                 to: '',
                 filtered: false,
                 selectedFiles: []
-            },
-            album: {
-                searchTerm: '',
-                type: 'false',
-                from: '',
-                to: '',
-                filtered: false,
-                selectedFiles: []
-            },
-            upload: {
-                fromAlbum: false
             }
         }
     },
@@ -67873,9 +66290,6 @@ exports.default = {
         },
         get_media_selected_files: function get_media_selected_files(state) {
             return state.mediaSelectedFiles;
-        },
-        get_selected_album_ID: function get_selected_album_ID(state) {
-            return state.selectedAlbumID;
         },
         get_library_saved_state: function get_library_saved_state(state) {
             return state.librarySavedState;
@@ -67900,17 +66314,11 @@ exports.default = {
         setMediaSelectedFiles: function setMediaSelectedFiles(state, mediaSelectedFiles) {
             state.mediaSelectedFiles = mediaSelectedFiles;
         },
-        setSelectedAlbumID: function setSelectedAlbumID(state, selectedAlbumID) {
-            state.selectedAlbumID = selectedAlbumID;
-        },
         setLibrarySavedState: function setLibrarySavedState(state, librarySavedState) {
             state.librarySavedState = librarySavedState;
         },
         setLibrarySavedStateForLibrary: function setLibrarySavedStateForLibrary(state, savedState) {
             state.librarySavedState.library = savedState;
-        },
-        setLibrarySavedStateForAlbum: function setLibrarySavedStateForAlbum(state, savedState) {
-            state.librarySavedState.album = savedState;
         },
         setLibrarySavedStateForUpload: function setLibrarySavedStateForUpload(state, savedState) {
             state.librarySavedState.upload = savedState;
