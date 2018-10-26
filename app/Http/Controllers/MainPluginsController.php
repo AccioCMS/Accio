@@ -15,8 +15,7 @@ abstract class MainPluginsController extends Controller{
             $this->middleware('application');
             if(isInAdmin()){
                 $this->middleware('backend');
-            }
-            else{
+            }else{
                 $this->middleware('frontend');
             }
         }

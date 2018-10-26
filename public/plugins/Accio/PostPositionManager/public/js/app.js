@@ -52384,6 +52384,7 @@ exports.default = {
             _this.$store.commit('setLabels', resp.body.labels);
             _this.$store.commit('setPluginsConfigs', resp.body.pluginsConfigs);
             _this.$store.commit('setLanguages', resp.body.languages);
+
             _this.$store.commit('setRoute', _this.$route);
 
             _this.applicationMenuLinks = resp.body.applicationMenuLinks;

@@ -52384,6 +52384,7 @@ exports.default = {
             _this.$store.commit('setLabels', resp.body.labels);
             _this.$store.commit('setPluginsConfigs', resp.body.pluginsConfigs);
             _this.$store.commit('setLanguages', resp.body.languages);
+
             _this.$store.commit('setRoute', _this.$route);
 
             _this.applicationMenuLinks = resp.body.applicationMenuLinks;
@@ -65890,7 +65891,7 @@ var store = exports.store = new _vuex2.default.Store({
         },
 
         froalaCompactConfig: {
-            toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'paragraphFormat', 'align', '|', 'formatUL', 'formatOL', 'insertTable', '|', 'addImage', 'addVideo', 'embedBtn', '|', 'insertLink'],
+            toolbarButtons: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'paragraphFormat', 'quote', 'align', '|', 'formatUL', 'formatOL', 'insertTable', '|', 'addImage', 'addVideo', 'embedBtn', '|', 'insertLink'],
             quickInsertButtons: ['addImage', 'addVideo', 'embedBtn', 'ul', 'ol'],
             htmlRemoveTags: [],
             htmlExecuteScripts: false

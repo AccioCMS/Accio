@@ -52384,6 +52384,7 @@ exports.default = {
             _this.$store.commit('setLabels', resp.body.labels);
             _this.$store.commit('setPluginsConfigs', resp.body.pluginsConfigs);
             _this.$store.commit('setLanguages', resp.body.languages);
+
             _this.$store.commit('setRoute', _this.$route);
 
             _this.applicationMenuLinks = resp.body.applicationMenuLinks;
@@ -66284,16 +66285,14 @@ var store = exports.store = new _vuex2.default.Store({
             },
 
             categories: {
-                postTypesInSitemap: [],
-                categoriesIgnoredInSitemap: {},
+                categoriesSitemap: true,
                 title: '',
                 description: '',
                 robots: false
             },
 
             tags: {
-                postTypesInSitemap: [],
-                tagsIgnoredInSitemap: {},
+                tagsSitemap: true,
                 title: '',
                 description: '',
                 robots: false
@@ -66320,6 +66319,9 @@ var store = exports.store = new _vuex2.default.Store({
     getters: {
         get_post_types: function get_post_types(state) {
             return state.postTypeList;
+        },
+        get_data: function get_data(state) {
+            return state.data;
         }
     },
     mutations: {
@@ -68121,7 +68123,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.postTypeContainer[data-v-775baef8]{\n    padding-top: 30px;\n    padding-bottom: 30px;\n    margin-top: 30px;\n    margin-bottom: 30px;\n    border: 1px solid #EAEAEA;\n}\ninput[type=\"checkbox\"][data-v-775baef8]{\n    width: 18px;\n    height: 18px;\n}\n.inputContainer[data-v-775baef8], .labelContainer[data-v-775baef8]{\n    float: left;\n}\n.labelContainer label[data-v-775baef8]{\n    margin-top: 5px;\n    margin-left: 5px;\n}\nh4[data-v-775baef8]{\n    margin-bottom: 30px;\n    padding-bottom: 10px;\n    border-bottom: 1px solid #EAEAEA;\n}\n", ""]);
+exports.push([module.i, "\n.postTypeContainer[data-v-775baef8]{\n    margin-top: 30px;\n    margin-bottom: 30px;\n}\ninput[type=\"checkbox\"][data-v-775baef8]{\n    width: 18px;\n    height: 18px;\n}\n.inputContainer[data-v-775baef8], .labelContainer[data-v-775baef8]{\n    float: left;\n}\n.labelContainer label[data-v-775baef8]{\n    margin-top: 5px;\n    margin-left: 5px;\n}\nh4[data-v-775baef8]{\n    margin-bottom: 30px;\n    padding-bottom: 10px;\n    border-bottom: 1px solid #EAEAEA;\n}\n", ""]);
 
 // exports
 
@@ -68192,36 +68194,13 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
-    created: function created() {
+    mounted: function mounted() {
         var _this = this;
 
         this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/post-type/get-all').then(function (resp) {
-            _this.postTypesList = resp.body.list;
+            _this.postTypesList = resp.body.data;
             for (var k in _this.postTypesList) {
                 _this.isLoading[_this.postTypesList[k].slug] = false;
             }
@@ -68247,6 +68226,7 @@ exports.default = {
                     tmp.push(this.postTypesList[k].postTypeID);
                 }
             }
+            this.postTypesInSitemap = tmp;
             this.$store.commit('setData', { state: 'postTypesInSitemap', value: tmp });
         },
         searchPost: function searchPost(query, postTypeSlug) {
@@ -68436,59 +68416,6 @@ var render = function() {
                         ])
                       ]
                     )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "control-label col-md-2 col-sm-2 col-xs-12"
-                      },
-                      [
-                        _vm._v(
-                          "Exclude posts of " + _vm._s(postType.name) + ": "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "col-md-8 col-sm-8 col-xs-12" },
-                      [
-                        _c("multiselect", {
-                          attrs: {
-                            options: _vm.postOptions,
-                            multiple: true,
-                            "close-on-select": true,
-                            "clear-on-select": false,
-                            "hide-selected": true,
-                            placeholder: "Search with title",
-                            label: "title",
-                            "track-by": "postID",
-                            searchable: true,
-                            loading: _vm.isLoading[postType.slug],
-                            disabled: _vm.isDisabled(postType.postTypeID)
-                          },
-                          on: {
-                            "search-change": function($event) {
-                              _vm.searchPost($event, postType.slug)
-                            }
-                          },
-                          model: {
-                            value: _vm.postsIgnoredInSitemap[postType.slug],
-                            callback: function($$v) {
-                              _vm.$set(
-                                _vm.postsIgnoredInSitemap,
-                                postType.slug,
-                                $$v
-                              )
-                            },
-                            expression: "postsIgnoredInSitemap[postType.slug]"
-                          }
-                        })
-                      ],
-                      1
-                    )
                   ])
                 ])
               })
@@ -68605,7 +68532,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.postTypeContainer[data-v-2aeec6bb]{\n    padding-top: 30px;\n    padding-bottom: 30px;\n    margin-top: 30px;\n    margin-bottom: 30px;\n    border: 1px solid #EAEAEA;\n}\ninput[type=\"checkbox\"][data-v-2aeec6bb]{\n    width: 18px;\n    height: 18px;\n}\n.inputContainer[data-v-2aeec6bb], .labelContainer[data-v-2aeec6bb]{\n    float: left;\n}\n.labelContainer label[data-v-2aeec6bb]{\n    margin-top: 5px;\n    margin-left: 5px;\n}\nh4[data-v-2aeec6bb]{\n    margin-bottom: 30px;\n    padding-bottom: 10px;\n    border-bottom: 1px solid #EAEAEA;\n}\n", ""]);
+exports.push([module.i, "\nh4[data-v-2aeec6bb]{\n    margin-bottom: 30px;\n    padding-bottom: 10px;\n    border-bottom: 1px solid #EAEAEA;\n}\n", ""]);
 
 // exports
 
@@ -68653,124 +68580,17 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
-    created: function created() {
-        var _this = this;
-
-        this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/post-type/get-all').then(function (resp) {
-            _this.postTypesList = resp.body.list;
-            for (var k in _this.postTypesList) {
-                _this.isLoading[_this.postTypesList[k].slug] = false;
-            }
-        });
-    },
-    data: function data() {
-        return {
-            postTypesList: [],
-            categoryOptions: [],
-            selectAll: false,
-            isLoading: {}
-        };
-    },
-
     methods: {
-        checkAllPostTypes: function checkAllPostTypes() {
-            var tmp = [];
-            if (this.selectAll == true) {
-                for (var k in this.postTypesList) {
-                    if (this.postTypesList[k].hasCategories) {
-                        tmp.push(this.postTypesList[k].postTypeID);
-                    }
-                }
-            }
-            this.$store.commit('setData', { group: 'categories', state: 'postTypesInSitemap', value: tmp });
-        },
-        searchCategory: function searchCategory(query, postTypeSlug, postTypeID) {
-            var _this2 = this;
-
-            this.postOptions = [];
-            if (!this.isLoading[postTypeSlug] && query.length > 0) {
-                this.isLoading[postTypeSlug] = true;
-                this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/category/' + postTypeID + '/search/' + query).then(function (resp) {
-                    _this2.categoryOptions = resp.body.list;
-                    _this2.isLoading[postTypeSlug] = false;
-                }, function (error) {
-                    console.log(error);
-                });
-            }
-        },
-        isDisabled: function isDisabled(postID) {
-            if (this.postTypesInSitemap.indexOf(postID) != -1) {
-                return false;
-            }
-            return true;
+        changeBoolean: function changeBoolean(value) {
+            this.$store.commit('setData', { group: 'categories', state: 'categoriesSitemap', value: value });
         }
     },
     computed: {
-        // get base path
-        basePath: function basePath() {
-            return this.$store.getters.get_base_path;
-        },
-
-        postTypesInSitemap: {
-            get: function get() {
-                return this.$store.state.data.categories.postTypesInSitemap;
-            },
-            set: function set(value) {
-                this.$store.commit('setData', { group: 'categories', state: 'postTypesInSitemap', value: value });
-            }
-        },
-        categoriesIgnoredInSitemap: {
-            get: function get() {
-                return this.$store.state.data.categories.categoriesIgnoredInSitemap;
-            },
-            set: function set(value) {
-                this.$store.commit('setData', { group: 'categories', state: 'categoriesIgnoredInSitemap', value: value });
-            }
+        // get data
+        getData: function getData() {
+            return this.$store.getters.get_data;
         }
     }
 };
@@ -68791,194 +68611,83 @@ var render = function() {
         attrs: { id: "store" }
       },
       [
-        _c("h4", [_vm._v("Categories of Post Types")]),
+        _c("h4", [_vm._v("Sitemaps for Categories")]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
-          _c("div", { staticClass: "col-md-2 col-sm-2 col-xs-12" }),
+          _c(
+            "label",
+            { staticClass: "control-label col-md-2 col-sm-2 col-xs-12" },
+            [_vm._v("Author sitemap : ")]
+          ),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-10 col-sm-10 col-xs-12" }, [
-            _c("div", { staticClass: "inputContainer" }, [
-              _c("input", {
-                directives: [
+          _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+            _c(
+              "div",
+              {
+                staticClass: "btn-group",
+                attrs: { id: "sitemapIsActive", "data-toggle": "buttons" }
+              },
+              [
+                _c(
+                  "label",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.selectAll,
-                    expression: "selectAll"
-                  }
-                ],
-                attrs: { type: "checkbox", id: "selectAll" },
-                domProps: {
-                  checked: Array.isArray(_vm.selectAll)
-                    ? _vm._i(_vm.selectAll, null) > -1
-                    : _vm.selectAll
-                },
-                on: {
-                  change: [
-                    function($event) {
-                      var $$a = _vm.selectAll,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
-                        } else {
-                          $$i > -1 &&
-                            (_vm.selectAll = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
-                        }
-                      } else {
-                        _vm.selectAll = $$c
+                    staticClass: "btn btn-default yes",
+                    class: {
+                      active:
+                        _vm.$store.state.data.categories.categoriesSitemap ==
+                        true
+                    },
+                    attrs: {
+                      "data-toggle-class": "btn-primary",
+                      "data-toggle-passive-class": "btn-default"
+                    },
+                    on: {
+                      click: function($event) {
+                        _vm.changeBoolean(true)
                       }
-                    },
-                    _vm.checkAllPostTypes
+                    }
+                  },
+                  [
+                    _c("input", { attrs: { type: "radio", value: "enabled" } }),
+                    _vm._v("   Enabled  \n                    ")
                   ]
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _vm._l(_vm.postTypesList, function(postType) {
-          return postType.hasCategories
-            ? _c("div", { staticClass: "postTypeContainer" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("div", { staticClass: "col-md-2 col-sm-2 col-xs-12" }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-10 col-sm-10 col-xs-12" }, [
-                    _c("div", { staticClass: "inputContainer" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.postTypesInSitemap,
-                            expression: "postTypesInSitemap"
-                          }
-                        ],
-                        attrs: { type: "checkbox", id: postType.slug },
-                        domProps: {
-                          value: postType.postTypeID,
-                          checked: Array.isArray(_vm.postTypesInSitemap)
-                            ? _vm._i(
-                                _vm.postTypesInSitemap,
-                                postType.postTypeID
-                              ) > -1
-                            : _vm.postTypesInSitemap
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$a = _vm.postTypesInSitemap,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = postType.postTypeID,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  (_vm.postTypesInSitemap = $$a.concat([$$v]))
-                              } else {
-                                $$i > -1 &&
-                                  (_vm.postTypesInSitemap = $$a
-                                    .slice(0, $$i)
-                                    .concat($$a.slice($$i + 1)))
-                              }
-                            } else {
-                              _vm.postTypesInSitemap = $$c
-                            }
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "labelContainer" }, [
-                      _c("label", { attrs: { for: postType.slug } }, [
-                        _vm._v(_vm._s(postType.name))
-                      ])
-                    ])
-                  ])
-                ]),
+                ),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label col-md-2 col-sm-2 col-xs-12"
+                _c(
+                  "label",
+                  {
+                    staticClass: "btn btn-primary no",
+                    class: {
+                      active:
+                        _vm.$store.state.data.categories.categoriesSitemap ==
+                        false
                     },
-                    [
-                      _vm._v(
-                        "Exclude categories of " + _vm._s(postType.name) + ": "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-md-8 col-sm-8 col-xs-12" },
-                    [
-                      _c("multiselect", {
-                        attrs: {
-                          options: _vm.categoryOptions,
-                          multiple: true,
-                          "close-on-select": true,
-                          "clear-on-select": false,
-                          "hide-selected": true,
-                          placeholder: "Search with title",
-                          label: "title",
-                          "track-by": "categoryID",
-                          searchable: true,
-                          loading: _vm.isLoading[postType.slug],
-                          disabled: _vm.isDisabled(postType.postTypeID)
-                        },
-                        on: {
-                          "search-change": function($event) {
-                            _vm.searchCategory(
-                              $event,
-                              postType.slug,
-                              postType.postTypeID
-                            )
-                          }
-                        },
-                        model: {
-                          value: _vm.categoriesIgnoredInSitemap[postType.slug],
-                          callback: function($$v) {
-                            _vm.$set(
-                              _vm.categoriesIgnoredInSitemap,
-                              postType.slug,
-                              $$v
-                            )
-                          },
-                          expression:
-                            "categoriesIgnoredInSitemap[postType.slug]"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ])
-              ])
-            : _vm._e()
-        })
-      ],
-      2
+                    attrs: {
+                      "data-toggle-class": "btn-primary",
+                      "data-toggle-passive-class": "btn-default"
+                    },
+                    on: {
+                      click: function($event) {
+                        _vm.changeBoolean(false)
+                      }
+                    }
+                  },
+                  [
+                    _c("input", {
+                      attrs: { type: "radio", value: "disabled" }
+                    }),
+                    _vm._v(" Disabled\n                    ")
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      ]
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "labelContainer" }, [
-      _c("label", { attrs: { for: "selectAll" } }, [_vm._v("Select all")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -69074,7 +68783,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.postTypeContainer[data-v-7b0fbf78]{\n    padding-top: 30px;\n    padding-bottom: 30px;\n    margin-top: 30px;\n    margin-bottom: 30px;\n    border: 1px solid #EAEAEA;\n}\ninput[type=\"checkbox\"][data-v-7b0fbf78]{\n    width: 18px;\n    height: 18px;\n}\n.inputContainer[data-v-7b0fbf78], .labelContainer[data-v-7b0fbf78]{\n    float: left;\n}\n.labelContainer label[data-v-7b0fbf78]{\n    margin-top: 5px;\n    margin-left: 5px;\n}\nh4[data-v-7b0fbf78]{\n    margin-bottom: 30px;\n    padding-bottom: 10px;\n    border-bottom: 1px solid #EAEAEA;\n}\n", ""]);
+exports.push([module.i, "\nh4[data-v-7b0fbf78]{\n    margin-bottom: 30px;\n    padding-bottom: 10px;\n    border-bottom: 1px solid #EAEAEA;\n}\n", ""]);
 
 // exports
 
@@ -69124,122 +68833,17 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
-    created: function created() {
-        var _this = this;
-
-        this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/post-type/get-all').then(function (resp) {
-            _this.postTypesList = resp.body.list;
-            for (var k in _this.postTypesList) {
-                _this.isLoading[_this.postTypesList[k].slug] = false;
-            }
-        });
-    },
-    data: function data() {
-        return {
-            postTypesList: [],
-            tagsOptions: [],
-            selectAll: false,
-            isLoading: {}
-        };
-    },
-
     methods: {
-        checkAllPostTypes: function checkAllPostTypes() {
-            var tmp = [];
-            if (this.selectAll == true) {
-                for (var k in this.postTypesList) {
-                    if (this.postTypesList[k].hasTags) {
-                        tmp.push(this.postTypesList[k].postTypeID);
-                    }
-                }
-            }
-            this.$store.commit('setData', { state: 'postTypesInSitemap', value: tmp });
-        },
-        searchTags: function searchTags(query, postTypeSlug, postTypeID) {
-            var _this2 = this;
-
-            this.postOptions = [];
-            if (!this.isLoading[postTypeSlug] && query.length > 0) {
-                this.isLoading[postTypeSlug] = true;
-                this.$http.get(this.basePath + '/' + this.$route.params.adminPrefix + '/' + this.$route.params.lang + '/json/tags/' + postTypeID + '/search/' + query).then(function (resp) {
-                    _this2.tagsOptions = resp.body.list;
-                    _this2.isLoading[postTypeSlug] = false;
-                }, function (error) {
-                    console.log(error);
-                });
-            }
-        },
-        isDisabled: function isDisabled(postID) {
-            if (this.postTypesInSitemap.indexOf(postID) != -1) {
-                return false;
-            }
-            return true;
+        changeBoolean: function changeBoolean(value) {
+            this.$store.commit('setData', { group: 'tags', state: 'tagsSitemap', value: value });
         }
     },
     computed: {
-        // get base path
-        basePath: function basePath() {
-            return this.$store.getters.get_base_path;
-        },
-
-        postTypesInSitemap: {
-            get: function get() {
-                return this.$store.state.data.tags.postTypesInSitemap;
-            },
-            set: function set(value) {
-                this.$store.commit('setData', { group: 'tags', state: 'postTypesInSitemap', value: value });
-            }
-        },
-        tagsIgnoredInSitemap: {
-            get: function get() {
-                return this.$store.state.data.tags.tagsIgnoredInSitemap;
-            },
-            set: function set(value) {
-                this.$store.commit('setData', { group: 'tags', state: 'tagsIgnoredInSitemap', value: value });
-            }
+        // get data
+        getData: function getData() {
+            return this.$store.getters.get_data;
         }
     }
 };
@@ -69263,186 +68867,76 @@ var render = function() {
         _c("h4", [_vm._v("Tags of Post Types")]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
-          _c("div", { staticClass: "col-md-2 col-sm-2 col-xs-12" }),
+          _c(
+            "label",
+            { staticClass: "control-label col-md-2 col-sm-2 col-xs-12" },
+            [_vm._v("Author sitemap : ")]
+          ),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-10 col-sm-10 col-xs-12" }, [
-            _c("div", { staticClass: "inputContainer" }, [
-              _c("input", {
-                directives: [
+          _c("div", { staticClass: "col-md-8 col-sm-8 col-xs-12" }, [
+            _c(
+              "div",
+              {
+                staticClass: "btn-group",
+                attrs: { id: "sitemapIsActive", "data-toggle": "buttons" }
+              },
+              [
+                _c(
+                  "label",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.selectAll,
-                    expression: "selectAll"
-                  }
-                ],
-                attrs: { type: "checkbox", id: "selectAll" },
-                domProps: {
-                  checked: Array.isArray(_vm.selectAll)
-                    ? _vm._i(_vm.selectAll, null) > -1
-                    : _vm.selectAll
-                },
-                on: {
-                  change: [
-                    function($event) {
-                      var $$a = _vm.selectAll,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
-                        } else {
-                          $$i > -1 &&
-                            (_vm.selectAll = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
-                        }
-                      } else {
-                        _vm.selectAll = $$c
+                    staticClass: "btn btn-default yes",
+                    class: {
+                      active: _vm.$store.state.data.tags.tagsSitemap == true
+                    },
+                    attrs: {
+                      "data-toggle-class": "btn-primary",
+                      "data-toggle-passive-class": "btn-default"
+                    },
+                    on: {
+                      click: function($event) {
+                        _vm.changeBoolean(true)
                       }
-                    },
-                    _vm.checkAllPostTypes
+                    }
+                  },
+                  [
+                    _c("input", { attrs: { type: "radio", value: "enabled" } }),
+                    _vm._v("   Enabled  \n                    ")
                   ]
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
-        ]),
-        _vm._v(" "),
-        _vm._l(_vm.postTypesList, function(postType) {
-          return postType.hasTags
-            ? _c("div", { staticClass: "postTypeContainer" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("div", { staticClass: "col-md-2 col-sm-2 col-xs-12" }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-10 col-sm-10 col-xs-12" }, [
-                    _c("div", { staticClass: "inputContainer" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.postTypesInSitemap,
-                            expression: "postTypesInSitemap"
-                          }
-                        ],
-                        attrs: { type: "checkbox", id: postType.slug },
-                        domProps: {
-                          value: postType.postTypeID,
-                          checked: Array.isArray(_vm.postTypesInSitemap)
-                            ? _vm._i(
-                                _vm.postTypesInSitemap,
-                                postType.postTypeID
-                              ) > -1
-                            : _vm.postTypesInSitemap
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$a = _vm.postTypesInSitemap,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = postType.postTypeID,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  (_vm.postTypesInSitemap = $$a.concat([$$v]))
-                              } else {
-                                $$i > -1 &&
-                                  (_vm.postTypesInSitemap = $$a
-                                    .slice(0, $$i)
-                                    .concat($$a.slice($$i + 1)))
-                              }
-                            } else {
-                              _vm.postTypesInSitemap = $$c
-                            }
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "labelContainer" }, [
-                      _c("label", { attrs: { for: postType.slug } }, [
-                        _vm._v(_vm._s(postType.name))
-                      ])
-                    ])
-                  ])
-                ]),
+                ),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "control-label col-md-2 col-sm-2 col-xs-12"
+                _c(
+                  "label",
+                  {
+                    staticClass: "btn btn-primary no",
+                    class: {
+                      active: _vm.$store.state.data.tags.tagsSitemap == false
                     },
-                    [_vm._v("Exclude tags of " + _vm._s(postType.name) + ": ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-md-8 col-sm-8 col-xs-12" },
-                    [
-                      _c("multiselect", {
-                        attrs: {
-                          options: _vm.tagsOptions,
-                          multiple: true,
-                          "close-on-select": true,
-                          "clear-on-select": false,
-                          "hide-selected": true,
-                          placeholder: "Search with title",
-                          label: "title",
-                          "track-by": "tagID",
-                          searchable: true,
-                          loading: _vm.isLoading[postType.slug],
-                          disabled: _vm.isDisabled(postType.postTypeID)
-                        },
-                        on: {
-                          "search-change": function($event) {
-                            _vm.searchTags(
-                              $event,
-                              postType.slug,
-                              postType.postTypeID
-                            )
-                          }
-                        },
-                        model: {
-                          value: _vm.tagsIgnoredInSitemap[postType.slug],
-                          callback: function($$v) {
-                            _vm.$set(
-                              _vm.tagsIgnoredInSitemap,
-                              postType.slug,
-                              $$v
-                            )
-                          },
-                          expression: "tagsIgnoredInSitemap[postType.slug]"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ])
-              ])
-            : _vm._e()
-        })
-      ],
-      2
+                    attrs: {
+                      "data-toggle-class": "btn-primary",
+                      "data-toggle-passive-class": "btn-default"
+                    },
+                    on: {
+                      click: function($event) {
+                        _vm.changeBoolean(false)
+                      }
+                    }
+                  },
+                  [
+                    _c("input", {
+                      attrs: { type: "radio", value: "disabled" }
+                    }),
+                    _vm._v(" Disabled\n                    ")
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      ]
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "labelContainer" }, [
-      _c("label", { attrs: { for: "selectAll" } }, [_vm._v("Select all")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -69550,11 +69044,22 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
-    created: function created() {
-        //this.isLoading = true;
+    data: function data() {
+        return {
+            titlePlaceholder: '{{title}}',
+            sitenamePlaceholder: '{{sitename}}',
+            pagePlaceholder: '{{page}}'
 
+        };
     },
 
     methods: {
@@ -69713,7 +69218,29 @@ var render = function() {
           _vm._v(" "),
           _c("hr")
         ]
-      })
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "alert alert-success" }, [
+        _c("h5", [_vm._v("Variables to use within fields")]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            _vm._s(_vm.titlePlaceholder) +
+              " - Will be replaced with the title of the post/page"
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(_vm._s(_vm.sitenamePlaceholder) + " - The site's name")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            _vm._s(_vm.pagePlaceholder) +
+              " - Will be replaced with the current page number (i.e. page 2 of 4)"
+          )
+        ])
+      ])
     ],
     2
   )
@@ -69814,7 +69341,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -69866,8 +69393,25 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
+    data: function data() {
+        return {
+            titlePlaceholder: '{{title}}',
+            sitenamePlaceholder: '{{sitename}}',
+            pagePlaceholder: '{{page}}'
+
+        };
+    },
+
     methods: {
         changeBoolean: function changeBoolean(key, value) {
             this.$store.commit('setData', { group: 'categories', state: key, value: value });
@@ -70030,6 +69574,28 @@ var render = function() {
             ]
           )
         ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "alert alert-success" }, [
+        _c("h5", [_vm._v("Variables to use within fields")]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            _vm._s(_vm.titlePlaceholder) +
+              " - Will be replaced with the category title"
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(_vm._s(_vm.sitenamePlaceholder) + " - The site's name")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            _vm._s(_vm.pagePlaceholder) +
+              " - Will be replaced with the current page number (i.e. page 2 of 4)"
+          )
+        ])
       ])
     ]
   )
@@ -70130,7 +69696,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -70181,8 +69747,25 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
+    data: function data() {
+        return {
+            titlePlaceholder: '{{title}}',
+            sitenamePlaceholder: '{{sitename}}',
+            pagePlaceholder: '{{page}}'
+
+        };
+    },
+
     methods: {
         changeBoolean: function changeBoolean(key, value) {
             this.$store.commit('setData', { group: 'tags', state: key, value: value });
@@ -70341,6 +69924,28 @@ var render = function() {
             ]
           )
         ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "alert alert-success" }, [
+        _c("h5", [_vm._v("Variables to use within fields")]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            _vm._s(_vm.titlePlaceholder) +
+              " - Will be replaced with the tag title"
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(_vm._s(_vm.sitenamePlaceholder) + " - The site's name")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            _vm._s(_vm.pagePlaceholder) +
+              " - Will be replaced with the current page number (i.e. page 2 of 4)"
+          )
+        ])
       ])
     ]
   )
@@ -70441,7 +70046,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -70494,8 +70099,24 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
+    data: function data() {
+        return {
+            titlePlaceholder: '{{title}}',
+            sitenamePlaceholder: '{{sitename}}',
+            pagePlaceholder: '{{page}}'
+
+        };
+    },
+
     methods: {
         changeBoolean: function changeBoolean(key, value) {
             this.$store.commit('setData', { group: 'users', state: key, value: value });
@@ -70654,6 +70275,28 @@ var render = function() {
                 ]
               )
             ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "alert alert-success" }, [
+        _c("h5", [_vm._v("Variables to use within fields")]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            _vm._s(_vm.titlePlaceholder) +
+              " - Will be replaced with the full name of the author"
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(_vm._s(_vm.sitenamePlaceholder) + " - The site's name")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            _vm._s(_vm.pagePlaceholder) +
+              " - Will be replaced with the current page number (i.e. page 2 of 4)"
           )
         ])
       ])
