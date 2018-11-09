@@ -1,6 +1,4 @@
 require('./bootstrap');
-// Require Froala Editor assets
-require('../../../vendor/acciocms/core/src/resources/views/components/vendor/froala-assets');
 
 import VueRouter from 'vue-router';
 import { store } from '../../../vendor/acciocms/core/src/resources/assets/js/store'

@@ -44,3 +44,6 @@ Vue.http.interceptors.push((request, next) => {
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key'
 // });
+
+// Require Froala Editor assets
+require('../../../vendor/acciocms/core/src/resources/views/components/vendor/froala-assets');
