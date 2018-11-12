@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 395);
+/******/ 	return __webpack_require__(__webpack_require__.s = 374);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -66257,35 +66257,14 @@ exports.push([module.i, ".noty_layout_mixin, #noty_layout__top, #noty_layout__to
 /* 371 */,
 /* 372 */,
 /* 373 */,
-/* 374 */,
-/* 375 */,
-/* 376 */,
-/* 377 */,
-/* 378 */,
-/* 379 */,
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
-/* 384 */,
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */,
-/* 393 */,
-/* 394 */,
-/* 395 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(396);
+module.exports = __webpack_require__(375);
 
 
 /***/ }),
-/* 396 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -66299,9 +66278,9 @@ var _vueRouter = __webpack_require__(19);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-var _store = __webpack_require__(397);
+var _store = __webpack_require__(376);
 
-var _Base = __webpack_require__(398);
+var _Base = __webpack_require__(377);
 
 var _Base2 = _interopRequireDefault(_Base);
 
@@ -66327,7 +66306,7 @@ var app = new _vue2.default({
 });
 
 /***/ }),
-/* 397 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -66364,15 +66343,15 @@ var store = exports.store = new _vuex2.default.Store({
 });
 
 /***/ }),
-/* 398 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(399)
+var __vue_script__ = __webpack_require__(378)
 /* template */
-var __vue_template__ = __webpack_require__(400)
+var __vue_template__ = __webpack_require__(379)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -66411,7 +66390,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 399 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -66446,7 +66425,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 400 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
