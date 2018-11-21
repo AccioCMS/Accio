@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 368);
+/******/ 	return __webpack_require__(__webpack_require__.s = 386);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -52577,7 +52577,6 @@ exports.default = {
 
         this.$store.commit('setBaseURL', this.base_url);
         this.$store.commit('setBasePath', this.base_path);
-
         // basic data for cms start
         this.$http.get(this.base_url + '/' + this.$route.params.adminPrefix + '/get-base-data').then(function (resp) {
             _this.$store.commit('setLogoutLink', resp.body.logoutLink);
@@ -66928,14 +66927,32 @@ exports.default = {
 /* 365 */,
 /* 366 */,
 /* 367 */,
-/* 368 */
+/* 368 */,
+/* 369 */,
+/* 370 */,
+/* 371 */,
+/* 372 */,
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */,
+/* 380 */,
+/* 381 */,
+/* 382 */,
+/* 383 */,
+/* 384 */,
+/* 385 */,
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(369);
+module.exports = __webpack_require__(387);
 
 
 /***/ }),
-/* 369 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -66951,7 +66968,7 @@ var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
 var _store = __webpack_require__(113);
 
-var _Base = __webpack_require__(370);
+var _Base = __webpack_require__(388);
 
 var _Base2 = _interopRequireDefault(_Base);
 
@@ -66976,15 +66993,15 @@ var app = new _vue2.default({
 });
 
 /***/ }),
-/* 370 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(371)
+var __vue_script__ = __webpack_require__(389)
 /* template */
-var __vue_template__ = __webpack_require__(373)
+var __vue_template__ = __webpack_require__(391)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -67023,7 +67040,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 371 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67039,7 +67056,7 @@ var _globalMethods = __webpack_require__(4);
 
 var _globalData = __webpack_require__(5);
 
-var _trans = __webpack_require__(372);
+var _trans = __webpack_require__(390);
 
 //
 //
@@ -67515,7 +67532,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 372 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67535,7 +67552,7 @@ var trans = exports.trans = {
 };
 
 /***/ }),
-/* 373 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {

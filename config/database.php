@@ -54,20 +54,6 @@ return [
             'engine' => 'InnoDB',
         ],
 
-        'mysql_archive' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST_ARCHIVE', 'localhost'),
-            'port' => env('DB_PORT_ARCHIVE', '3306'),
-            'database' => env('DB_DATABASE_ARCHIVE', 'forge'),
-            'username' => env('DB_USERNAME_ARCHIVE', 'forge'),
-            'password' => env('DB_PASSWORD_ARCHIVE', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => 'InnoDB',
-        ],
-
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'localhost'),
