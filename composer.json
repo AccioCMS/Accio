@@ -4,7 +4,7 @@
   "keywords": ["cms", "accio", "laravel"],
   "license": "MIT",
   "type": "project",
-    "require": {
+  "require": {
     "php": ">=7.1.3",
     "acciocms/core": "dev-development",
     "chumper/zipper": "1.0.x",
@@ -17,13 +17,13 @@
     "laravel/passport": "^6.0",
     "laravel/tinker": "~1.0",
     "laravelcollective/html": "^5.2.0",
-    "manaferra/laravel-var-cache": "dev-master",
     "predis/predis": "^1.1",
     "riverskies/laravel-mobile-detect": "^1.2",
     "spatie/laravel-activitylog": "^2.5",
     "spatie/laravel-artisan-dd": "^2.0",
     "spatie/laravel-backup": "^5.7",
-    "spatie/laravel-image-optimizer": "dev-dev"
+    "spatie/laravel-image-optimizer": "dev-dev",
+    "elasticsearch/elasticsearch": "~6.0"
   },
   "require-dev": {
     "laravel/dusk": "^3.0",
