@@ -76,7 +76,7 @@
     },
     {
       "type": "vcs",
-      "url": "https://github.com/manaferra/laravel-var-cache"
+      "url": "https://github.com/jetmirhaxhisefa/laravel-model-caching"
     }
   ],
   "scripts": {
