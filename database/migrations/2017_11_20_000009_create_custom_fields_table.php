@@ -14,9 +14,9 @@ class CreateCustomFieldsTable extends Migration{
         Schema::create('custom_fields', function (Blueprint $table) {
             $table->increments('customFieldID');
             $table->integer('customFieldGroupID')->unsigned();
-            $table->integer('parentID')->nullable();
+            $table->integer('parentID')->unsigned()->nullable();
             $table->json('label')->nullable();
-            $table->string('slug',55)->nullable();
+            $table->string('slug',55)->unique();
             $table->json('placeholder')->nullable();
             $table->string('type',20);
             $table->json('note')->nullable();

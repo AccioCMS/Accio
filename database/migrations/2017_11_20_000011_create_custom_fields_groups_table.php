@@ -14,7 +14,7 @@ class CreateCustomFieldsGroupsTable extends Migration{
         Schema::create('custom_fields_groups', function (Blueprint $table) {
             $table->increments('customFieldGroupID');
             $table->string('title',155);
-            $table->string('slug',155);
+            $table->string('slug',155)->unique();
             $table->string('description',255)->nullable();
             $table->tinyInteger('isActive')->index();
             $table->json('conditions');

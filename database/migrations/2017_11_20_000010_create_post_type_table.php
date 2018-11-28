@@ -14,7 +14,7 @@ class CreatePostTypeTable extends Migration{
         Schema::create('post_type', function (Blueprint $table) {
             $table->increments('postTypeID');
             $table->integer('createdByUserID')->unsigned();
-            $table->string('name', 55)->unique();
+            $table->string('name', 55);
             $table->string('slug', 55)->unique();
             $table->json('fields')->nullable();
             $table->tinyInteger('isVisible');
