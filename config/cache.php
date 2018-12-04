@@ -49,10 +49,6 @@ return [
             'path' => storage_path('framework/cache'),
         ],
 
-        'var' => [
-            'driver' => 'var',
-            'path' => storage_path('framework/varcache'),
-        ],
 
       'memcached' => [
             'driver' => 'memcached',
