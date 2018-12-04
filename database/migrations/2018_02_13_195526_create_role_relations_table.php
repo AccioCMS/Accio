@@ -11,8 +11,7 @@ class CreateRoleRelationsTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
+    public function up(){
         Schema::create('roles_relations', function (Blueprint $table) {
             $table->increments('roleRelationID');
             $table->integer('userID')->unsigned();

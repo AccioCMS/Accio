@@ -15,12 +15,4 @@ use Accio\App\Models\PostModel;
 
 class Post extends PostModel {
 
-    /**
-     * Configure if post model has dynamic tables or pre-declared table
-     *
-     * @return bool
-     */
-    protected function setHasDynamicTable(): bool{
-        return true;
-    }
 }
