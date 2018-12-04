@@ -70,7 +70,7 @@ if(\Request::is('*/plugins/*/*')){
     $pluginParams = explode("/",$link[1]);
 
     foreach(\App\Models\Plugin::configs() as $plugin){
-        if($plugin->baseURL == $link[1]){
+        if (strpos($link[1], $plugin->baseURL) !== false) {
             $pluginData = $plugin;
             break;
         }

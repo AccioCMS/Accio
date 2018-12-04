@@ -5,7 +5,6 @@ use App\Http\Middleware\Backend;
 use App\Http\Middleware\Frontend;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\Translate;
-use Barryvdh\Cors\HandleCors;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
 {
@@ -41,8 +40,7 @@ class Kernel extends HttpKernel
 
       'api' => [
         'throttle:60,1',
-        'bindings',
-        'cors'
+        'bindings'
       ],
     ];
     
@@ -62,7 +60,6 @@ class Kernel extends HttpKernel
       'guest' => RedirectIfAuthenticated::class,
       'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
       'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-      'cors' => HandleCors::class,
       'application' => Application::class,
       'frontend' => Frontend::class,
       'backend' => Backend::class,

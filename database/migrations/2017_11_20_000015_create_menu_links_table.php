@@ -14,7 +14,7 @@ class CreateMenuLinksTable extends Migration{
         Schema::create('menu_links', function (Blueprint $table) {
             $table->increments('menuLinkID');
             $table->integer('menuID')->unsigned();
-            $table->integer('parent')->nullable();
+            $table->integer('parent')->unsigned()->nullable();
             $table->integer('belongsToID')->index();
             $table->string('belongsTo',55)->index();
             $table->json('label');

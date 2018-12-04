@@ -66,7 +66,7 @@ class UserTest extends DuskTestCase{
                 ->click('@chooseMedia')
                 ->waitUntilMissing('@popupContentLibrary');
 
-            foreach(Language::cache()->getItems() as $lang){
+            foreach(Language::cache()->collect() as $lang){
                 $browser->click('#tabBtn-'.$lang->slug)
                     ->type('#form-group-about_'.$lang->slug.' .fr-view', $faker->paragraph);
             }
@@ -158,7 +158,7 @@ class UserTest extends DuskTestCase{
                 ->click('@chooseMedia')
                 ->waitUntilMissing('@popupContentLibrary');
 
-            foreach(Language::cache()->getItems() as $lang){
+            foreach(Language::cache()->collect() as $lang){
                 $browser->click('#tabBtn-'.$lang->slug)
                     ->type('#form-group-about_'.$lang->slug.' .fr-view', $faker->paragraph);
             }

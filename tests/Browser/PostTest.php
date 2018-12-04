@@ -114,7 +114,7 @@ class PostTest extends DuskTestCase{
                 ->click('@chooseMedia')
                 ->waitUntilMissing('@popupContentLibrary');
 
-            foreach(Language::cache()->getItems() as $language){
+            foreach(Language::cache()->collect() as $language){
                 $browser->click('#tabBtn-'.$language->slug)
                     ->type('#form-group-title_'.$language->slug.' input', $faker->text(10))
                     ->type('#form-group-content_'.$language->slug.' .fr-view', $faker->paragraph);
@@ -174,7 +174,7 @@ class PostTest extends DuskTestCase{
             $status = [];
             $content = [];
             $slug = [];
-            foreach(Language::cache()->getItems() as $language){
+            foreach(Language::cache()->collect() as $language){
                 $title[$language->slug] = $faker->text(15);
                 $status[$language->slug] = "published";
                 $content[$language->slug] = $faker->paragraph;
@@ -199,7 +199,7 @@ class PostTest extends DuskTestCase{
                     ->click('@chooseMedia')
                     ->waitUntilMissing('@popupContentLibrary');
 
-                foreach(Language::cache()->getItems() as $language){
+                foreach(Language::cache()->collect() as $language){
                     $browser->click('#tabBtn-'.$language->slug)
                         ->type('#form-group-title_'.$language->slug.' input', $faker->text(10))
                         ->type('#form-group-content_'.$language->slug.' .fr-view', $faker->paragraph);

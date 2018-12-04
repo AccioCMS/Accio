@@ -10,6 +10,6 @@
 |
 */
 
-Route::group(['middleware' => 'cors', 'namespace' => 'Accio\App\Http\Controllers\Api'], function(){
+Route::group(['namespace' => 'Accio\App\Http\Controllers\Api'], function(){
     Route::get('api/posts/related/{postId}', 'Post@related');
 });
