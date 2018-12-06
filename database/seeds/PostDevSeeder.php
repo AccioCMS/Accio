@@ -248,7 +248,7 @@ class PostDevSeeder extends Seeder
                 $tags = $tags->take(rand(2,6));
             }
             foreach($tags as $tag){
-                $createdTags[] = $this->createTagRelation($postType->slug, $post->postID, $tag->tagID);
+                $createdTags[] = $this->createTagRelation($postType, $post, $tag);
             }
         }
 
@@ -266,62 +266,58 @@ class PostDevSeeder extends Seeder
     }
 
     /**
-     * Create Category relation
+     * Create Category relation.
      *
+     * @param object$postType
+     * @param integer $postID
      * @param object $category
-     * @param object $postType
-     * @param object $post
-     * @return object Created category relaitons
      */
-    public function createCategoryRelation($postType, $post, $category){
-        return factory(App\Models\CategoryRelation::class)->create([
-            'categoryID' => $category->categoryID,
-            'belongsToID' => $post->postID,
-            'belongsTo' => $postType->slug
-        ]);
+    public function createCategoryRelation($postType, $postID, $category){
+        $model = (new \App\Models\CategoryRelation())->setTable($postType->slug.'_categories');
+        $model->categoryID = $category->categoryID;
+        $model->postID = $postID;
+        $model->insert();
+
     }
 
     /**
-     * Create Tag relation
+     * Create Tag relation.
      *
-     * @param int $tagID
-     * @param int $postID
-     * @param string $postTypeSlug
-     * @return object Created category relaitons
+     * @param object $postType
+     * @param integer $postID
+     * @param object $tag
      */
-    public function createTagRelation($postTypeSlug, $postID, $tagID){
-        return factory(App\Models\TagRelation::class)->create([
-            'tagID' => $tagID,
-            'belongsToID' => $postID,
-            'belongsTo' => $postTypeSlug
-        ]);
+    public function createTagRelation($postType, $postID, $tag){
+        $model = (new \App\Models\TagRelation())->setTable($postType->slug.'_tags');
+        $model->tagID = $tag->tagID;
+        $model->postID = $postID;
+        $model->insert();
     }
 
     /**
-     * Create media relations for each image|file field
+     * Create media relations for each image|file field.
      *
      * @param object $postType
      * @param object $post
      * @param object $mediaList
-     * @return array Created media relations
      */
     public function createMediaRelations($postType, $post, $mediaList){
-        $createdCategories = [];
         foreach ($postType->fields as $field) {
             switch ($field->type->inputType) {
                 case 'image':
                 case 'file':
                     $mediaID = $mediaList->random()->mediaID;
-                    $createdCategories[] = factory(App\Models\MediaRelation::class)->create([
-                        'mediaID' => $mediaID,
-                        'belongsToID' => $post->postID,
-                        'belongsTo' => $postType->slug,
-                        'field' => $field->slug,
-                    ]);
+
+                    $model = (new \App\Models\MediaRelation())->setTable($postType->slug.'_media');
+                    $model->mediaID =$mediaID;
+                    $model->postID = $post->postID;
+                    $model->field = $field->slug;
+                    $model->language = App::getLocale();
+                    $model->insert();
+
                     break;
             }
         }
-        return $createdCategories;
     }
 
     /**
