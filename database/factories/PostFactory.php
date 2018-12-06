@@ -16,7 +16,7 @@ $factory->define(App\Models\Post::class, function (Faker $faker) {
     $data = [
         'createdByUserID' => $users->random()->userID,
         'featuredImageID' => $featuredImage->mediaID,
-        'featuredVideoID' => 0,
+        'featuredVideoID' => null,
         'published_at' => $faker->dateTimeBetween(),
         'customFields' => [],
     ];
