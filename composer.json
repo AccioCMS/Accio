@@ -5,30 +5,31 @@
   "license": "MIT",
   "type": "project",
   "require": {
-    "php": ">=7.1.3",
+    "php": ">=7.1.0",
     "acciocms/core": "dev-development",
+    "barryvdh/laravel-cors": "^0.11.0",
+    "barryvdh/laravel-dompdf": "^0.8.2",
     "chumper/zipper": "1.0.x",
     "doctrine/dbal": "^2.5",
+    "elasticsearch/elasticsearch": "~6.0",
     "fideloper/proxy": "^4.0",
-    "genealabs/laravel-model-caching": "^0.3.3",
+    "genealabs/laravel-model-caching": "^0.3.5",
     "htmlmin/htmlmin": "^5.6",
     "intervention/image": "^2.3",
     "laravel/framework": "5.6.*",
-    "laravel/passport": "^6.0",
+    "laravel/passport": "^7.0",
+    "laravel/socialite": "^3.0",
     "laravel/tinker": "~1.0",
     "laravelcollective/html": "^5.2.0",
     "predis/predis": "^1.1",
     "riverskies/laravel-mobile-detect": "^1.2",
     "spatie/laravel-activitylog": "^2.5",
-    "spatie/laravel-artisan-dd": "^2.0",
     "spatie/laravel-backup": "^5.7",
-    "spatie/laravel-image-optimizer": "dev-dev",
-    "elasticsearch/elasticsearch": "~6.0"
+    "spatie/laravel-image-optimizer": "^1.3"
   },
   "require-dev": {
     "laravel/dusk": "^3.0",
     "spatie/db-dumper": "^2.10",
-    "fzaninotto/faker": "dev-dev",
     "filp/whoops": "~2.0",
     "phpunit/phpunit": "^7.0",
     "larapack/config-writer": "1.*",
@@ -36,7 +37,8 @@
     "symfony/css-selector": "3.1.*",
     "symfony/thanks": "^1.0",
     "czproject/git-php": "^3.13",
-    "barryvdh/laravel-debugbar": "^3.1"
+    "barryvdh/laravel-debugbar": "^3.1",
+    "fzaninotto/faker": "^1.8"
   },
   "autoload": {
     "classmap": [
@@ -65,18 +67,6 @@
     {
       "type": "vcs",
       "url": "https://github.com/fatonsopa/faker"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/fatonsopa/laravel-image-optimizer"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/fatonsopa/image-optimizer"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/jetmirhaxhisefa/laravel-model-caching"
     }
   ],
   "scripts": {
