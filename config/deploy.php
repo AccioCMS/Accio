@@ -61,6 +61,7 @@ return [
                 'php artisan deploy:cron --env={{env}}',
             ],
             'after' => [
+                'php artisan modelCache:clear',
                 'php artisan cache:clear',
                 'php artisan config:clear',
                 'php artisan view:clear',
