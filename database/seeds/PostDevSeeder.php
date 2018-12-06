@@ -238,12 +238,12 @@ class PostDevSeeder extends Seeder
         $post = factory(\App\Models\Post::class)->create($data);
 
         $createdCategory = null;
-        if($category){
+        if($postType->hasCategories && $category){
             $createdCategory = $this->createCategoryRelation($postType, $post, $category);
         }
 
         $createdTags = [];
-        if($tags){
+        if($postType->hasTags && $tags){
             if($tags->count() > 5){
                 $tags = $tags->take(rand(2,6));
             }
@@ -269,14 +269,15 @@ class PostDevSeeder extends Seeder
      * Create Category relation.
      *
      * @param object$postType
-     * @param integer $postID
+     * @param object $post
      * @param object $category
      */
-    public function createCategoryRelation($postType, $postID, $category){
-        $model = (new \App\Models\CategoryRelation())->setTable($postType->slug.'_categories');
+    public function createCategoryRelation($postType, $post, $category){
+        $model = new \App\Models\CategoryRelation();
+        $model->setTable($postType->slug.'_categories');
         $model->categoryID = $category->categoryID;
-        $model->postID = $postID;
-        $model->insert();
+        $model->postID = $post->postID;
+        $model->save();
 
     }
 
@@ -284,14 +285,15 @@ class PostDevSeeder extends Seeder
      * Create Tag relation.
      *
      * @param object $postType
-     * @param integer $postID
+     * @param object $post
      * @param object $tag
      */
-    public function createTagRelation($postType, $postID, $tag){
-        $model = (new \App\Models\TagRelation())->setTable($postType->slug.'_tags');
+    public function createTagRelation($postType, $post, $tag){
+        $model = (new \App\Models\TagRelation());
+        $model->setTable($postType->slug.'_tags');
         $model->tagID = $tag->tagID;
-        $model->postID = $postID;
-        $model->insert();
+        $model->postID = $post->postID;
+        $model->save();
     }
 
     /**
@@ -308,12 +310,13 @@ class PostDevSeeder extends Seeder
                 case 'file':
                     $mediaID = $mediaList->random()->mediaID;
 
-                    $model = (new \App\Models\MediaRelation())->setTable($postType->slug.'_media');
+                    $model = (new \App\Models\MediaRelation());
+                    $model->setTable($postType->slug.'_media');
                     $model->mediaID =$mediaID;
                     $model->postID = $post->postID;
                     $model->field = $field->slug;
                     $model->language = App::getLocale();
-                    $model->insert();
+                    $model->save();
 
                     break;
             }
