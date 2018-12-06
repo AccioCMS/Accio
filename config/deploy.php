@@ -56,9 +56,9 @@ return [
         */
         'activate_new_release' => [
             'before' => [
-                'php artisan deploy:env',
-                'php artisan deploy:db',
-                'php artisan deploy:cron',
+                'php artisan deploy:env --env={{env}}',
+                'php artisan deploy:db --env={{env}}',
+                'php artisan deploy:cron --env={{env}}',
             ],
             'after' => [
                 'php artisan cache:clear',
