@@ -19,32 +19,40 @@ $factory->define(App\Models\Media::class, function (Faker $faker) {
     }
 
     // Upload an image
-    $fileName = $faker->image($fileFullPathOriginal, rand(700, 800), rand(400, 500), null, false);
+    $uploadedFileName = $faker->image($fileFullPathOriginal, rand(700, 800), rand(400, 500), null, false);
 
-    if($fileName instanceof RuntimeException){
-        throw new Exception($fileName->getMessage());
+    if($uploadedFileName instanceof RuntimeException){
+        throw new Exception($uploadedFileName->getMessage());
     }
 
     //handle error
-    if(is_array($fileName)){
-        throw new Exception();
+    if(is_array($uploadedFileName)){
+        dump($uploadedFileName);
+        throw new Exception("ska fajllname");
     }
-    // Get file data
-    $fullPath = $fileFullPathOriginal.'/'.$fileName;
-    $pathinfo = pathinfo($fullPath);
-    list($width, $height) = @getimagesize($fullPath);
 
-    return [
-        'createdByUserID' => ($users ? $users->userID : null),
-        'title' => $faker->text(50),
-        'description' => $faker->text(100),
-        'credit' => $faker->firstName.' '.$faker->lastName,
-        'type' => 'image',
-        'extension' => $pathinfo['extension'],
-        'url' => $fileDirectory.'/original/'.$fileName,
-        'filename' => $pathinfo['filename'].'.'.$pathinfo['extension'],
-        'fileDirectory' => $fileDirectory,
-        'fileSize' => bcdiv(filesize($fullPath), 1048576, 2),
-        'dimensions' => $width.'x'.$height,
+    // Get file data
+    $fullLocalPath = $fileFullPathOriginal.'/'.$uploadedFileName;
+    $pathinfo = pathinfo($fullLocalPath);
+    list($width, $height) = @getimagesize($fullLocalPath);
+
+    if(!file_exists($fullLocalPath)){
+        throw new Exception("File '".$fullLocalPath."' could not be created ");
+    }
+
+    $data = [
+      'createdByUserID' => ($users ? $users->userID : null),
+      'title' => $faker->text(50),
+      'description' => $faker->text(100),
+      'credit' => $faker->firstName.' '.$faker->lastName,
+      'type' => 'image',
+      'extension' => $pathinfo['extension'],
+      'url' => $fileDirectory.'/original/'.$uploadedFileName,
+      'filename' => $pathinfo['filename'].'.'.$pathinfo['extension'],
+      'fileDirectory' => $fileDirectory,
+      'fileSize' => bcdiv(filesize($fullLocalPath), 1048576, 2),
+      'dimensions' => $width.'x'.$height,
     ];
+
+    return $data;
 });
