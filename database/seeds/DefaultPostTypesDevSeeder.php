@@ -45,7 +45,7 @@ class DefaultPostTypesDevSeeder extends Seeder
             ]);
 
             // Create table if it doesn't exist
-            PostType::createTable($createdPostType->slug, [], 'mysql', false);
+            PostType::createTable($createdPostType->slug, [], true, true);
 
             $output = "Post Articles created successfully!";
         }
@@ -80,7 +80,7 @@ class DefaultPostTypesDevSeeder extends Seeder
             ]);
 
             // Create table if it doesn't exist
-            PostType::createTable($createdPostType->slug, [], 'mysql', false);
+            PostType::createTable($createdPostType->slug, [], false, false, true, 'PagesController');
 
             $output = "Post Pages created successfully!";
         }

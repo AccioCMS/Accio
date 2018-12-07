@@ -17,8 +17,8 @@ class MenuSeeder extends Seeder
         factory(\App\Models\MenuLink::class)->create();
     }
 
-    public function addCategoryToMenu($menu){
-        $categoryRelation = CategoryRelation::where('belongsTo', 'post_articles')->get()->first();
+    public function addCategoryToMenu($menu, $postTypeSLug = 'post_articles'){
+        $categoryRelation = (new CategoryRelation)->setTable($postTypeSLug.'_categories')->first();
         if($categoryRelation) {
             $category = Category::where('categoryID', $categoryRelation->categoryID)->get()->first();
             $category->addToMenu($menu);
@@ -43,10 +43,11 @@ class MenuSeeder extends Seeder
     }
 
     /**
-     * Add homepage example to primary Menu
-     * @param object $menu
-     * @return object
-    */
+     * Add homepage example to primary Menu.
+     *
+     * @param $menu
+     * @throws Exception
+     */
     public function addHomepageToPrimaryMenu($menu){
 
         // Ensure there is only one front page
@@ -56,9 +57,6 @@ class MenuSeeder extends Seeder
 
         if(!$gethomepage) {
 
-            // Get Post Type
-            $postPages = \App\Models\PostType::where('slug', 'post_pages')->get()->first();
-
             // Create Post
             $data = [];
             foreach (\App\Models\Language::all() as $language) {
@@ -66,11 +64,10 @@ class MenuSeeder extends Seeder
                 $data['slug'][$language->slug] = 'home';
             }
 
-            $postHomePage = (new PostDevSeeder())->createPost($postPages, null, null, null, $data);
-            $post = $postHomePage['post'];
+            $post = (new PostDevSeeder())->createPost(getPostType('post_pages'), null, null, null, $data);
 
             // Add to menulink
-            $data = [
+            $menuLinkData = [
                 'menuID' => $menu->menuID,
                 'belongsToID' => $post->postID,
                 'belongsTo' => 'post_pages',
@@ -84,12 +81,12 @@ class MenuSeeder extends Seeder
             ];
 
             foreach (\App\Models\Language::all() as $language) {
-                $data['slug'][$language->slug] = $post->translate($language->slug)->slug;
-                $data['label'][$language->slug] = $post->title;
+                $menuLinkData['slug'][$language->slug] = $post->translate($language->slug)->slug;
+                $menuLinkData['label'][$language->slug] = $post->title;
             }
 
             // Create MenuLink
-            factory(\App\Models\MenuLink::class)->create($data);
+            factory(\App\Models\MenuLink::class)->create($menuLinkData);
 
             // Set front page ID as a homepage in settings
             \App\Models\Settings::setSetting('homepageID', $post->postID);
@@ -111,11 +108,10 @@ class MenuSeeder extends Seeder
             $data['slug'][$language->slug] = 'about';
         }
 
-        $postHomePage = (new PostDevSeeder())->createPost($postPages, null, null, null, $data);
-        $post = $postHomePage['post'];
+        $post = (new PostDevSeeder())->createPost($postPages, null, null, null, $data);
 
         // Add to menulink
-        $data = [
+        $menuLinkData = [
             'menuID' => $menu->menuID,
             'belongsToID' => $post->postID,
             'belongsTo' => 'post_pages',
@@ -129,11 +125,11 @@ class MenuSeeder extends Seeder
         ];
 
         foreach(\App\Models\Language::all() as $language){
-            $data['slug'][$language->slug] = $post->translate($language->slug)->slug;
-            $data['label'][$language->slug] = $post->title;
+            $menuLinkData['slug'][$language->slug] = $post->translate($language->slug)->slug;
+            $menuLinkData['label'][$language->slug] = $post->title;
         }
 
         // Create MenuLink
-        factory(\App\Models\MenuLink::class)->create($data);
+        factory(\App\Models\MenuLink::class)->create($menuLinkData);
     }
 }

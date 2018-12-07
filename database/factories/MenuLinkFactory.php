@@ -17,7 +17,7 @@ $factory->define(\App\Models\MenuLink::class, function (Faker $faker) use($autoI
 
     $data =  [
         'menuID' => $menuList->random(1)->first()->menuID,
-        'parent' => 0,
+        'parent' => null,
         'belongsTo' => '',
         'belongsToID' => '',
         'order' => $autoIncrement->current(),

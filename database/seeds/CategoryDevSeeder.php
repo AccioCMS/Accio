@@ -97,7 +97,7 @@ class CategoryDevSeeder extends Seeder
 
             if ($this->exampleTitles) {
                 foreach (Language::all() as $language) {
-                    $title = "Example Category" . ($lastCategory->count() ? ' ' . $order : '');
+                    $title = "Example Category " . ($lastCategory->count() ? ' ' . $order : '');
                     $data['title'][$language->slug] = $title;
                     $data['slug'][$language->slug] = str_slug($title . "-" . rand(50, 200));
                 }

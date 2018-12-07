@@ -123,7 +123,14 @@ class PostDevSeeder extends Seeder
                     if($allPostTypes){
                         $postTypes = \App\Models\PostType::all();
                         foreach ($postTypes as $postType) {
-                            $totalInserted += $this->addPostInCategories($postType);
+                            if($postType->hasCategories){
+                                $totalInserted += $this->addPostInCategories($postType);
+                            }else{
+                                for ($i = 1; $i <= $this->postsPerCategory; $i++) {
+                                    $totalInserted++;
+                                    $this->createPost($postType, $this->mediaList, null, $this->tagsList);
+                                }
+                            }
                         }
                     }else {
                         $totalInserted = $this->addPostInCategories($this->postType);
@@ -154,7 +161,7 @@ class PostDevSeeder extends Seeder
         $totalInserted = 0;
         $categories = \App\Models\Category::all()->where('postTypeID', $postType->postTypeID);;
 
-        if ($postType->hasCategories && $categories) {
+        if ($categories) {
             $this->writeOutput("Creating posts in post type '".$postType->name."'",'comment');
 
             foreach ($categories as $category) {
@@ -230,98 +237,90 @@ class PostDevSeeder extends Seeder
      * @return array
      */
     public function createPost($postType, $mediaList = null, $category = null, $tags = null, $data = []){
-        // Change post table
         \App\Models\Post::$useTmpTable = true;
-
         (new \App\Models\Post())->setTable($postType->slug);
 
-        $post = factory(\App\Models\Post::class)->create($data);
+        $newPost = factory(\App\Models\Post::class)->create($data);
 
-        $createdCategory = null;
-        if($category){
-            $createdCategory = $this->createCategoryRelation($postType, $post, $category);
+        if($postType->hasCategories && $category){
+            $this->createCategoryRelation($postType, $newPost, $category);
         }
 
-        $createdTags = [];
-        if($tags){
-            if($tags->count() > 5){
-                $tags = $tags->take(rand(2,6));
-            }
-            foreach($tags as $tag){
-                $createdTags[] = $this->createTagRelation($postType->slug, $post->postID, $tag->tagID);
+
+        if ($postType->hasTags && $tags){
+            foreach($tags->take(5) as $tag){
+                $this->createTagRelation($postType, $newPost, $tag);
             }
         }
 
-        $createdMedia = null;
+
         if($mediaList){
-            $createdMedia = $this->createMediaRelations($postType, $post, $mediaList);
+            $this->createMediaRelations($postType, $newPost, $mediaList);
         }
 
-        return [
-            'post' => $post,
-            'category' => $createdCategory,
-            'tag' => $createdTags,
-            'media' => $createdMedia,
-        ];
+        return $newPost;
     }
 
     /**
-     * Create Category relation
+     * Create Category relation.
      *
-     * @param object $category
-     * @param object $postType
+     * @param object$postType
      * @param object $post
-     * @return object Created category relaitons
+     * @param object $category
      */
     public function createCategoryRelation($postType, $post, $category){
-        return factory(App\Models\CategoryRelation::class)->create([
-            'categoryID' => $category->categoryID,
-            'belongsToID' => $post->postID,
-            'belongsTo' => $postType->slug
-        ]);
+        $model = new \App\Models\CategoryRelation();
+        $model->setTable($postType->slug.'_categories');
+        $model->categoryID = $category->categoryID;
+        $model->postID = $post->postID;
+        $model->save();
+
     }
 
     /**
-     * Create Tag relation
+     * Create Tag relation.
      *
-     * @param int $tagID
-     * @param int $postID
-     * @param string $postTypeSlug
-     * @return object Created category relaitons
+     * @param object $postType
+     * @param object $post
+     * @param object $tag
+     *
+     * @return object
      */
-    public function createTagRelation($postTypeSlug, $postID, $tagID){
-        return factory(App\Models\TagRelation::class)->create([
-            'tagID' => $tagID,
-            'belongsToID' => $postID,
-            'belongsTo' => $postTypeSlug
-        ]);
+    public function createTagRelation($postType, $post, $tag){
+        $model = (new \App\Models\TagRelation());
+        $model->setTable($postType->slug.'_tags');
+        $model->tagID = $tag->tagID;
+        $model->postID = $post->postID;
+        $model->language = App::getLocale();
+        $model->save();
+        return $model;
     }
 
     /**
-     * Create media relations for each image|file field
+     * Create media relations for each image|file field.
      *
      * @param object $postType
      * @param object $post
      * @param object $mediaList
-     * @return array Created media relations
      */
     public function createMediaRelations($postType, $post, $mediaList){
-        $createdCategories = [];
         foreach ($postType->fields as $field) {
             switch ($field->type->inputType) {
                 case 'image':
                 case 'file':
                     $mediaID = $mediaList->random()->mediaID;
-                    $createdCategories[] = factory(App\Models\MediaRelation::class)->create([
-                        'mediaID' => $mediaID,
-                        'belongsToID' => $post->postID,
-                        'belongsTo' => $postType->slug,
-                        'field' => $field->slug,
-                    ]);
+
+                    $model = (new \App\Models\MediaRelation());
+                    $model->setTable($postType->slug.'_media');
+                    $model->mediaID =$mediaID;
+                    $model->postID = $post->postID;
+                    $model->field = $field->slug;
+                    $model->language = App::getLocale();
+                    $model->save();
+
                     break;
             }
         }
-        return $createdCategories;
     }
 
     /**
