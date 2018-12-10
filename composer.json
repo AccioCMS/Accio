@@ -63,12 +63,6 @@
       ]
     }
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/fatonsopa/faker"
-    }
-  ],
   "scripts": {
     "post-create-project-cmd": [
       "@php artisan accio:postCreateProject"
