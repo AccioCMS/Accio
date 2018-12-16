@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use \Illuminate\Support\Facades\Cache;
 
-class LanguageDevSeeder extends Seeder
+class LanguageSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,7 @@ class LanguageDevSeeder extends Seeder
      * @param int $totalLanguages
      * @return string
      */
-    public function run($totalLanguages = null)
+    public function run($totalLanguages = 1)
     {
         if(is_numeric($totalLanguages)) {
 

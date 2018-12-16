@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use \Accio\App\Commands\MakeDummy;
 use \App\Models\Category;
 
-class PostDevSeeder extends Seeder
+class PostSeeder extends Seeder
 {
 
     /**
@@ -56,7 +56,7 @@ class PostDevSeeder extends Seeder
      */
     public function run(
       int $totalPosts = 0,
-      int $postsPerCategory = 0,
+      int $postsPerCategory = 5,
       string $postType = '',
       int $totalMedia = 0,
       int $totalTags = 0,
@@ -202,8 +202,8 @@ class PostDevSeeder extends Seeder
     private function generateMedia(){
         $this->mediaList = \App\Models\Media::all();
         if(!$this->mediaList->count() || $this->mediaList->count() < $this->totalMedia){
-            $mediaDevSeeder = new MediaDevSeeder();
-            $mediaDevSeeder->setCommand($this->command)->run(($this->totalMedia - $this->mediaList->count()));
+            $mediaSeeder = new MediaSeeder();
+            $mediaSeeder->setCommand($this->command)->run(($this->totalMedia - $this->mediaList->count()));
         }
         return $this;
     }
@@ -219,8 +219,8 @@ class PostDevSeeder extends Seeder
             $this->tagsList  = \App\Models\Tag::all()->where('postTypeID', $this->postType->postTypeID);
 
             if(!$this->tagsList->count() || $this->tagsList->count() < $this->totalTags){
-                $mediaDevSeeder = new TagDevSeeder();
-                $mediaDevSeeder->setCommand($this->command)->run(($this->totalTags - $this->tagsList->count()));
+                $mediaSeeder = new TagSeeder();
+                $mediaSeeder->setCommand($this->command)->run(($this->totalTags - $this->tagsList->count()));
             }
         }
         return $this;

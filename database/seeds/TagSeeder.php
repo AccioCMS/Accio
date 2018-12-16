@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class TagDevSeeder extends Seeder
+class TagSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class TagDevSeeder extends Seeder
      * @return string
      * @throws Exception
      */
-    public function run(int $totalTags = 0, string $postTypeSlug = null, bool $allPostTypes = false)
+    public function run(int $totalTags = 1, string $postTypeSlug = null, bool $allPostTypes = false)
     {
         $output = '';
         $postType = null;
