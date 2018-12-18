@@ -4,7 +4,7 @@
  * User routes
  */
 
-Route::group(['as' => 'user.', 'middleware' => 'translate','namespace' => \App\Models\Theme::controllersNameSpace()], function () {
+Route::group(['as' => 'user.', 'middleware' => 'translate','namespace' => themeNamespace()], function () {
     /**
      * GET
      */

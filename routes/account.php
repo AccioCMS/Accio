@@ -4,7 +4,7 @@
  * Account routes
  */
 
-Route::group(['as' => 'account.', 'middleware' => ['translate'], 'namespace' => \App\Models\Theme::controllersNameSpace()], function () {
+Route::group(['as' => 'account.', 'middleware' => ['translate'], 'namespace' => themeNamespace()], function () {
     // Dashboard
     Route::get('account', 'AccountController@dashboard')->name('dashboard');
 

@@ -4,7 +4,7 @@
  * User routes
  */
 
-Route::group(['as' => 'search.', 'middleware' => 'translate', 'namespace' => \App\Models\Theme::controllersNameSpace()], function () {
+Route::group(['as' => 'search.', 'middleware' => 'translate', 'namespace' => themeNamespace()], function () {
     /**
      * Search Results
      */

@@ -5,7 +5,7 @@
  */
 
 
-Route::group(['as' => 'base.', 'middleware' => ['translate'], 'namespace' => \App\Models\Theme::controllersNameSpace()], function () {
+Route::group(['as' => 'base.', 'middleware' => ['translate'], 'namespace' => themeNamespace()], function () {
     /**
      * Search Page
      */

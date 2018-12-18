@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['as' => 'post.articles.', 'middleware' => 'translate', 'namespace' => \App\Models\Theme::controllersNameSpace()], function () {
+Route::group(['as' => 'post.articles.', 'middleware' => 'translate', 'namespace' => themeNamespace()], function () {
 
     // Index
     Route::get(permalink("post_articles","index"), 'PostController@index')->name('index');
