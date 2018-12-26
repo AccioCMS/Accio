@@ -734,6 +734,7 @@ var globalMethods = exports.globalMethods = {
 
         /**
          * get the urls for the media files ()
+         *
          * @param media
          */
         constructMediaUrl: function constructMediaUrl(image) {
@@ -52782,7 +52783,9 @@ var froalaMixin = exports.froalaMixin = {
                     // If popup doesn't exist then create it.
                     // To improve performance it is best to create the popup when it is first needed
                     // and not when the editor is initialized.
-                    if (!$popup) $popup = initPopup();
+                    if (!$popup) {
+                        $popup = initPopup();
+                    }
                     // Set the editor toolbar as the popup's container.
                     editor.popups.setContainer('embedPlugin.popup', editor.$tb);
                     // This custom popup is opened by pressing a button from the editor's toolbar.
@@ -52903,7 +52906,9 @@ var froalaMixin = exports.froalaMixin = {
                     // If popup doesn't exist then create it.
                     // To improve performance it is best to create the popup when it is first needed
                     // and not when the editor is initialized.
-                    if (!$popup) $popup = initPopup();
+                    if (!$popup) {
+                        $popup = initPopup();
+                    }
 
                     // Set the editor toolbar as the popup's container.
                     editor.popups.setContainer('removeEmbedPlugin.popup', editor.$tb);
