@@ -32,10 +32,10 @@ class MenuTest extends DuskTestCase{
     public function testCreate(){
         URL::defaults(['lang' => App::getLocale()]);
 
-        $categorySeed = new \CategoryDevSeeder();
+        $categorySeed = new \CategorySeeder();
         $categorySeed->run(1);
 
-        $postSeed = new \PostDevSeeder();
+        $postSeed = new \PostSeeder();
         $postSeed->run(1);
 
         $this->browse(function (Browser $browser) {

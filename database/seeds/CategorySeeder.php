@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use \Illuminate\Support\Facades\Cache;
 use App\Models\Language;
 
-class CategoryDevSeeder extends Seeder
+class CategorySeeder extends Seeder
 {
 
     /**
@@ -32,7 +32,7 @@ class CategoryDevSeeder extends Seeder
      * @return void
      * @throws Exception
      */
-    public function run(int $totalCategories = 0, string $postTypeSlug = null, bool $allPostTypes = false){
+    public function run(int $totalCategories = 3, string $postTypeSlug = null, bool $allPostTypes = false){
         $postType = null;
 
         if($totalCategories){

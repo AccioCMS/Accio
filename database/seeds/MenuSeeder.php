@@ -64,7 +64,7 @@ class MenuSeeder extends Seeder
                 $data['slug'][$language->slug] = 'home';
             }
 
-            $post = (new PostDevSeeder())->createPost(getPostType('post_pages'), null, null, null, $data);
+            $post = (new PostSeeder())->createPost(getPostType('post_pages'), null, null, null, $data);
 
             // Add to menulink
             $menuLinkData = [
@@ -108,7 +108,7 @@ class MenuSeeder extends Seeder
             $data['slug'][$language->slug] = 'about';
         }
 
-        $post = (new PostDevSeeder())->createPost($postPages, null, null, null, $data);
+        $post = (new PostSeeder())->createPost($postPages, null, null, null, $data);
 
         // Add to menulink
         $menuLinkData = [
