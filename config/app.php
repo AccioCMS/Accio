@@ -227,6 +227,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Input'     => Illuminate\Support\Facades\Input::class,
+        'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
 
         /*
          * Application Custom Alias
