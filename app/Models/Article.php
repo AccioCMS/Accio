@@ -43,16 +43,6 @@ class Article extends PostModel implements ElasticSearchInterface {
         });
     }
 
-
-    /**
-     * Configure if post model has dynamic tables or pre-declared table
-     *
-     * @return bool
-     */
-    protected function setHasDynamicTable(): bool{
-        return false;
-    }
-
     /**
      * Set mapping for Elequent
      */
