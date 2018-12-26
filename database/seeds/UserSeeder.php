@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class UserDevSeeder extends Seeder
+class UserSeeder extends Seeder
 {
 
 
@@ -16,7 +16,7 @@ class UserDevSeeder extends Seeder
      * @return void
      * @throws Exception
      */
-    public function run(int $totalUsers = 0, int $usersPerRole = 0, int $roleID = 0)
+    public function run(int $totalUsers = 1, int $usersPerRole = 0, int $roleID = 0)
     {
         if($totalUsers || $usersPerRole) {
             $usersCreated = 0;

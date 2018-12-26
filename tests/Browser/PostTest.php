@@ -36,7 +36,7 @@ class PostTest extends DuskTestCase{
             $postType = factory(PostType::class)->create();
             PostType::createTable($postType->slug, []);
 
-            $postSeed = new \PostDevSeeder();
+            $postSeed = new \PostSeeder();
             $postSeed->createPost($postType);
 
             $browser->loginAs($this->getAnAdmin()->userID, 'admin')
@@ -65,7 +65,7 @@ class PostTest extends DuskTestCase{
             // Create table if it doesn't exist
             PostType::createTable($postType->slug, []);
 
-            $postSeed = new \PostDevSeeder();
+            $postSeed = new \PostSeeder();
             $postSeed->createPost($postType);
 
             $browser->loginAs($this->getAnAdmin()->userID, 'admin')
@@ -97,10 +97,10 @@ class PostTest extends DuskTestCase{
             $postType = factory(PostType::class)->create();
             PostType::createTable($postType->slug, []);
 
-            $categorySeed = new \CategoryDevSeeder();
+            $categorySeed = new \CategorySeeder();
             $categorySeed->run(2, $postType->slug);
 
-            $tagSeed = new \TagDevSeeder();
+            $tagSeed = new \TagSeeder();
             $tagSeed->run(2, $postType->slug);
 
             $faker = Factory::create();
@@ -163,7 +163,7 @@ class PostTest extends DuskTestCase{
             $postType = factory(PostType::class)->create();
             PostType::createTable($postType->slug, []);
 
-            $categorySeed = new \CategoryDevSeeder();
+            $categorySeed = new \CategorySeeder();
             $categorySeed->run(2, $postType->slug);
 
             // Set posts table

@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use \Illuminate\Support\Facades\Cache;
 
-class MediaDevSeeder extends Seeder
+class MediaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,7 @@ class MediaDevSeeder extends Seeder
      * @param int $totalMedia Defines how many media shall be created
      * @return string
      */
-    public function run(int $totalMedia)
+    public function run(int $totalMedia = 5)
     {
         $output = '';
         if($totalMedia) {
