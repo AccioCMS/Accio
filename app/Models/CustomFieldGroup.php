@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Accio\App\Models\CustomFieldGroupModel;
+use Accio\CustomField\Models\CustomFieldGroupModel;
 
-class CustomFieldGroup extends CustomFieldGroupModel {
+class CustomFieldGroup extends CustomFieldGroupModel
+{
 
 }

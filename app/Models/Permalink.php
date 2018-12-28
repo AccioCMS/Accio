@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Accio\App\Models\PermalinkModel;
+use Accio\Settings\Models\PermalinkModel;
 
 class Permalink extends PermalinkModel
 {

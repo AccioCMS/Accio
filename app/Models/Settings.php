@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Accio\App\Models\SettingsModel;
+use Accio\Settings\Models\SettingsModel;
 
-class Settings extends SettingsModel {
+class Settings extends SettingsModel
+{
 
 }

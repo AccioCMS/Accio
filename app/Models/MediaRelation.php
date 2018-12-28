@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-use Accio\App\Models\MediaRelationModel;
+use Accio\Media\Models\MediaRelationModel;
 
-class MediaRelation extends MediaRelationModel {
+class MediaRelation extends MediaRelationModel
+{
+
 }

@@ -38,8 +38,7 @@
         "czproject/git-php": "^3.13",
         "barryvdh/laravel-debugbar": "^3.1"
     },
-    "repositories": [
-    ],
+    "repositories": [],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

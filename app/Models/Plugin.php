@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Accio\App\Models\PluginModel;
+use Accio\Plugin\Models\PluginModel;
 
 class Plugin extends PluginModel
 {

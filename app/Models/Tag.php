@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Accio\App\Models\TagModel;
+use Accio\Tag\Models\TagModel;
 
-class Tag extends TagModel {
+class Tag extends TagModel
+{
 
 }

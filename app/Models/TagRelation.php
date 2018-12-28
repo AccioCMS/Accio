@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Accio\App\Models\TagRelationModel;
+use Accio\Tag\Models\TagRelationModel;
 
-class TagRelation extends TagRelationModel{
+class TagRelation extends TagRelationModel
+{
 
 }

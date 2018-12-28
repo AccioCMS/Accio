@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Accio\App\Models\UserGroupModel;
+use Accio\User\Models\UserGroupModel;
 
-class UserGroup extends UserGroupModel {
+class UserGroup extends UserGroupModel
+{
 
 }
