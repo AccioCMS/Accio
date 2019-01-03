@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
-use Accio\App\Http\Controllers\Backend\Auth\BaseLoginController;
+use Accio\Auth\BaseLoginController;
 
 class LoginController extends BaseLoginController {
 

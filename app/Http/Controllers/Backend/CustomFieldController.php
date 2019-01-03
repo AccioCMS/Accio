@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Accio\App\Http\Controllers\Backend\BaseCustomFieldController;
+use Accio\CustomField\Controllers\BaseCustomFieldController;
 
 class CustomFieldController extends BaseCustomFieldController {
 

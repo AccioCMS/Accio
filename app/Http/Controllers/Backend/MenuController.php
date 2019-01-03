@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 
-use Accio\App\Http\Controllers\Backend\BaseMenuController;
+use Accio\Menu\Controllers\BaseMenuController;
 
 class MenuController extends BaseMenuController {
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Accio\App\Http\Controllers\Backend\BaseSettingsController;
+use Accio\Settings\Controllers\BaseSettingsController;
 
 class SettingsController extends BaseSettingsController {
 

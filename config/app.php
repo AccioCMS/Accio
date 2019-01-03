@@ -198,7 +198,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
 
-        //Accio Package Service Provider
+        // Accio Package Service Provider
         \Accio\PackageServiceProvider::class
     ],
 

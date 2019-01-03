@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Accio\App\Http\Controllers\Backend\BaseGeneralController;
+use Accio\Routing\BaseGeneralController;
 
 class GeneralController extends BaseGeneralController {
 

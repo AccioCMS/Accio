@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.1.3",
-        "acciocms/core": "dev-development",
+        "acciocms/nucleus": "dev-dev",
         "chumper/zipper": "1.0.x",
         "doctrine/dbal": "^2.5",
         "fideloper/proxy": "^4.0",

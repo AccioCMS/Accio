@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Accio\App\Http\Controllers\Backend\BasePermissionController;
+use Accio\User\Controllers\BasePermissionController;
 
 class PermissionController extends BasePermissionController{
 

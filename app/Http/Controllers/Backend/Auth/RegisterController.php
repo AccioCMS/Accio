@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
-use Accio\App\Http\Controllers\Backend\Auth\BaseRegisterController;
+use Accio\Auth\BaseRegisterController;
 
 class RegisterController extends BaseRegisterController {
 }

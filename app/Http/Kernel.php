@@ -1,6 +1,7 @@
 <?php
 namespace App\Http;
 use App\Http\Middleware\Application;
+use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\Backend;
 use App\Http\Middleware\Frontend;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -52,7 +53,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-      'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
+      'auth' => Authenticate::class,
       'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
       'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
       'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Accio\App\Http\Controllers\Backend\BasePluginController;
+use Accio\Plugin\Controllers\BasePluginController;
 
 class PluginController extends BasePluginController {
 

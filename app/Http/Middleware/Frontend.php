@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class Frontend extends \Accio\App\Http\Middleware\Frontend
+class Frontend extends \Accio\Middleware\Frontend
 {
     /**
      * Handle frontend incoming request.

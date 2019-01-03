@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Accio\App\Http\Controllers\Backend\BaseUserController;
+use Accio\User\Controllers\BaseUserController;
 
 class UserController extends BaseUserController {
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Accio\App\Http\Controllers\Backend\BasePostTypeController;
+use Accio\PostType\Controllers\BasePostTypeController;
 
 class PostTypeController extends BasePostTypeController {
 

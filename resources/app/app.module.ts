@@ -12,7 +12,8 @@ import { PluginsModule } from '../../plugins/plugins.module';
 
 import { reducers } from './store/app.reducers';
 
-import { HeaderComponent } from './header/header/header.component';
+import { HeaderComponent } from '../../vendor/acciocms/nucleus/src/Shared/header/header.component';
+import { MainModule } from '../../vendor/acciocms/nucleus/src/Shared/main.module';
 import { ItemsComponent } from './items/items.component';
 import { ItemEditComponent } from './items/item-edit/item-edit.component';
 import { ItemNewComponent } from './items/item-new/item-new.component';
@@ -21,22 +22,23 @@ import { ItemsRoutingModule } from './items/items-routing.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ItemsComponent,
-    ItemEditComponent,
-    ItemNewComponent,
-    HeaderComponent
+      AppComponent,
+      ItemsComponent,
+      ItemEditComponent,
+      ItemNewComponent,
+      HeaderComponent,
+      MainModule
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
-    PluginsModule,
-    StoreModule.forRoot(reducers),
-    StoreDevtoolsModule.instrument(),
-    ItemsRoutingModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        FormsModule,
+        AppRoutingModule,
+        PluginsModule,
+        StoreModule.forRoot(reducers),
+        StoreDevtoolsModule.instrument(),
+        ItemsRoutingModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule{}

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Accio\App\Http\Controllers\Backend\BaseMediaController;
+use Accio\Media\Controllers\BaseMediaController;
 
 class MediaController extends BaseMediaController {
 }

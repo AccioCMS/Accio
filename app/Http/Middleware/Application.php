@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class Application extends  \Accio\App\Http\Middleware\Application{
+class Application extends  \Accio\Middleware\Application {
 
     /**
      * Handle backend incoming request.

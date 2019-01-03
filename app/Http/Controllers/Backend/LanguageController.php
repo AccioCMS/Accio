@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Accio\App\Http\Controllers\Backend\BaseLanguageController;
+use Accio\Language\Controllers\BaseLanguageController;
 
 class LanguageController extends BaseLanguageController {
 
