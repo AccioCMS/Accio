@@ -9,7 +9,7 @@ import { MainModule } from '../../vendor/acciocms/nucleus/src/Shared/main.module
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from "./app-routing.module";
 
-import { PluginsModule } from '../../plugins/plugins.module';
+//import { PluginsModule } from '../../plugins/plugins.module';
 import { reducers } from './store/app.reducers';
 
 @NgModule({
@@ -19,7 +19,7 @@ import { reducers } from './store/app.reducers';
     imports: [
         BrowserModule,
         AppRoutingModule,
-        PluginsModule,
+        //PluginsModule,
         FormsModule,
         StoreModule.forRoot(reducers),
         StoreDevtoolsModule.instrument(),

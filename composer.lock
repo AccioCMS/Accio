@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/AccioCMS/nucleus.git",
-                "reference": "eb7476155248e2d387c221f32907ba6a0a4a67a4"
+                "reference": "4acda90584001d0a2778fd06e065b7328a971dc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AccioCMS/nucleus/zipball/eb7476155248e2d387c221f32907ba6a0a4a67a4",
-                "reference": "eb7476155248e2d387c221f32907ba6a0a4a67a4",
+                "url": "https://api.github.com/repos/AccioCMS/nucleus/zipball/4acda90584001d0a2778fd06e065b7328a971dc3",
+                "reference": "4acda90584001d0a2778fd06e065b7328a971dc3",
                 "shasum": ""
             },
             "require": {
@@ -47,14 +47,15 @@
                     "email": "jetmir.haxhisefa@manaferra.com"
                 }
             ],
-            "description": "The core of Accio",
+            "description": "The core of Accio functionality",
             "homepage": "http://www.manaferra.com",
             "keywords": [
                 "accio",
                 "cms",
+                "laravel",
                 "nucleus"
             ],
-            "time": "2019-01-02T17:59:19+00:00"
+            "time": "2019-01-03T22:56:55+00:00"
         },
         {
             "name": "anahkiasen/underscore-php",
