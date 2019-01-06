@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Auth;
 
-use Accio\Auth\BaseResetPasswordController;
+use Accio\Auth\Controllers\BaseResetPasswordController;
 
 class ResetPasswordController extends BaseResetPasswordController {
 }

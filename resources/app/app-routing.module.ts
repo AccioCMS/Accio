@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
-import {MyCustomComponentComponent} from "./my-custom-component/my-custom-component.component";
+import {NucleusComponent} from "../../vendor/acciocms/nucleus/src/Shared/App/nucleus.component";
 
 const appRoutes: Routes = [
-  { path: 'admin', component: MyCustomComponentComponent },
+    { path: 'admin', component: NucleusComponent },
 ];
 @NgModule({
   imports: [
     RouterModule.forRoot(appRoutes)
   ],
   declarations: [
-    MyCustomComponentComponent,
+      NucleusComponent,
   ],
   exports: [RouterModule]
 })
