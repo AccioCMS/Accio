@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { MainModule } from '../../vendor/acciocms/nucleus/src/Shared/main.module';
+//import { AppComponent } from '../../vendor/acciocms/nucleus/src/Shared/app-fuse/app.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from "./app-routing.module";
 

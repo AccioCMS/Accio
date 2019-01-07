@@ -13,3 +13,7 @@
 Route::get('test/auth/login', function(){
 	return view('index');
 });
+
+Route::get('fuse', function(){
+    return view('admin-index');
+});
