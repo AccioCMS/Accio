@@ -178,12 +178,16 @@
                 transform: rotate(1080deg);
             }
         }
+        app-root{
+            width: 100%;
+        }
+
+
     </style>
     <!-- / FUSE Splash Screen CSS -->
 </head>
 
 <body>
-
 <!-- FUSE Splash Screen -->
 <fuse-splash-screen id="fuse-splash-screen">
 

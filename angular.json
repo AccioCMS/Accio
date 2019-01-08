@@ -20,7 +20,7 @@
                         "tsConfig": "public/src/tsconfig.app.json",
                         "assets": [],
                         "styles": [
-                            "public/src/styles.css",
+                            "vendor/acciocms/nucleus/src/Shared/assets/css/styles.scss"
                         ],
                         "scripts": []
                     },
@@ -69,7 +69,7 @@
                         "tsConfig": "public/src/tsconfig.spec.json",
                         "karmaConfig": "public/src/karma.conf.js",
                         "styles": [
-                            "public/src/styles.css"
+                            "public/fuse/styles.scss"
                         ],
                         "scripts": [],
                         "assets": [
