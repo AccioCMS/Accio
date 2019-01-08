@@ -21,3 +21,7 @@ Route::get('test/fuse', function(){
 Route::get('auth/{any}', function(){
     return view('index');
 });
+
+Route::get('test/users', function(){
+    return view('index');
+});
