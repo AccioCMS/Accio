@@ -33,6 +33,7 @@
 <script type="text/javascript" src="{{ url("dist/runtime.js") }}"></script>
 <script type="text/javascript" src="{{ url("dist/polyfills.js") }}"></script>
 <script type="text/javascript" src="{{ url("dist/styles.js") }}"></script>
+<script type="text/javascript" src="{{ url("dist/scripts.js") }}"></script>
 <script type="text/javascript" src="{{ url("dist/vendor.js") }}"></script>
 <script type="text/javascript" src="{{ url("dist/main.js") }}"></script>
 </body>
