@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8413eb2add6868cbe7e9b5dc2e801846",
+    "content-hash": "5a7769d74560245de9b79d0b093e0666",
     "packages": [
         {
             "name": "acciocms/nucleus",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/AccioCMS/nucleus.git",
-                "reference": "3577d3027955a6783ad35a0ad54b9a8d54391547"
+                "reference": "e265f0f777a1920405ac458c247284b7e8a3a478"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AccioCMS/nucleus/zipball/3577d3027955a6783ad35a0ad54b9a8d54391547",
-                "reference": "3577d3027955a6783ad35a0ad54b9a8d54391547",
+                "url": "https://api.github.com/repos/AccioCMS/nucleus/zipball/e265f0f777a1920405ac458c247284b7e8a3a478",
+                "reference": "e265f0f777a1920405ac458c247284b7e8a3a478",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,7 @@
                 "laravel",
                 "nucleus"
             ],
-            "time": "2019-01-08T16:11:49+00:00"
+            "time": "2019-01-23T10:15:02+00:00"
         },
         {
             "name": "anahkiasen/underscore-php",
@@ -1398,16 +1398,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.7.21",
+            "version": "v5.7.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "25f74458a242b61cc9e9c09d31f94fb13ed805f3"
+                "reference": "64a7749bd9e8df68addce1d01a54bcf606141f29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/25f74458a242b61cc9e9c09d31f94fb13ed805f3",
-                "reference": "25f74458a242b61cc9e9c09d31f94fb13ed805f3",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/64a7749bd9e8df68addce1d01a54bcf606141f29",
+                "reference": "64a7749bd9e8df68addce1d01a54bcf606141f29",
                 "shasum": ""
             },
             "require": {
@@ -1540,7 +1540,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-01-15T15:20:32+00:00"
+            "time": "2019-01-22T15:08:35+00:00"
         },
         {
             "name": "laravel/nexmo-notification-channel",
@@ -1601,19 +1601,20 @@
         },
         {
             "name": "laravel/passport",
-            "version": "v6.0.7",
+            "version": "v7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "5a3dbeb0904573fcfecf11c018eaa42bfc935372"
+                "reference": "b0c0dcbb8d7d61ba814b1e2cb404dbb4e1d8a852"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/5a3dbeb0904573fcfecf11c018eaa42bfc935372",
-                "reference": "5a3dbeb0904573fcfecf11c018eaa42bfc935372",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/b0c0dcbb8d7d61ba814b1e2cb404dbb4e1d8a852",
+                "reference": "b0c0dcbb8d7d61ba814b1e2cb404dbb4e1d8a852",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "firebase/php-jwt": "~3.0|~4.0|~5.0",
                 "guzzlehttp/guzzle": "~6.0",
                 "illuminate/auth": "~5.6",
@@ -1632,12 +1633,12 @@
             },
             "require-dev": {
                 "mockery/mockery": "~1.0",
-                "phpunit/phpunit": "~6.0"
+                "phpunit/phpunit": "~7.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.0-dev"
+                    "dev-master": "7.0-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -1666,7 +1667,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2018-08-09T19:10:08+00:00"
+            "time": "2019-01-22T14:41:41+00:00"
         },
         {
             "name": "laravel/slack-notification-channel",
@@ -5142,16 +5143,16 @@
         },
         {
             "name": "czproject/git-php",
-            "version": "v3.16.0",
+            "version": "v3.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/czproject/git-php.git",
-                "reference": "1df0ce1344517cd1355ac35182f99096219c644f"
+                "reference": "7e1461628f0f3c31c968e03faca0aded177006ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/czproject/git-php/zipball/1df0ce1344517cd1355ac35182f99096219c644f",
-                "reference": "1df0ce1344517cd1355ac35182f99096219c644f",
+                "url": "https://api.github.com/repos/czproject/git-php/zipball/7e1461628f0f3c31c968e03faca0aded177006ea",
+                "reference": "7e1461628f0f3c31c968e03faca0aded177006ea",
                 "shasum": ""
             },
             "require": {
@@ -5180,7 +5181,7 @@
             "keywords": [
                 "git"
             ],
-            "time": "2019-01-14T12:09:07+00:00"
+            "time": "2019-01-21T07:55:29+00:00"
         },
         {
             "name": "doctrine/instantiator",
