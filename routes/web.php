@@ -26,3 +26,11 @@ Route::get('auth/{any}', function(){
 Route::get('test/users', function(){
     return view('index');
 });
+
+
+
+Route::get('json/user/get-all', function(){
+    return [
+       "checkbox" => 1,"name" => "Jeton", "email" =>"test@test.com" , "jobtitle" => "sofware developer","asd" => ""
+    ];
+});
