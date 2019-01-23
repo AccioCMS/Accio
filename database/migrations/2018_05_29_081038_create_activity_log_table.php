@@ -11,19 +11,19 @@ class CreateActivityLogTable extends Migration
      */
     public function up()
     {
-        Schema::create('activity_log', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('log_name')->nullable();
-            $table->text('description');
-            $table->integer('subject_id')->nullable();
-            $table->string('subject_type')->nullable();
-            $table->integer('causer_id')->nullable();
-            $table->string('causer_type')->nullable();
-            $table->text('properties')->nullable();
-            $table->timestamps();
-
-            $table->index('log_name');
-        });
+//        Schema::create('activity_log', function (Blueprint $table) {
+//            $table->increments('id');
+//            $table->string('log_name')->nullable();
+//            $table->text('description');
+//            $table->integer('subject_id')->nullable();
+//            $table->string('subject_type')->nullable();
+//            $table->integer('causer_id')->nullable();
+//            $table->string('causer_type')->nullable();
+//            $table->text('properties')->nullable();
+//            $table->timestamps();
+//
+//            $table->index('log_name');
+//        });
     }
 
     /**
@@ -31,6 +31,6 @@ class CreateActivityLogTable extends Migration
      */
     public function down()
     {
-        Schema::drop('activity_log');
+        //Schema::drop('activity_log');
     }
 }
