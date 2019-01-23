@@ -28,9 +28,18 @@ Route::get('test/users', function(){
 });
 
 
-
 Route::get('json/user/get-all', function(){
     return [
        "checkbox" => 1,"name" => "Jeton", "email" =>"test@test.com" , "jobtitle" => "sofware developer","asd" => ""
     ];
+});
+
+Route::get('test/auth', function(){
+    if(\Auth::check()){
+        $token = session('accessToken');
+        return response()->json(['status' => true, 'accessToken' => $token]);
+    }else{
+        return response()->json(['status' => false]);
+    }
+
 });
