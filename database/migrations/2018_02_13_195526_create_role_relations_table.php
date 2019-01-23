@@ -12,12 +12,12 @@ class CreateRoleRelationsTable extends Migration
      * @return void
      */
     public function up(){
-        Schema::create('roles_relations', function (Blueprint $table) {
-            $table->increments('roleRelationID');
-            $table->integer('userID')->unsigned();
-            $table->integer('groupID')->unsigned();
-            $table->unique(['userID', 'groupID']);
-        });
+//        Schema::create('roles_relations', function (Blueprint $table) {
+//            $table->increments('roleRelationID');
+//            $table->integer('userID')->unsigned();
+//            $table->integer('groupID')->unsigned();
+//            $table->unique(['userID', 'groupID']);
+//        });
     }
 
     /**
@@ -27,6 +27,6 @@ class CreateRoleRelationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles_relations');
+        //Schema::dropIfExists('roles_relations');
     }
 }

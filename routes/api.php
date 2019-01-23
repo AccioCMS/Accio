@@ -16,3 +16,13 @@ use Illuminate\Http\Request;
 Route::group(['namespace' => 'Accio\App\Http\Controllers\Api'], function(){
     Route::get('api/posts/related/{postId}', 'Post@related');
 });
+
+Route::group(['prefix' => 'auth', 'namespace' => 'Accio\Auth\Controllers'], function () {
+    Route::post('login', 'BaseAuthController@login');
+
+    Route::group(['middleware' => 'auth:api'], function() {
+        Route::get('logout', 'BaseAuthController@logout');
+        Route::get('user', 'BaseAuthController@user');
+    });
+});
+
