@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "8413eb2add6868cbe7e9b5dc2e801846",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/AccioCMS/nucleus.git",
-                "reference": "3577d3027955a6783ad35a0ad54b9a8d54391547"
+                "reference": "2a8a872791b4c00a563dba8154409627ead93f16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AccioCMS/nucleus/zipball/3577d3027955a6783ad35a0ad54b9a8d54391547",
-                "reference": "3577d3027955a6783ad35a0ad54b9a8d54391547",
+                "url": "https://api.github.com/repos/AccioCMS/nucleus/zipball/2a8a872791b4c00a563dba8154409627ead93f16",
+                "reference": "2a8a872791b4c00a563dba8154409627ead93f16",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,7 @@
                 "laravel",
                 "nucleus"
             ],
-            "time": "2019-01-08T16:11:49+00:00"
+            "time": "2019-01-21T15:19:57+00:00"
         },
         {
             "name": "anahkiasen/underscore-php",
@@ -1904,7 +1904,7 @@
                 {
                     "name": "Luís Otávio Cobucci Oblonczyk",
                     "email": "lcobucci@gmail.com",
-                    "role": "developer"
+                    "role": "Developer"
                 }
             ],
             "description": "A simple library to work with JSON Web Token and JSON Web Signature",
@@ -5142,16 +5142,16 @@
         },
         {
             "name": "czproject/git-php",
-            "version": "v3.16.0",
+            "version": "v3.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/czproject/git-php.git",
-                "reference": "1df0ce1344517cd1355ac35182f99096219c644f"
+                "reference": "7e1461628f0f3c31c968e03faca0aded177006ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/czproject/git-php/zipball/1df0ce1344517cd1355ac35182f99096219c644f",
-                "reference": "1df0ce1344517cd1355ac35182f99096219c644f",
+                "url": "https://api.github.com/repos/czproject/git-php/zipball/7e1461628f0f3c31c968e03faca0aded177006ea",
+                "reference": "7e1461628f0f3c31c968e03faca0aded177006ea",
                 "shasum": ""
             },
             "require": {
@@ -5180,7 +5180,7 @@
             "keywords": [
                 "git"
             ],
-            "time": "2019-01-14T12:09:07+00:00"
+            "time": "2019-01-21T07:55:29+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -5390,7 +5390,11 @@
                     "Faker\\": "src/Faker/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Faker\\Test\\": "test/Faker/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -5405,6 +5409,9 @@
                 "faker",
                 "fixtures"
             ],
+            "support": {
+                "source": "https://github.com/fatonsopa/Faker/tree/v1.8.0"
+            },
             "time": "2018-07-12T10:23:15+00:00"
         },
         {
