@@ -26,3 +26,12 @@ Route::get('auth/{any}', function(){
 Route::get('test/users', function(){
     return view('index');
 });
+
+Route::get('test/auth', function(){
+    if(\Auth::check()){
+        $token = session('accessToken');
+        return response()->json(['status' => true, 'accessToken' => $token]);
+    }else{
+        return response()->json(['status' => false]);
+    }
+});
