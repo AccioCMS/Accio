@@ -5,6 +5,7 @@
 /vendor
 /.idea
 /.vscode
+/dist
 /nbproject
 /.vagrant
 Homestead.json
