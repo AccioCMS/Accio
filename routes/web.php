@@ -27,6 +27,13 @@ Route::get('test/users', function(){
     return view('index');
 });
 
+
+Route::get('json/user/get-all', function(){
+    return [
+       "checkbox" => 1,"name" => "Jeton", "email" =>"test@test.com" , "jobtitle" => "sofware developer","asd" => ""
+    ];
+});
+
 Route::get('test/auth', function(){
     if(\Auth::check()){
         $token = session('accessToken');
@@ -34,4 +41,5 @@ Route::get('test/auth', function(){
     }else{
         return response()->json(['status' => false]);
     }
+
 });
