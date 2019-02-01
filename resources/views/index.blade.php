@@ -18,6 +18,7 @@
     <link href="assets/icons/material-icons/outline/style.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/icons/font-awesome/font-awesome.min.css" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Muli:300,400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600,700" rel="stylesheet">
 
     <!-- FUSE Splash Screen CSS -->
     <style type="text/css">
