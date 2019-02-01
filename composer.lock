@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/AccioCMS/nucleus.git",
-                "reference": "785d86b3c9c8ce5668c66095380276897371e3aa"
+                "reference": "01a5024b7f5e6f31bd7d50d9dd93da551dd0c9e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AccioCMS/nucleus/zipball/785d86b3c9c8ce5668c66095380276897371e3aa",
-                "reference": "785d86b3c9c8ce5668c66095380276897371e3aa",
+                "url": "https://api.github.com/repos/AccioCMS/nucleus/zipball/01a5024b7f5e6f31bd7d50d9dd93da551dd0c9e9",
+                "reference": "01a5024b7f5e6f31bd7d50d9dd93da551dd0c9e9",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,7 @@
                 "laravel",
                 "nucleus"
             ],
-            "time": "2019-01-30T16:20:21+00:00"
+            "time": "2019-01-31T16:11:19+00:00"
         },
         {
             "name": "anahkiasen/underscore-php",
