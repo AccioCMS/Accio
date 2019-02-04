@@ -11,18 +11,6 @@
 |
 */
 
-Route::get('test/auth/login', function(){
-	return view('index');
-});
-
-Route::get('test/fuse', function(){
-    return view('index');
-});
-
-Route::get('auth/{any}', function(){
-    return view('index');
-});
-
 Route::get('test/users', function(){
     return view('index');
 });
